@@ -1,0 +1,65 @@
+<script>
+	 var _MESSAGE_REMOVE_LINE_ = "Are you sure to remove this line and all it content ?";
+	 var _MESSAGE_EMPTY_COLUMN_ = "Are you sure to delete all the content ?";
+	 var _MESSAGE_DELETE_COLUMN_ = "Are you sure to delete this column and all of its content ?";
+	 var LANG = 'fr';
+	 window.CKEDITOR_BASEPATH = 'js/richtext/elements/ckeditor/';
+</script>
+
+<script src="js/richtext/elements/ckeditor/ckeditor.js"></script>
+<link href="js/richtext/richtext.css" rel="stylesheet" type="text/css" />
+<script src="js/richtext/richtext.js"></script>
+<script>
+	var richtextObject;
+	$(document).ready(function(e) {
+    	richtextObject = $(document).richText();  
+    });
+</script>
+<script src="js/richtext/elements/ckeditor/RTckeditor.js"></script>
+
+{foreach $elements as $element}
+	<script src="{$element.js}"></script>
+{/foreach}
+
+<script>
+{foreach $elements as $element}
+	var RT{$element.name}_object;
+{/foreach}
+</script>
+
+<style>
+
+	
+</style>
+
+<div id="elementsList_container">
+    <ul id="elementsList">
+        {foreach $elements as $element}
+            <li data-name="{$element.name}" class="element">{if $element.icon}<img src="{$element.icon}" />{/if} {$element.name}</li>
+        {/foreach}
+        <li><a href="#" id="cmd_add_line" class="button button_add">{l s='Add a new line'}</a></li>
+    </ul>
+    <div class="clear"></div>
+</div>
+
+<input type="hidden" name="mediaboxrichtext_data" value="" id="mediaboxrichtext_data" />
+<div id="richtext">
+	<div id="cmd_line" class="cmd">
+        <a href="#" id="cmd_add_column" alt="{l s='Add a new column'}" title="{l s='Add a new column'}"></a>
+        <a href="#" id="cmd_delete_line" alt="{l s='Delete this line'}" title="{l s='Delete this line'}"></a>
+    </div>
+    <div id="cmd_column" class="cmd">
+        <a href="#" id="cmd_set_column_width" alt="{l s='Set column width'}" title="{l s='Set column width'}"></a>
+        <a href="#" id="cmd_empty_column" alt="{l s='Empty column'}" title="{l s='Empty column'}"></a>
+        <a href="#" id="cmd_delete_column" alt="{l s='Delete column'}" title="{l s='Delete column'}"></a>
+        <div href="#" id="column_size"><input type="text" name="size" value=""></div>
+    </div>
+        
+    {if $html}
+    	{$html}
+    {else}
+    	<div class="row-fluid line"> </div>
+	{/if}
+</div>
+<a href="#" id="saverichtext" style="display:none">SAVE</a>
+

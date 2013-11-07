@@ -1,0 +1,459 @@
+{include file='mediabox.html'}
+
+<script>
+window.CKEDITOR_BASEPATH = 'js/richtext/elements/ckeditor/';
+var config_textarea = {};
+config_textarea.toolbar = [
+	{ name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source' ] },
+	{ name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+	{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ], items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' ] },
+	
+	'/',
+	{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
+	{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl' ] },
+	{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+	{ name: 'insert', items: [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] },
+	'/',
+	{ name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
+	{ name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+	{ name: 'tools', items: [ 'Maximize', 'ShowBlocks' ] },
+	{ name: 'others', items: [ '-' ] },
+	{ name: 'about', items: [ 'About' ] }
+];
+</script>
+<script type="text/javascript" src="js/richtext/elements/ckeditor/ckeditor.js"></script>
+
+<div id="content">
+    <h1>
+        {if $modelname}
+            {l s='Update'} {$modelname}
+        {else}
+            {l s='Add'} {$modelname}
+        {/if}
+    </h1>
+   
+   	
+    {if $smarty.get.added}
+    	<div class="return_ok">
+        	{l s='Saved !'}
+        </div>        
+    {/if}
+    
+    
+    <div class="form">
+        <form>
+            <input type="hidden" name="id_entity_model" id="id_entity_model" value="{$id_entity_model}" />
+            <div class="column_right" style=" ">
+                
+                <h3>{l s="Options"}</h3>
+                
+                <div id="entity_state" class="form_line">
+                    {if 1==1}
+                        <ul>
+                            <li><label>{l s="Date added"} :</label> <input type="text" name="date_added" value="{$entity->date_add}" class="text" disabled="disabled" style="width:124px;" /></li>
+                            <li><label>{l s="Date updated"} :</label> <input type="text" name="date_added" value="{$entity->date_upd}" class="text" disabled="disabled" style="width:124px;" /></li>
+                            <li><label>{l s="State"} :</label>
+                                <select name="state">
+                                	<option value="published" {if $entity->state == "published"}selected="selected"{/if}>{l s="Published"}</option>
+                                    <option value="draft" {if $entity->state == "draft"}selected="selected"{/if}>{l s="Draft"}</option>  
+                                </select>
+                            </li>                                
+                        </ul>
+                    {/if}
+                </div>
+                
+                {if $parents}
+                <h3>{l s="Parent"}</h3>
+                <div class="form_line clear">
+                    <p>{l s='Please choose a parent'} :</p>
+                    <!-- attached To ---->
+                    {if $model->hierarchic > 0}
+                    	<div class="form_line parents">
+                            <ul id="entity_parent">
+                            	<li><input type="radio" name="id_parent[]" value="0" class="parents"/ {if !$entity->parents ||  in_array(0, $entity->parents)}checked="checked"{/if}><span>{l s='Home'}</span><br /><br /></li>
+                                {foreach $parents as $parent}
+                                    {if $parent.id_entity !== $entity->id_entity}
+                                    <li name="parent"><input type="radio" name="id_parent[]" value="{$parent.id_entity}" class="parents" {if is_array($entity->parents) && in_array($parent.id_entity, $entity->parents)}checked="checked"{/if}><span>{$parent.name}</span></li>
+                                    <ul>
+                                        {foreach $parent.children as $children}
+                                            {include file="category-tree.html" node=$children parents=$entity->parents id_entity=$entity->id_entity}
+                                        {/foreach}
+                                    </ul>
+                                    {/if}
+                                {/foreach}
+                                
+                             </ul>
+                        </div>
+                    {else}
+                        <div class="form_line parents">
+                            <ul id="entity_parent">
+                            	
+                                {foreach $parents as $parent}
+                                    <li name="parent"><input type="checkbox" name="id_parent[]" value="{$parent.id_entity}" class="parents" {if is_array($entity->parents) && in_array($parent.id_entity, $entity->parents)}checked="checked"{/if}><span>{$parent.name}</span></li>
+                                    <ul>
+                                    {foreach $parent.children as $children}
+                                        {include file="category-tree-checkbox.html" node=$children parents=$entity->parents}
+                                    {/foreach}
+                                    </ul>
+                                {/foreach}
+                                   
+                             </ul>
+                        </div>
+                    {/if}
+                    <div>
+                    	{if $model->hierarchic == 0}
+                        {l s='Default'} : 
+                        <input type="hidden" name="id_default_parent" id="id_default_parent" value="{$entity->id_default_parent}" />
+                        <select name="default" id="default_parent">
+                        	
+                        </select>
+                        {/if}
+                    </div>
+                </div>
+                {/if}
+                  
+                <div class="form_line">
+                    <h3>{l s='Templates'}</h3>
+                    <input type="text" class="text" name="tempates" id="entity_templates" value="{if $entity->templates}{$entity->templates}{else}{$model->entities_templates}{/if}" style="width: 94%;"/><small> {l s='(separated with comas. Ex: head.html, body.html, footer.html)'}</small>
+                </div> 
+                
+                <input type="hidden" name="id_entity_model" value="{$id_entity_model}" />
+                <input type="hidden" name="id_entity" value="{$entity->id_entity}" id="id_entity" />
+                <input type="hidden" name="action" value="submitEntity" />
+                <input type="button" name="submitModel" value="{l s='Save'}" id="submitModel" class="button submit" onclick="addEntity();" />
+                <input type="button" name="submitModel" value="{l s='Save and stay'}" id="submitModel" class="button submit" onclick="addEntity(1);" />           
+                <!--<input type="button" name="submitModel" value="{l s='Preview'}" id="submitModel" class="button submit" onclick="previewEntity();" /> --->
+                
+			</div>
+            
+            <div class="column_left">
+            
+                <div id="entity_fields_list">
+                    <h2>Fields</h2>
+                    {assign var=rand value=1}
+                    {foreach $fields as $field}
+                        
+                        {if $field.type == "inputText"}
+                            {if $field.params[0].name == "maxlength" && $field.params[0].value > 0}
+                                {assign var="maxlength" value=$field.params[0].value}
+                            {/if}
+                            <div class="form_line" data-type="{$field.type}">
+                                <label>{$field.name}</label>
+                                <div class="floatLeft">
+                                {foreach $languages as $key => $value}
+                                    <p><input type="text" name="{$field.id_field_model}#{$value.id_lang}" class="text" value="{$field.values[$value.id_lang]|escape:'htmlall'}" {if $maxlength}maxlength="{$maxlength}"{/if} /> <img src="images/flags/{$value.code}.png" class="flag" /></p>
+                                {/foreach}
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        
+                        {elseif $field.type == "inputPassword"}
+                            <div class="form_line" data-type="{$field.type}">
+                                <label>{$field.name}<br /><small>{l s='Empty if no changes'}</small></label>
+                                <div class="floatLeft">
+                                    <p><input type="password" name="{$field.id_field_model}" class="text" value="" autocomplete="off" /> </p>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            
+                        {elseif $field.type == "textarea"}
+                           	<div class="form_line" data-type="{$field.type}">
+                                <label>{$field.name}</label>
+                                <div class="floatLeft">
+                                {foreach $languages as $key => $value}
+                                    <script type="text/javascript">$(document).ready(function(e) { CKEDITOR.replace( '{$field.id_field_model}-{$value.id_lang}', config_textarea ); });</script>
+                                    <p><img src="images/flags/{$value.code}.png" class="flag" /> <textarea name="{$field.id_field_model}#{$value.id_lang}" class="textarea" id="{$field.id_field_model}-{$value.id_lang}" width="100%">{$field.values[$value.id_lang]}</textarea></p>
+                                {/foreach}
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            
+                        {elseif $field.type == "checkbox"}
+                            <div class="form_line" data-type="{$field.type}" data-name="{$field.id_field_model}">
+                                <label>{$field.name}</label>
+                                <div class="floatLeft">
+                                    <ul>
+                                        {foreach $field.attributes as $attribute}
+                                            <li><input type="checkbox" value="{$attribute.id_attribute_value}" name="{$field.id_field_model}[]" {if $attribute.checked==1}checked{/if} /> {$attribute.value}</li>
+                                        {/foreach}                              
+                                    </ul>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        
+                        {elseif $field.type == "select"}
+                            <div class="form_line" data-type="{$field.type}">
+                                <label>{$field.name}</label>
+                                <div class="floatLeft">
+                                    <select name="{$field.id_field_model}">
+                                        {foreach $field.attributes as $attribute}
+                                            <option value="{$attribute.id_attribute_value}" name="" {if $field.raw_value==$attribute.id_attribute_value}selected{/if}> {$attribute.value}</option>
+                                        {/foreach}                              
+                                    </select>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                         
+                        {elseif $field.type == "radio"}
+                            <div class="form_line" data-type="{$field.type}">
+                                <label>{$field.name}</label>
+                                <div class="floatLeft">
+                                    <ul>
+                                        {foreach $field.attributes as $attribute}
+                                            <li><input type="radio" value="{$attribute.id_attribute_value}" name="{$field.id_field_model}" {if $field.raw_value==$attribute.id_attribute_value}checked{/if} /> {$attribute.value}</li>
+                                        {/foreach}                              
+                                    </ul>
+                                </div>
+                                <div class="clear"></div>
+                            </div> 
+                            
+                        
+                        {elseif $field.type == "linkedEntities"}
+                            <div class="form_line" data-type="{$field.type}">
+                                <label>{$field.name}</label>
+                                <select name="{$field.id_field_model}" multiple="multiple">
+                                    {foreach $field.entities as $entityselect}
+                                        <option value="{$entityselect.id_entity}" name="{$field.id_field_model}" {if $entityselect.selected==1}selected{/if}> {$entityselect.meta_title}</option>
+                                    {/foreach}                              
+                                </select>
+                                <div class="clear"></div>
+                            </div>      
+                          
+                        
+                        {elseif $field.type == "richtext"}
+                            <div class="form_line" data-type="{$field.type}" data-id-field-model="{$field.id_field_model}" data-lang="{$richtext_current_id_lang}">
+                                <p>
+                                	<h4>Richtext for : {$field.name}</h4>
+                                	Current language : <strong>{$richtext_current_lang}</strong>.<br /><br />If you want to change lang, please click on a flag below. You have to save your work.
+                                </p>
+                                <ul class="richtext_flags">
+                                {foreach $languages as $key => $value}
+                                    {if $richtext_current_id_lang != $value.id_lang}
+                                    <li>
+                                    	<a href="index.php?p=entity&id_entity_model={$id_entity_model}&action=form&id_entity={$entity->id_entity}&richtext_id_lang={$value.id_lang}">
+                                        	<img src="images/flags/{$value.code}.png" class="flag" /> 
+                                        </a>
+                                    </li>
+                                    {/if}
+                                {/foreach}
+                                </ul>
+
+                                <div id="richtext_container">
+	                                {include "richtext.html" html=$field.values[$richtext_current_id_lang]}
+                                </div>
+                            </div>
+                         
+                         {elseif $field.type == "inputImage"}
+                           
+                            <div class="form_line" data-type="{$field.type}">
+                                <label>{$field.name}</label>
+                                <input type="hidden" name="{$field.id_field_model}" id="mediabox{$rand}_data" value='{$field.raw_value}' />
+                                <input type="hidden" name="mediabox{$rand}_sizes" id="mediabox{$rand}_sizes" value='' />
+                                <input type="button" class="button button_mediabox" id="mediabox{$rand}" name="{l s='Select files'}" value="{l s='Select files'}" onclick="Mediabox{$rand}();" />
+                                <div id="results_images_{$rand}" class="results_image"></div>
+                                <div class="clear"></div>
+                            </div>
+                        	
+                            
+                             <script type="text/javascript">
+								var sizes = {};
+								{assign var="number" value='999'}
+								{foreach $field.params as $param}
+									{if $param.name == "number" && $param.value > 0}
+										{assign var="number" value=$param.value}
+									{/if}
+								{/foreach}
+								
+								sizes.admin = {}; 
+								sizes.admin.height = 100;
+								sizes.admin.width = 100;
+								
+								$("#mediabox{$rand}_sizes").val(JSON.stringify(sizes));
+								
+								function Mediabox{$rand}(){
+									$.Mediabox({
+										'limit' : {$number},
+										'random_id' : '{$rand}',
+										'sizes' : $("#mediabox{$rand}_sizes").val(),
+										'filter' : 'gif,jpg,jpeg,png'	
+									});
+								}
+								
+								{if $field.values|@count > 0}
+									$(document).ready(function(e) {
+                                        var ul = $('<ul></ul>');
+										var li = ''; 
+										{foreach $field.values as $value}
+											li = $('<li></li>').addClass('file');
+											li.html('<img src="{$value.admin.path}" class="thumb_image">');			
+											li.appendTo( ul );
+										{/foreach}
+										$('#results_images_{$rand}').append(ul);
+                                    });
+								{/if}
+								
+							</script> 
+                        
+                        {elseif $field.type == "inputFile"}
+                            <script type="text/javascript">
+								
+								{assign var="number" value='999'}
+								{assign var="filter" value=""}
+								{foreach $field.params as $param}
+									{if $param.name == "number" && $param.value > 0}
+										{assign var="number" value=$param.value}
+									{elseif $param.name == "extensions"}
+										{assign var="filter" value=$param.value}
+									{/if}
+								{/foreach}
+								
+								function Mediabox{$rand}(){
+									$.Mediabox({
+										'limit' : {$number},
+										'random_id' : '{$rand}',
+										'sizes' : '{ "admin":{ "height":100,"width":100}}',
+										'filter' : '{$filter}'
+									});
+								}
+								
+								{if $field.values|@count > 0}
+									$(document).ready(function(e) {
+                                        var ul = $('<ul></ul>');
+										var li = '';
+										{foreach $field.values as $value}
+											li = $('<li></li>').addClass('file').addClass('files');
+											li.html('<img src="{$value.icon}" class="thumb_image" style="width:20px"> {$value.name}');			
+											li.appendTo( ul );
+										{/foreach}
+										$('#results_images_{$rand}').append(ul);
+                                    });
+								{/if}
+								
+							</script>
+                            
+                            <div class="form_line" data-type="{$field.type}">
+                                <label>{$field.name}</label>
+                                <input type="hidden" name="{$field.id_field_model}" id="mediabox{$rand}_data" value='{$field.raw_value}' />
+                                <input type="button" class="button button_mediabox" id="mediabox{$rand}" name="{l s='Select files'}" value="{l s='Select files'}" onclick="Mediabox{$rand}();" />
+                                <div id="results_images_{$rand}" class="results_image"></div>
+                                <div class="clear"></div>
+                            </div>
+                        
+                        {elseif $field.type == "date"}
+                            <div class="form_line" data-type="{$field.type}" data-name="{$field.id_field_model}">
+                                <label>{$field.name}</label>
+                                <div class="floatLeft">
+                                     <p><input type="text" name="{$field.id_field_model}" class="text" value="{$field.raw_value}" id="date{$rand}" style="width:100px" /></p>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        	<script>
+                            	$(document).ready( function(){
+									$('#date{$rand}').datepicker({ dateFormat: "{$field.params[0].value}" });
+								});
+							</script>
+                        
+                        {elseif $field.type == "markdown"}
+                           	<div class="form_line" data-type="{$field.type}">
+                                <label>{$field.name}</label>
+                                <div class="floatLeft">
+                                {foreach $languages as $key => $value}
+                                  
+                                    <img src="images/flags/{$value.code}.png" class="flag" />
+                                    <div class="wmd-panel">
+                                        <div id="wmd-button-bar-markdown{$rand}{$value.id_lang}"></div>
+                                        <textarea class="wmd-input" id="wmd-input-markdown{$rand}{$value.id_lang}" style="min-height:300px" data-lang="{$value.id_lang}" data-id-model="{$field.id_field_model}">
+{$field.values[$value.id_lang].markdown}
+                                        </textarea>
+                                    </div>
+                                    <div id="wmd-preview-markdown{$rand}{$value.id_lang}" class="wmd-panel wmd-preview" style="display:none"></div>
+                                    
+                                    <br /> <br />
+                                                               
+                                    <script type="text/javascript" src="js/pagedown/Markdown.Converter.js"></script>
+									<script type="text/javascript" src="js/pagedown/Markdown.Sanitizer.js"></script>
+                                    <script type="text/javascript" src="js/pagedown/Markdown.Editor.js"></script>
+                                    <script type="text/javascript">
+										var markdown{$rand}{$value.id_lang};
+										$(document).ready(function(e) { 
+											
+											var converter{$rand}{$value.id_lang} = Markdown.getSanitizingConverter();
+											markdown{$rand}{$value.id_lang} = new Markdown.Editor(converter{$rand}{$value.id_lang},"-markdown{$rand}{$value.id_lang}");
+											markdown{$rand}{$value.id_lang}.run();
+											markdown{$rand}{$value.id_lang}.refreshPreview();
+											
+										});
+                                   </script>
+                                     
+                                {/foreach}
+                                </div>
+                                <div class="clear"></div>
+                            </div>  
+                            
+                        {/if}
+                        {assign var=rand value=$rand+1}
+                    {/foreach}
+                </div>
+                
+                <div class="openbox closed">
+                    <h2>SEO</h2>
+                    <div class="form_line">
+                        <label>{l s="Meta Title"}</label>
+                        <div class="floatLeft">
+                        {foreach $languages as $key => $value}
+                            <p><input type="text" name="meta_title#{$value.id_lang}" class="text" value="{$entity->lang[$value.id_lang]['meta_title']|escape:'doublequotes'}" /> <img src="images/flags/{$value.code}.png" class="flag" /></p>
+                        {/foreach}
+                        </div>
+                    </div>
+                    <div class="form_line">
+                        <label>{l s="Link rewrite"}</label>
+                        <div class="floatLeft">
+                        {foreach $languages as $key => $value}
+                            <p><input type="text" name="link_rewrite#{$value.id_lang}" class="text" value="{$entity->lang[$value.id_lang]['link_rewrite']}" /> <img src="images/flags/{$value.code}.png" class="flag" /></p>
+                        {/foreach}
+                        </div>
+                    </div>
+                    <div class="form_line">
+                        <label>{l s="Meta Keywords"}</label>
+                        <div class="floatLeft">
+                        {foreach $languages as $key => $value}
+                            <p><input type="text" name="meta_keywords#{$value.id_lang}" class="text" value="{$entity->lang[$value.id_lang]['meta_keywords']|escape:'doublequotes'}" /> <img src="images/flags/{$value.code}.png" class="flag" /></p>
+                        {/foreach}
+                        </div>
+                    </div>
+                    <div class="form_line">
+                        <label>{l s="Meta Description"}</label>
+                        <div class="floatLeft">
+                        {foreach $languages as $key => $value}
+                            <p><input type="text" name="meta_description#{$value.id_lang}" class="text" value="{$entity->lang[$value.id_lang]['meta_description']|escape:'doublequotes'}" /> <img src="images/flags/{$value.code}.png" class="flag" /></p>
+                        {/foreach}
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                
+                
+            
+            </div>
+        
+        <div class="clear"></div>
+		</form>
+    </div>
+    
+    
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(e) {
+        var inputs = $('.column_left .form_line:first').find('input.text');
+		inputs.each( function(){
+			$(this).on('keyup', function(){
+				var i = $(this).attr('name').split('#');
+				$('input[name="meta_title#' + i[1] + '"]').val( $(this).val().replace('"', '\"') );
+				$('input[name="link_rewrite#' + i[1] + '"]').val( string2slug($(this).val()) );	
+				
+			});
+		});
+		
+    });
+</script>

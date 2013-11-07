@@ -1,0 +1,109 @@
+<div id="content">
+    <h1>
+        {if $id_user}
+            {l s='Update'} {$modelname}
+        {else}
+            {l s='Add'} {$modelname}
+        {/if}
+    </h1>
+    <form method="post" action="index.php?p=users&added=1">
+        <div class="column_left">
+        
+            <div class="form_line">
+                <label>{l s='Firstname'}</label>
+                <div class="floatLeft">
+                   <p><input type="text" name="firstname" class="text" value="{$user->firstname}" /></p>
+                </div>
+                <div class="clear"></div>
+            </div>
+            
+            <div class="form_line">
+                <label>{l s='Lastname'}</label>
+                <div class="floatLeft">
+                   <p><input type="text" name="lastname" class="text" value="{$user->lastname}" /></p>
+                </div>
+                <div class="clear"></div>
+            </div>
+            
+            <div class="form_line">
+                <label>{l s='Email'}</label>
+                <div class="floatLeft">
+                   <p><input type="text" name="email" class="text" value="{$user->email}" /></p>
+                </div>
+                <div class="clear"></div>
+            </div>
+            
+            <div class="form_line">
+                <label>{l s='Password'}<br /> <small><em>{l s='Empty if no changes'}</em></small></label>
+                <div class="floatLeft">
+                   <p><input type="password" name="password" class="text" value="" /></p>
+                </div>
+               
+                <div class="clear"></div>
+            </div>
+            
+            <div class="form_line">
+                <label> </label>
+                <div class="floatLeft">
+                   <p><input type="submit" name="submitUser" value="{l s='Save'}" class="button" /></p>
+                </div>
+                <div class="clear"></div>
+            </div>
+        
+        </div>
+        
+        <div class="column_right">
+            <h3>{l s='Permission'}</h3>
+            
+            <div class="form_line">
+                <input type="hidden" name="id_user" value="{$user->id_user}" />
+                <input type="checkbox" name="is_admin" value="1" {if $user->is_admin==1}checked="checked"{/if} />
+                {l s='This user is an adminstrator.'}
+                <div class="clear"></div>
+            </div>
+            <!--
+            <h4>{l s='Features'} :</h4>
+            <ul>
+            	<li><input type="checkbox" name="permission#models" value="1"> {l s='Models'}</li>
+                <li><input type="checkbox" name="permission#attribute" value="1"> {l s='Attribute'}</li>
+                <li><input type="checkbox" name="permission#settings" value="1"> {l s='Settings'}</li>
+                <li><input type="checkbox" name="permission#modules" value="1"> {l s='Modules'}</li>
+                <li><input type="checkbox" name="permission#users" value="1"> {l s='Users'}</li>	
+            </ul>
+            -->
+            <h4>{l s='Access to'} :</h4>
+            <ul id="user_entities_list">
+            	{foreach $models as $model}
+                	{assign var=id_entity_model value=$model.id_entity_model}
+                    {assign var=raw_model_data value="permission#`$id_entity_model`#0"}
+                    <li><input type="checkbox" name="permission#{$model.id_entity_model}#0" value="1" {if in_array($raw_model_data, $permissions)}checked="checked"{/if} /> {$model.name}
+                    <ul>
+                    	{foreach $model.entities as $entity}
+                        	{assign var=raw_entity_data value="permission#`$id_entity_model`#`$entity.id_entity`"}
+                            <li><input type="checkbox" name="permission#{$model.id_entity_model}#{$entity.id_entity}" value="1" {if in_array($raw_entity_data, $permissions)}checked="checked"{/if} /> {$entity.meta_title}</li>
+                        {/foreach}                     
+                    </ul>
+                    </li>
+                
+                {/foreach}
+            </ul>
+            
+          
+            
+            <input type="submit" name="submitUser" value="{l s='Save'}" class="button" />
+        </div>
+  	
+    </form>
+      
+</div>
+
+<script type="text/javascript">
+	$(document).ready( function(){
+		$('#user_entities_list li ul li input').on('click', function(){
+			$(this).parent('li').parent('ul').parent('li').children('input').removeAttr('checked');			
+		});
+		$('#user_entities_list > li input').on('click', function(){
+			$(this).parent('li').children('ul').children('li').children('input').removeAttr('checked');			
+		});
+	});
+</script>

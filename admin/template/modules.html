@@ -1,0 +1,63 @@
+<div id="content">
+	<h1>{l s='Modules'}</h1>
+	
+    {if $smarty.get.added}
+    	<div class="return_ok">
+        	{l s='Saved !'}
+        </div>        
+    {/if}
+    
+    
+    <div class="form">
+       		<a href="index.php?p=modules&manageHook=1" class="button floatRight">{l s='Manage Hook'}</a>
+            <h2>{l s='Installed modules'}</h2>
+            <ul id="modules_list">
+                {foreach $installed_modules as $module}
+                	<li>
+                        <span class="name">{$module.module_name}</span>
+                        <div class="description">{$module.module_description}</div>
+                        <p class="links">
+                            <a href="index.php?p=modules&id_module={$module.id_module}&action=configure">{l s='Configure'}</a> | 
+                            {if $module.active == 1}
+                            	<a href="index.php?p=modules&id_module={$module.id_module}&action=activate&value=0">{l s='Disable'}</a>
+                            {else}
+                            	<a href="index.php?p=modules&id_module={$module.id_module}&action=activate&value=1">{l s='Enable'}</a>
+                            {/if}
+                            | <a href="index.php?p=modules&id_module={$module.id_module}&action=delete">{l s='Remove'}</a>
+                        </p>
+                    </li>
+                {/foreach}
+            </ul>
+            <div class="clear" style="height:35px;margin:15px;"></div>
+            <h2>{l s='Available modules'}</h2>
+            <ul id="modules_list">
+                {foreach $available_modules as $module}
+                	{assign var=installed value=0}
+                    {foreach $installed_modules as $installed_module}
+                    	{if $module.name == $installed_module.module_name}
+                        	{assign var=installed value=1}
+                        {/if}
+                    {/foreach}
+                    {if !$installed}
+                    <li>
+                        <span class="name">{$module.name}</span>
+                        <div class="description">{$module.description}</div>
+                        <p class="links">
+                           <form action="index.php?p=modules" method="post">
+                           		<input type="hidden" name="installModule" value="1" />
+                           		<input type="hidden" name="slug" value="{$module.slug}" />
+                                <input type="hidden" name="name" value="{$module.name}" />
+                                <input type="hidden" name="description" value="{$module.description}" />
+                           </form>
+                           <a href="javascript:void(0)" onclick="$(this).prev('form').submit()">{l s='Install'}</a>
+                        </p>
+                    </li>
+                    {/if}
+                {/foreach}                     
+            </ul>
+
+        
+        
+	</div>
+        
+</div>

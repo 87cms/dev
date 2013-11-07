@@ -1,0 +1,107 @@
+<div id="content" class="analytics">
+
+	<div class="stats_line" >
+         <div class="block big_block" style="margin-bottom:0">
+        	<div class="title">{l s="Visits for the last 30 days"}</div>
+            <div class="chart">
+                <canvas id="visits_chart"></canvas>
+            </div>
+            <div class="clear"></div>
+   	</div>
+   
+    <div class="stats_line">
+         <div class="block big_block">
+        	<div class="title">{l s="Stats for the last 30 days"}</div>
+            <div class="details">
+                <ul class="panel_analytics_stats">
+                    <li id="ga_visits">
+                        {l s='visits'}
+                        <span class="number">0</span>
+                    </li>
+                    <li style="background:#27ae60" id="ga_newvisits">
+                        {l s='new visits'}
+                        <span class="number">0</span>
+                    </li>
+                    <li style="background:#f1c40f" id="ga_pagepervisit">
+                        {l s='page per visit'}
+                        <span class="number">0</span>
+                    </li>
+                    <li style="background:#3498db" id="ga_pageview">
+                        {l s='pages views'}
+                        <span class="number">0</span>
+                    </li>
+                    <li style="background:#9b59b6" id="ga_bouncerate">
+                        {l s='Bounce rate'}
+                        <span class="number">0</span>                
+                    </li>
+                    <li style="background:#e74c3c" id="ga_avgsite">
+                        {l s='time on site'}
+                        <span class="number">0</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+   	</div>
+    
+     
+    
+    <div class="stats_line">
+    
+    	<div class="block" id="browsers_stats">
+        	<div class="title">Browsers</div>
+        	<div class="chart">
+            	<canvas id="browsers_charts"></canvas>            
+            </div>
+        	
+            <div class="details" >
+            	<table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th width="5"></th>
+                            <th>Browser</th>
+                            <th class="col_small col_center">Visits</th>
+                            <th class="col_small col_center">% visits</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>            
+			</div>        
+        </div>
+    	
+        <div class="block" id="mobile_stats">
+        	<div class="title">Mobile visits (month)</div>
+        	<div class="chart">
+            	<canvas id="mobile_charts"></canvas>           
+            
+            </div>
+        	
+            <div class="details">
+            	<table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th width="5"></th>
+                            <th>{l s='Is a mobile device ?'}</th>
+                            <th class="col_small col_center">Visits</th>
+                            <th class="col_small col_center">%</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      
+                    </tbody>
+                </table>            
+			</div>        
+        </div>
+        
+        
+        
+    	<div class="clear"></div>
+    
+    </div>
+   
+    
+    <script src="js/charts/Chart.js"></script>
+    <script src="js/charts/Chart.getdata.js"></script>
+    
+</div>

@@ -1,0 +1,78 @@
+<style>
+ #content select { width:140px; }
+</style>
+
+<div id="content">
+	<h1>Menu</h1>
+	<form action="#" method="post">
+    {foreach $domaines as $domaine}
+        <h2>{$domaine.meta_title}</h2>
+        
+        <table style="margin-bottom:35px;">
+            {foreach $domaine.vins as $domaine_vin}
+            <tr>
+            	
+                <td>{$domaine_vin.fields.nom_vin}</td>
+                
+                <td>
+                    <select name="{$domaine_vin.id_entity}[]">
+                        {foreach $vins as $vin}
+                        	<option value="{$vin.id_entity}" {if $domaine_vin.linkedEntities[0] == $vin.id_entity}selected="selected"{/if}>{$vin.meta_title}</option>                
+                        {/foreach}
+                    </select>
+                </td>
+                
+                <td>
+                    <select name="{$domaine_vin.id_entity}[]">
+                        {foreach $vins as $vin}
+                        	<option value="{$vin.id_entity}" {if $domaine_vin.linkedEntities[1] == $vin.id_entity}selected="selected"{/if}>{$vin.meta_title}</option>
+                        {/foreach}                
+                    </select>
+                </td>
+                
+                <td>
+                    <select name="{$domaine_vin.id_entity}[]">
+                        {foreach $vins as $vin}
+                        	<option value="{$vin.id_entity}" {if $domaine_vin.linkedEntities[2] == $vin.id_entity}selected="selected"{/if}>{$vin.meta_title}</option>
+                        {/foreach}                
+                    </select>
+                </td>
+                
+                <td>
+                    <select name="{$domaine_vin.id_entity}[]">
+                        {foreach $vins as $vin}
+                        	<option value="{$vin.id_entity}" {if $domaine_vin.linkedEntities[3] == $vin.id_entity}selected="selected"{/if}>{$vin.meta_title}</option>
+                        {/foreach}                
+                    </select>
+                </td>
+                
+                <td>
+                    <select name="{$domaine_vin.id_entity}[]">
+                        {foreach $vins as $vin}
+                        	<option value="{$vin.id_entity}" {if $domaine_vin.linkedEntities[4] == $vin.id_entity}selected="selected"{/if}>{$vin.meta_title}</option>
+                        {/foreach}                
+                    </select>
+                </td>
+                
+                <td>
+                    <select name="{$domaine_vin.id_entity}[]">
+                        {foreach $vins as $vin}
+                        	<option value="{$vin.id_entity}" {if $domaine_vin.linkedEntities[5] == $vin.id_entity}selected="selected"{/if}>{$vin.meta_title}</option>
+                        {/foreach}                
+                    </select>
+                </td>
+                
+            
+            </tr>
+            
+            {/foreach}
+            <tr>
+            	<td colspan="7">
+                	<input type="submit" name="saveForm" value="Enregistrer" class="button submit" />
+                </td>
+            </tr>
+        </table>
+        
+    {/foreach}
+    </form>
+</div>

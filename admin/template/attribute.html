@@ -1,0 +1,55 @@
+<div id="content">
+	<h1>{l s='Attribute'}</h1>
+	<p>
+    
+    </p>
+    <h2>{l s="Add an attribute"}</h2>
+    <div class="form">
+    	<form action="index.php?p=attribute" method="post">
+        	<div class="form_line">
+                <label>{l s='Slug'} </label> <input type="text" class="text" name="slug" id="entity_slug">
+            </div>
+            <div class="multilang form_line">
+                <label>{l s='Name'}</label>
+                <div class="floatLeft">
+                {foreach $languages as $key => $value}
+                    <p><input type="text" name="name#{$value.id_lang}" class="text" value="" /> <img src="images/flags/{$value.code}.png" class="flag" /></p>
+                {/foreach}
+                </div>
+            </div>
+            <div class="form_line">
+	            <input type="hidden" name="idAttribute" value="" />
+                <input type="submit" name="submitAttribute" value="{l s='Add attribute'}" class="button button_add" />
+            </div>
+        </form>
+        <div class="clear"></div>
+    </div>
+    <h2>{l s='Attributes list'}</h2>
+    <table class="std">
+    	<thead>
+        	<tr>
+            	<th>ID</th>
+                <th>{l s='Slug'}</th>
+                <th>{l s='Name'}</th>
+                <th>{l s='Date added'}</th>
+                <th>{l s='Date updated'}</th>
+                <th>{l s='Action'}</th>
+            </tr>
+        </thead>
+        <tbody>
+        	{foreach $attributesList as $attribute}
+            <tr>
+                <td>{$attribute.id_attribute}</td>
+                <td>{$attribute.slug}</td>
+                <td>{$attribute.name}</td>
+                <td>{$attribute.date_add}</td>
+                <td>{$attribute.date_upd}</td>
+                <td>
+                	<a href="index.php?p=attribute&action=form&id_attribute={$attribute.id_attribute}" class="button_edit">{l s='Edit'}</a>
+                	<a href="index.php?p=attribute&deleteAttribute=1&id_attribute={$attribute.id_attribute}" class="button_delete">{l s='Delete'}</a>
+                </td> 
+            </tr>
+            {/foreach}               
+        </tbody>
+    </table>
+</div>

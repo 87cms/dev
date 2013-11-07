@@ -1,0 +1,54 @@
+<div id="content">
+	<h1>{l s=$pageName}</h1>
+	
+    {if $smarty.get.added}
+    	<div class="return_ok">
+        	{l s='Saved !'}
+        </div>        
+    {/if}
+
+    <a href="/admin/index.php?p=translation&action=displayPreviousTranslations" class="button floatRight">{l s='See previous translations'}</a>
+	<form action="" method="post">
+	    <table id="translation" class="std">
+	    	<thead>
+			    <tr>
+			    	<th>Original</th>
+			    	{foreach $translations.languages as $lang}
+			    	<th>{$lang}</th>
+			    	{/foreach}
+			    </tr>
+	    	</thead>
+	    	<tbody>
+			    {foreach $translations.pages as $page}
+			   		<tr >
+			   			<td colspan="{count($translations.languages)+1}" class="page">Page {$page.filename}</td>
+			   		</tr>
+			   		{foreach $page.original as $key => $original}
+						<tr>
+							<td class="tab" id="{$page.md5.$key}">{$original|escape:'htmlall'}</td>
+							{foreach $translations.languages as $lang}
+								<td><input type="text" name="{$lang}-{$page.md5.$key}" id="{$lang}-{$page.md5.$key}" value="{$page.$lang.$key|escape:'htmlall'}" placeholder="{$original|escape:'htmlall'}" class="text"></td>
+					    	{/foreach}
+						</tr>
+					{/foreach}
+					{if count($page.duplicates)>0}
+
+						<tr>
+							<td class="tab" colspan="3"><span class="italic">{l s='Duplicate(s)'} : 
+							{$i = 0}
+							{foreach $page.duplicates as $key => $duplicate}
+								<a href="#{$duplicate.md5}">{$duplicate.value}</a>{if $i < count($page.duplicates)-1}, {else}.{/if}
+								{$i = $i+1}
+							{/foreach}
+							</span></td>
+						</tr>
+					{/if}
+			    {/foreach}
+		    </tbody>
+		</table>
+		<input type="hidden" name="action" value="updateTranslation">
+        <input type="submit" value="{l s='Save'}" class="button submit">    
+	</form>
+
+    
+</div>

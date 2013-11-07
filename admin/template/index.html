@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Administration</title>
+</head>
+
+<body>
+
+<div id="front_header">
+
+</div>
+
+<div id="sidebar">
+
+	<ul>
+    	{foreach $menu as $entity}
+       	 <li><a href="#">{$entity.name}</a></li>
+        {/foreach}
+    </ul>
+    
+    <ul>
+    	<li class="title">{l s='Management'}</li>
+        <li>{l s='Hierarchic Entity'}</li>
+        <li>{l s='Entity'}</li>
+        <li>{l s='Settings'}</li>
+        <li>{l s='Modules'}</li>
+    </ul>
+    
+    <ul>
+    	<li>{l s='Help'}</li>
+        <li>MyCMS</li>
+    </ul>
+
+</div>
+
+<div id="content">
+
+</div>
+
+<div id="footer">
+
+</div>
+
+
+</body>
+</html>

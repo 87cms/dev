@@ -1,0 +1,153 @@
+<div id="content">
+	<h1>{$modelname} ({$nbentities})</h1>
+	
+    {if $smarty.get.added}
+    	<div class="return_ok">
+        	{l s='Saved !'}
+        </div>        
+    {/if}
+    
+        
+    <div id="hierarchic_filter">
+        <div onclick="$('#entity_parent').slideToggle()" class="slideToggle">
+        	<strong>{l s='Filter by'} {if !$hierarchic}{$parent_name|lower}{else}{$modelname|lower}{/if}</strong>
+            <span id="current_filter"></span> | 
+            {if isset($id_parent)}<a href="index.php?p=entity&id_entity_model={$id_entity_model}">{l s='Reset'}</a>{/if}
+        </div>
+    	<form>
+            <ul id="entity_parent">
+                <li><input type="radio" name="id_parent[]" value="0" class="parents" {if !empty($id_parent) && $id_parent == 0}checked="checked"{/if}>{l s='Home'}</li>
+                <ul>
+                {foreach $parents as $parent}
+                    <li><input type="radio" name="id_parent[]" value="{$parent.id_entity}" class="parents" {if $id_parent == $parent.id_entity}checked="checked"{/if}>{$parent.name}</li>
+                    <ul>
+                    {foreach $parent.children as $children}
+                        {include file="category-tree.html" node=$children parents=$entity->parents}
+                    {/foreach}
+                    </ul>
+                {/foreach}
+                </ul>
+            </ul>
+        
+        </form>
+    </div>
+    
+    <a href="index.php?p=entity&id_entity_model={$id_entity_model}&action=form" class="button button_add">{l s='Add'}</a>
+   	
+    {if !$hierarchic}
+	   	{include file="pagination.html"}
+    {/if}
+   
+    <br /><br />
+    <table class="std">
+    	<thead>
+        	<tr>
+            	{if isset($id_parent) && !$smarty.get.sort}
+                	<th> </th>
+                {/if}
+                <th>ID</th>
+                <th>{l s='Name'}</th>
+                {if !$hierarchic}
+                	<th>{l s='Default parent'}</th>
+                {/if}
+                <th>{l s='State'}</th>
+                <th>{l s='Date added'}</th>
+                <th>{l s='Date updated'}</th>
+                <th style="width:100px">{l s='Actions'}</th>
+            </tr>
+        </thead>
+        <tbody>
+        	{if $entities}
+                {foreach $entities as $entity}
+                    <tr data-id="{$entity.id_entity}">
+                        {if isset($id_parent) && !$smarty.get.sort}
+	                        <td class="pos"><img src="images/iconic/black/move_16x16.png" /></td>
+                        {/if}
+                        <td>{$entity.id_entity}</td>
+                        <td>{$entity.meta_title}</td>
+                       	{if !$hierarchic}
+                            <td>{$entity.parent_name}</td>
+                        {/if}
+                        <td class="center">{l s=$entity.state}</td>
+                        <td class="center">{$entity.date_add}</td>
+                        <td class="center">{$entity.date_upd}</td>
+                        <td><a href="index.php?p=entity&id_entity_model={$id_entity_model}&action=form&id_entity={$entity.id_entity}" class="button_edit" title="{l s='Edit'}">EDIT</a>
+                        <a href="index.php?p=entity&id_entity_model={$id_entity_model}&action=deleteEntity&id_entity={$entity.id_entity}" class="button_delete" title="{l s='Delete'}">DELETE</a>
+                        <a href="{$entity.link_rewrite}" class="button_see" title="{l s='See'}" target="_blank">SEE</a></td>  
+                    </tr>
+                    {if $hierarchic && !isset($id_parent)}
+                    	{foreach $entity.children as $children}
+                            {include file="category-tree-table.html" node=$children z=1}
+                        {/foreach}
+                    {/if}
+                {/foreach}
+            {else}
+            	<tr>
+                	<td colspan="6">{l s='You have to add a new entry.'}</td>
+                </tr>
+            {/if}           
+        </tbody>
+    </table>
+    
+    <br /><br />
+    {if !$hierarchic}
+	   	{include file="pagination.html"}
+    {/if}
+   
+</div>
+
+<script type="text/javascript">
+ $(document).ready(function(e) {
+    $('.parents').click( function(){
+		var id_parent = $(this).val();
+		var url = 'index.php?p=entity&id_entity_model={$id_entity_model}&id_parent=' + id_parent;
+		location.href = url;
+	});
+	
+	var filter_name = $('#entity_parent input:checked').parent('li').clone();
+	filter_name.remove('input');
+	$('#current_filter').text( ' : ' + filter_name.text() );
+	
+	$('.button_delete').click( function(){
+		if( !confirm('{l s="Are you sure ?"}') )
+			return false;
+	});
+	
+	{if isset($id_parent)}
+		$('table.std tbody').sortable({
+				handle: 'td:first',
+				cursor: "move",
+				axis: "y",
+				
+				helper: function(e, tr)
+				{
+					var $originals = tr.children();
+					var $helper = tr.clone();
+					$helper.children().each(function(index)
+					{
+					  $(this).width($originals.eq(index).width())
+					});
+					return $helper;
+				},
+				"stop": function( event, ui ) {
+					var id_parent = '{$id_parent}';
+					var position = new Array();
+					$('table.std tbody tr').each( function(index, element){
+						position[ index ] = $(this).attr('data-id');
+					});
+					$.ajax({						
+						url: "index.php", type: "POST",	data: { 
+							ajax:1, 
+							action : 'updatePositionEntities', 
+							positions : position,
+							id_parent : id_parent
+						},
+						dataType: "json"
+					})
+				}
+				
+			}).disableSelection();
+
+	{/if}
+});
+</script>

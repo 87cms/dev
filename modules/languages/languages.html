@@ -1,0 +1,13 @@
+
+<!-- lang block -->
+<div id="lang_block">
+    <ul>
+    	{foreach $langs as $lang}
+    		<li>
+            	<a href="{$lang.link}">
+                	<img src="/modules/languages/{$lang.code}" alt="{l s='Accéder au site'} {$lang.code}" />
+                </a>
+            </li>
+        {/foreach}
+    </ul>
+</div>

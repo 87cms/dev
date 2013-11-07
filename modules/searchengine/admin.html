@@ -1,0 +1,122 @@
+<div id="content">
+	<h1>{l s='Configure your search engine'}</h1>
+	
+    <p>
+
+        
+    </p>
+    
+    <form action="#" method="post">
+    	<table id="SEsettings">
+        	<thead>
+            	<tr>
+                	<th>{l s='Model'}</th>
+                    <th>{l s='Field'}</th>
+                    <th>{l s='Weight'}</th>
+                    <th></th>
+                 </tr>
+    		</thead>
+            <tbody>
+            	{if count($params) > 0}
+                	{foreach $params as $param}
+                    	<tr>
+                            <td class="selectEntityModel_line">
+                                <select name="id_entity_model[]" class="selectEntityModel">
+                                    <option value=""></option>
+                                    {foreach $models as $model}
+                                        <option value="{$model.id_entity_model}" {if $param.id_entity_model==$model.id_entity_model}selected="selected"{/if}>{$model.name}</option>
+                                    {/foreach}
+                                </select>
+                            </td>
+                            <td class="selectFieldModel_line">
+                                <select name="id_field_model[]">
+                                    <option></option>
+                                    {foreach $param.fields as $field}
+                                    	<option value="{$field.id_field_model}" {if $param.id_field_model==$field.id_field_model}selected="selected"{/if}>{$field.slug}</option>
+                                    {/foreach}
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" class="text" name="weight[]" value="{$param.weight}" />
+                            </td>
+                            <td>
+                                <a href="#" class="button_delete" title="Supprimer">DELETE</a>
+                            </td>
+                        </tr>
+                
+                	{/foreach}
+                {else}
+                    <tr>
+                        <td class="selectEntityModel_line">
+                            <select name="id_entity_model[]" class="selectEntityModel">
+                                <option value=""></option>
+                                {foreach $models as $model}
+                                    <option value="{$model.id_entity_model}">{$model.name}</option>
+                                {/foreach}
+                            </select>
+                        </td>
+                        <td class="selectFieldModel_line">
+                            <select name="id_field_model[]">
+                                <option></option>                            
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" class="text" name="weight[]" />
+                        </td>
+                        <td>
+                            <a href="#" class="button_delete" title="Supprimer">DELETE</a>
+                        </td>
+                    </tr>
+                {/if}
+                
+            </tbody>
+         </table>
+    
+    <input type="button" name="addLine" value="{l s='Add a new line'}" class="button button_add addLine" />
+    
+    <input type="submit" name="updateSettings" value="{l s='Save settings'} &raquo;" class="button" />
+    
+    </form>
+    
+</div>
+
+
+<script>
+	$(document).ready(function(e) {
+        
+		$('.button_delete').on('click', function(){
+			$(this).parent().parent().remove();
+		});
+		
+		$('.addLine').on('click', function(){
+			var newElement = $('#SEsettings tbody tr').first().clone(true, true);
+			console.log(newElement);
+			newElement.find('.selectFieldModel_line').find('select').find('option').remove();
+			newElement.find('.selectEntityModel_line').find('select').val('');
+			newElement.appendTo('#SEsettings tbody');
+		});
+		
+		$('.selectEntityModel').each( function(){
+			$(this).on('change', function(){
+				var current_select = $(this);
+				$.ajax({
+					url: "index.php",
+					type: "POST",
+					data: { ajax:1, action : 'getFieldModelsList', id_entity_model : $(this).val(), field_type:'' },
+					dataType: "json"
+				})
+				.done(function(ret) {
+					var fieldModelContainer = current_select.parent().parent().find('.selectFieldModel_line').find('select');
+					fieldModelContainer.find('option').remove();
+					$.each(ret, function(i, item){	
+						if( item.type !== "inputImage" && item.type !== "inputFile" ){
+							var option = '<option value="' + item.id_field_model	+ '">' + item.slug + '</option>';
+							fieldModelContainer.append(option);
+						}
+					});
+						
+				});
+			});
+		});
+    });
+</script>

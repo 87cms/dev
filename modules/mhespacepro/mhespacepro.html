@@ -1,0 +1,111 @@
+
+<div class="column_left">
+    <h2>Faites votre choix</h2>
+    {foreach $domaines as $domaine}
+        <div>
+            <h4>{$domaine.fields.nom_domaine}</h4>
+            <ul class="choices">
+                {foreach $domaine.children as $vin}
+                <li data-id="{$vin.id_entity}">
+                    
+                    <div class="img_vin">
+                        <a href="{$vin.fields.photo_etiquette[0].large.path}" class="fancybox">
+                        <img src="{$vin.fields.photo_etiquette[0].medium.path}" height="100" /> 
+                        </a>
+                    </div>
+                    <div class="nom_vin">{$vin.fields.nom_vin}</div>
+                    <a class="button button_add">Ajouter à votre sélection &raquo;</a>
+                    <div class="clear"></div>
+                </li>
+                {/foreach}
+            </ul>
+        </div>
+    {/foreach}
+</div>
+
+<div class="column_right">
+    <h2>Votre sélection</h2>
+    <ul id="selection" class="choices">
+    </ul>
+    <div class="center">
+        <form action="#" method="post" id="form_conception">
+            <input type="hidden" name="ids_entity" value="" />
+            <input type="submit" name="submitPDF" value="{l s='Générer le PDF'}" class="button" />
+        </form>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+	$(document).ready( function(){
+		$('.button_add').each( function(){
+			$(this).off().click( function(){
+				
+				var parentLi = $(this).parent().clone();
+				parentLi.find('.button_add').remove();
+				var buttonRemove = $('<a href="#" class="button button_remove">&laquo; Supprimer</a>').off().click( function(){
+					$(this).parent().remove();
+				}); //.appendTo(parentLi);
+				parentLi.find('.nom_vin').after( buttonRemove );
+				
+				parentLi.appendTo('#selection');
+				
+				$('input[name="ids_entity"]').val('');
+				$('#selection li').each( function(){
+					var value = $('input[name="ids_entity"]').val();
+					$('input[name="ids_entity"]').val( value + $(this).attr('data-id') + ',' );	
+				});
+				
+				
+			});			
+		});
+		
+		
+		if( $.support.touch ){
+				
+			$('.column_left').css('overflow', 'auto');
+			$('.column_left').css('-webkit-overflow-scrolling', 'touch');
+			$('.column_left').css('overflow-scrolling', 'touch');
+			
+		}else{
+			
+			resizeColumn();
+			$(window).on('resize', resizeColumn);
+			
+			$(".column_left").mCustomScrollbar({
+				horizontalScroll:false,
+				mouseWheelPixels: 500,
+				advanced:{
+					updateOnBrowserResize: true,
+					updateOnContentResize: true,
+				},
+				scrollButtons:{
+					enable: true,
+					scrollSpeed: 250
+				},
+				contentTouchScroll: false
+			});
+			$(".column_right").mCustomScrollbar({
+				horizontalScroll:false,
+				mouseWheelPixels: 500,
+				advanced:{
+					updateOnBrowserResize: true,
+					updateOnContentResize: true,
+				},
+				scrollButtons:{
+					enable: true,
+					scrollSpeed: 250
+				},
+				contentTouchScroll: false
+			});
+			
+			
+		}
+		
+	});
+	
+	function resizeColumn(){
+		$(".column_left, .column_right").height( $(window).height() );	
+	}
+</script>

@@ -1,0 +1,111 @@
+/* CSS Document */
+
+	.cmd { 
+		display:none;
+		position:absolute;
+		width:100px;
+	}
+	.line { border-bottom:2px solid #e0e0e0; min-height:70px; }
+	#richtext { width:960px; margin-left:20px; position:relative }
+	.column { 
+		border:1px dashed #d0d0d0; 
+		min-height:70px; 
+		float:left; 
+		padding:0px; 
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+		padding: 10px;
+	}
+	.selectedLine { border-left:2px solid #1a90aa }
+	.selectedColumn { border:1px solid #f8762b }
+	/*.cke_bottom { display: none; }*/
+	.clear { clear:both }
+
+#richtext_container {
+	margin-bottom: 65px;
+}
+
+#elementsList_container { 
+	clear:both;
+	background-color:#fff;
+	padding:5px;
+	margin:10px 0;
+	border-top:1px solid #e0e0e0;
+	border-bottom:1px solid #e0e0e0;
+	margin-bottom:25px;
+}
+	#elementsList_container ul li.element {
+		float:left;	
+		padding:8px 10px;
+		color:#eee;
+		background:#333;
+		margin:5px;
+		cursor:pointer;	
+	}
+		#elementsList_container ul li.element a {
+			text-decoration:none;
+			color:#eee;
+		}
+
+#elementsList .button {
+	margin-top:4px;
+}
+
+/*** Command ***/
+#cmd_line {
+	width:16px;	
+}
+	#cmd_line #cmd_add_column,
+	#cmd_line #cmd_delete_line { 
+		background:#1a90aa url('../../images/iconic/black/plus_8x8.png') no-repeat center center; 
+		display:block; 
+		width:16px; 
+		height:16px;
+		margin-bottom:1px;	
+	}
+	#cmd_line #cmd_delete_line { 
+		background:#1a90aa url('../../images/iconic/black/x_7x7.png') no-repeat center center;
+	}
+
+#cmd_column {
+	height:16px;	
+	width:120px;
+}
+	#cmd_column #cmd_set_column_width,
+	#cmd_column #cmd_empty_column,
+	#cmd_column #cmd_delete_column,
+	#cmd_column #column_size { 
+		background:#f8762b url('../../images/iconic/black/trash_stroke_12x12.png') no-repeat center center; 
+		display:block; 
+		width:16px; 
+		height:16px;
+		margin-right:1px;
+		float:left;	
+	}
+	#cmd_column #column_size {
+		width: 45px;
+		text-align: center;
+		line-height: 16px;
+		background: #f8762b;
+		color: #fff;
+		text-decoration: none;
+		font-size: 11px;	
+	}
+		#cmd_column #column_size input {
+			text-align: center;
+			width: 30px;
+			height: 13px;
+			margin-top: 1px;
+			border: 0;
+			background: rgba(255,255,255,0.3);
+			font-size: 11px;	
+		}
+	
+	
+	#cmd_column #cmd_set_column_width {
+		display:none;	
+	}
+	#cmd_column #cmd_delete_column { 
+		background:#f8762b url('../../images/iconic/black/x_7x7.png') no-repeat center center;
+	}

@@ -1,0 +1,59 @@
+<div id="sidebar">
+	<div id="sidebar_content">
+    
+        <ul>
+            {foreach $menu as $entity}
+                <li><a href="index.php?p=entity&id_entity_model={$entity.id_entity_model}&sort=id_entity-asc" {if $entity.id_entity_model == $smarty.get.id_entity_model}class="active"{/if}>{$entity.name}</a></li>
+            {/foreach}
+        </ul>
+        
+        <ul>
+            <li><a href="index.php?p=contact" {if $smarty.get.p=='contact'}class="active"{/if}><img src="images/iconic/black/chat_alt_stroke_16x16.png" /> {l s='Contact form'}</a></li>
+            {if $user->is_admin}
+            {foreach $menuModules as $m}
+                <li>
+                    <a href="index.php?p=modules&id_module={$m.id_module}&action=configure">{$m.name}</a>
+                </li>
+            {/foreach}
+            {/if}
+        </ul>
+        
+        {if $user->is_admin}
+        <ul>
+            <li><a href="index.php?p=entityModel" {if $smarty.get.p=='entityModel'}class="active"{/if}><img src="images/iconic/black/compass_16x16.png" /> {l s='Models'}</a></li>
+            <li><a href="index.php?p=attribute" {if $smarty.get.p=='attribute'}class="active"{/if}><img src="images/iconic/black/wrench_16x16.png" /> {l s='Attribute'}</a></li>
+            <li><a href="index.php?p=settings" {if $smarty.get.p=='settings'}class="active"{/if}><img src="images/iconic/black/cog_16x16.png" /> {l s='Settings'}</a></li>
+            <li><a href="index.php?p=modules" {if $smarty.get.p=='modules'}class="active"{/if}> <img src="images/iconic/black/layers_16x14.png" /> {l s='Modules'}</a></li>
+            <li><a href="index.php?p=users" {if $smarty.get.p=='users'}class="active"{/if}><img src="images/iconic/black/user_12x16.png" /> {l s='Users'}</a></li>
+            <li><a href="index.php?p=translation" {if $smarty.get.p=='translation'}class="active"{/if}><img src="images/iconic/black/article_16x16.png" /> {l s='Translation'}</a></li>        
+        </ul>
+        {/if}
+        
+        
+        <ul style="display:none">
+            <li><a href="#">{l s='Help'}</a></li>
+            <li><a href="#">87CMS</a></li>
+        </ul>
+        
+    </div>
+
+</div>
+
+
+<div id="front_header">
+	<div id="logo">
+       <a href="/admin">87CMS</a>
+	</div>
+    
+	<div class="links">
+    	<a href="index.php?logout=1"><img src="images/iconic/white/x_alt_12x12.png" /> &nbsp;{l s='Log out'}</a>
+        <a href="http://www.google.com/analytics/‎"><img src="images/iconic/white/chart_12x12.png" /> &nbsp;{l s='Google Analytics'}</a> 
+    </div>
+    <div id="search_form" style="display:none">
+    	<form>
+        	<input type="text" name="search" value="" placeholder="{l s='Search'} ..." class="text" /> <input type="submit" value="{l s='Search'}" name="submitSearch" class="submitForm" />
+        </form>
+    </div>
+</div>
+
+<div id="container">

@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Administration</title>
+
+<link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+<link href="template/style.css" rel="stylesheet" type="text/css" />
+<meta name="google-site-verification" content="PslYyEKYMIWwL4D3XsCDaHBNcdRPkn9GxN4mjXzulCs" />
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="/js/tools.js"></script>
+<script type="text/javascript" src="js/jquery.nicescroll.js"></script>
+
+<script type="text/javascript" src="js/multilang.js"></script>
+<script type="text/javascript" src="js/lang/en.js"></script>
+<script type="text/javascript">
+	var languages = new Array();
+	{foreach $languages as $key => $value}
+		languages[{$key}] = { 
+			id_lang : '{$value.id_lang}',
+			code : '{$value.code}'
+		};			
+	{/foreach}
+	
+	var _LANG_ = "{$LANG}";
+	
+	$(document).ready(function(e) {
+        //$('.multilang').MultilangInput();
+		resizeContent();
+		$("#sidebar_content").niceScroll();		
+    });
+	$(window).resize( resizeContent );
+	
+	function resizeContent(){
+		/*$('#front_header').width( $(window).innerWidth() - 230 );*/
+		$('#sidebar_content').height( $(window).height() - 48 );
+		$('#content').innerHeight( $(window).height() - 48 );
+	}
+	
+</script>
+
+
+</head>
+
+<body>
+

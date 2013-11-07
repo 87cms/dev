@@ -1,0 +1,341 @@
+<div id="content">
+	<h1>{l s='Settings'}</h1>
+	
+    {if $added}
+    	<div class="return_ok">
+        	{l s='Saved !'}
+        </div>        
+    {/if}
+    
+    <div id="tabs">
+        <ul>
+            <li>
+                <a href="#a">{l s='General'}</a>
+            </li>
+            <li>
+                <a href="#b">{l s='Home page'}</a>
+            </li>
+            <li>
+                <a href="#c">Google Analytics</a>
+            </li>
+            <li>
+                <a href="#d">{l s='Images'}</a>
+            </li>
+            <li>
+                <a href="#e">Webservices</a>
+            </li>
+            <!--<li>
+                <a href="#f">Performances</a>
+            </li>-->
+            
+        </ul>
+        <div id="a">
+            
+            <h2>{l s='General'}</h2>
+            <form action="#" method="post">
+            <div class="form_line">
+                <label>{l s='Domain'}</label>
+                <div class="floatLeft">
+                    <input type="text" name="domain" value="{$domain}" class="text" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="form_line">
+                <label>{l s='Site name'}</label>
+                <div class="floatLeft">
+                    <input type="text" name="sitename" value="{$sitename}" class="text" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="form_line">
+                <label>{l s='Slogan'}</label>
+                <div class="floatLeft">
+                    <input type="text" name="slogan" value="{$slogan}" class="text" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="form_line">
+                <label>{l s='Error 404 Templates'}</label>
+                <div class="floatLeft">
+                    <input type="text" name="error404_templates" value="{$error404_templates}" class="text" /><br />
+                	<small>{l s='(separated with comas. Ex: head.html, body.html, footer.html)'}</small>
+                </div>
+                
+                <br class="clear" />
+                <input type="submit" name="submitForm" value="{l s='Save'}" class="button button_submit" />
+                <div class="clear"></div>
+                <br /><br />
+            </div>
+            </form>
+            
+            <form action="#" method="post">
+            <h2>{l s='Contact Form'}</h2>
+            <div class="form_line">
+                <label>{l s='Emails for contact form'}</label>
+                <div class="floatLeft">
+                    <input type="text" name="contact_form_emails" value="{$contact_form_emails}" class="text" /><br />
+                	<small>{l s='If multiple, separeted with a comma. Ex : email1@87cms.com, email2@87cms.com.'}</small>
+                </div>
+                <div class="clear"></div>                
+            </div>
+            <div class="form_line">
+                <label>{l s='Templates for contact form'}</label>
+                <div class="floatLeft">
+                    <input type="text" name="contact_form_templates" value="{$contact_form_templates}" class="text" /><br />
+                	<small>{l s='(separated with comas. Ex: head.html, body.html, footer.html)'}</small>
+                </div>
+                 <br class="clear" />
+                <input type="submit" name="submitForm" value="{l s='Save'}" class="button button_submit" />
+                <div class="clear"></div>
+                <br /><br />               
+            </div>
+            </form>
+            
+        </div>
+        <div id="b">
+            
+            <h2>{l s='Home page'}</h2>
+            <form action="#" method="post">
+            <div class="form_line">
+                <label>{l s='Home template files'}</label>
+                <div class="floatLeft">
+                    {foreach $languages as $key => $value}
+                        <p><input type="text" name="homepage_template_{$value.code}" class="text" value="{$homepage_template_{$value.code}}" /> <img src="images/flags/{$value.code}.png" class="flag" /> <small> {l s='(separated with comas. Ex: head.html, body.html, footer.html)'}</small></p>
+                    {/foreach}
+                </div>
+                <div class="clear"></div>
+                <br /><br />
+            </div>
+            <input type="hidden" name="homepage_settings" value="1" />
+            <h3>SEO</h3>
+            <div class="form_line">
+                <label>{l s="Meta Title"}</label>
+                <div class="floatLeft">
+                {foreach $languages as $key => $value}
+                    <p><input type="text" name="meta_title#{$value.id_lang}" class="text" value="{$homepageSEO[$value.id_lang]['meta_title']}" /> <img src="images/flags/{$value.code}.png" class="flag" /></p>
+                {/foreach}
+                </div>
+            </div>
+            <div class="form_line">
+                <label>{l s="Meta Keywords"}</label>
+                <div class="floatLeft">
+                {foreach $languages as $key => $value}
+                    <p><input type="text" name="meta_keywords#{$value.id_lang}" class="text" value="{$homepageSEO[$value.id_lang]['meta_keywords']}" /> <img src="images/flags/{$value.code}.png" class="flag" /></p>
+                {/foreach}
+                </div>
+            </div>
+            <div class="form_line">
+                <label>{l s="Meta Description"}</label>
+                <div class="floatLeft">
+                {foreach $languages as $key => $value}
+                    <p><input type="text" name="meta_description#{$value.id_lang}" class="text" value="{$homepageSEO[$value.id_lang]['meta_description']}" /> <img src="images/flags/{$value.code}.png" class="flag" /></p>
+                {/foreach}
+                </div>
+            </div>
+            <br class="clear" />
+                <input type="submit" name="submitForm" value="{l s='Save'}" class="button button_submit" />
+                
+            <div class="clear"></div>
+            
+            </form>
+            <!--
+            <div class="form_line">
+                <label>{l s='Home template files'}</label> {l s='(separated with comas. Ex: head.html, body.html, footer.html)'}
+                <br />
+                <div class="floatLeft">
+                {foreach $languages as $key => $value}
+                    <p><input type="text" name="homepage_template_{$value.code}" class="text" value="{$homepage_template[$value.code]}" /> <img src="images/flags/{$value.code}.png" class="flag" /></p>
+                {/foreach}
+            </div>
+            <div class="clear"></div>
+            -->
+                    
+        </div>
+        <div id="c">
+            
+            <h2>Google Analytics</h2>
+            <form action="#" method="post">
+            <div class="form_line">
+                <label>{l s='Service account email'}</label>
+                <div class="floatLeft">
+                    <input type="text" name="GA_SERVICE_ACCOUNT_EMAIL" value="{$GA_SERVICE_ACCOUNT_EMAIL}" class="text" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="form_line">
+                <label>{l s='.P12 filename (placed in /admin/tools/gapi folder)'}</label>
+                <div class="floatLeft">
+                    <input type="text" name="GA_SERVICE_ACCOUNT_PKCS12_FILE_PATH" value="{$GA_SERVICE_ACCOUNT_PKCS12_FILE_PATH}" class="text" />
+                </div>
+                <div class="clear"></div>
+            </div>
+             <div class="form_line">
+                <label>{l s='Client ID'}</label>
+                <div class="floatLeft">
+                    <input type="text" name="GA_CLIENT_ID" value="{$GA_CLIENT_ID}" class="text" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="form_line">
+                <label>{l s='Project ID'}</label>
+                <div class="floatLeft">
+                    <input type="text" name="GA_PROJECT_ID" value="{$GA_PROJECT_ID}" class="text" />
+                </div>
+                <br class="clear" />
+                <input type="submit" name="submitForm" value="{l s='Save'}" class="button button_submit" />
+                <div class="clear"></div>
+            </div>
+            </form>
+            
+        </div>
+        <div id="d">
+            
+            <h2>{l s='Images'}</h2>
+            <form action="#" method="post">
+            <p>{l s="The images will be resized from the parameters set for inputImage field"}.
+            <br />{l s="This operation can take several minutes."}</p>
+            <div class="form_line">
+                <label>1. {l s='Select a model :'} </label>
+                <select name="id_model_entity" id="irf_id_model_entity">
+                	<option></option>
+                    {foreach $models as $model}
+                    	<option value="{$model.id_entity_model}">{$model.name}</option>
+                    {/foreach}
+                </select>
+                <div class="clear"></div>
+                <label>2. {l s='Select a field model :'} </label>
+                <select name="id_field_model" id="irf_id_field_model">
+                	<option value=""></option>
+                </select>
+                <br /><br />
+                <input type="submit" name="submitFormResize" value="{l s='Save'}" class="button button_submit" />
+               
+            </div>
+            </form>
+            
+        </div>
+        
+        <div id="e">
+            
+            <h2>{l s='Webservices'}</h2>
+            <form action="#" method="post">
+            
+            <div class="form_line">
+                <label>{l s='Active webservices'}</label>
+                <div class="floatLeft">
+                	<input type="radio" name="webservice_active" value="1" {if $webservice_active}checked="checked"{/if}> {l s='Yes'}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="webservice_active" value="0" {if !$webservice_active}checked="checked"{/if}> {l s='No'}
+                </div>
+                <div class="clear"></div>
+            </div>
+            
+            <div class="form_line">
+                <label>{l s='API Key'}</label>
+                <div class="floatLeft">
+                    <input type="text" name="webservice_authkey" value="{$webservice_authkey}" class="text" />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="form_line">
+                <label>{l s='Authorized IP'}</label>
+                <div class="floatLeft">
+                    <input type="text" name="webservice_authorized_ips" value="{$webservice_authorized_ips}" class="text" /><br />
+                	<small>{l s='If multiple, separeted with a space'}</small>
+                </div>
+                <div class="clear"></div>                
+            	<br /><br />
+                <input type="submit" name="submitForm" value="{l s='Save'}" class="button button_submit" />
+            </div>
+            </form>
+            
+        </div>
+        
+        <!--<div id="f">
+        	<h1>{l s="Performance"}</h1>
+            <form action="#" method="post">
+                <div class="form_line" style="line-height:0px">
+                    <label>{l s='Active cache'}</label>
+                    <div class="floatLeft">
+                        <input type="radio" name="perf_active_cache" value="1" class="radio" {if $perf_active_cache}checked="checked"{/if} /> {l s='Yes'} &nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="perf_active_cache" value="0" class="radio" {if !$perf_active_cache}checked="checked"{/if}/> {l s='No'}
+                    </div>
+                    <div class="clear"></div>                    
+                </div>
+                <div class="form_line">
+                    <label>{l s='Cache system'}</label>
+                    <div class="floatLeft">
+                        <select name="perf_cache_system">
+                            <option value="none" {if $perf_cache_system=="none"}selected="selected"{/if}>{l s="None"}</option>
+                            <option value="smarty" {if $perf_cache_system=="smarty"}selected="selected"{/if}>{l s="Smarty"}</option>
+                        </select>
+                    </div>
+                    <div class="clear"></div> 
+                </div>
+                <div class="form_line">
+                    <label>{l s='Refresh cache'}</label>
+                    <div class="floatLeft">
+                         <input type="text" name="perf_cache_refreshing" value="{$perf_cache_refreshing}" class="text" style="width:50px" />
+                		 <small>{l s='In minutes'}</small>
+                    </div>
+                    <div class="clear"></div> 
+                    <br /><br />
+                    
+                	<input type="submit" name="submitForm" value="{l s='Save'}" class="button button_submit" />
+                </div>
+	 		</form>
+        	<form action="#" method="post">
+            	<input type="submit" name="submitEmptyCache" value="{l s='Empty the cache'}" class="button button_cancel" />
+            </form>
+        </div>-->
+        
+    </div>
+	<div class="clear"></div>
+    <script>
+	$('#tabs')
+    .tabs()
+    .addClass('ui-tabs-vertical ui-helper-clearfix');
+	
+    $(document).ready(function(e) {
+        $("#irf_id_model_entity").on('change', function(){
+			$.ajax({
+				url: "index.php",
+				type: "POST",
+				data: { ajax:1, action : 'getFieldModelsList', id_entity_model : $("#irf_id_model_entity").val(), field_type:'inputImage' },
+				dataType: "json"
+			})
+			.done(function(ret) {
+				$('#irf_id_field_model option').remove();
+				$.each(ret, function(i, item){	
+					var option = '<option value="' + item.id_field_model	+ '">' + item.slug + '</option>';
+					$("#irf_id_field_model").append(option);
+				});	
+			});
+		});
+    });
+    
+    
+    </script>
+    
+    
+	
+    
+    
+    
+   
+    
+    
+    </form>
+     
+    
+    
+    <!--<h2>Generate</h2>
+    Generate a robots.txt
+    Generate a sitemap    
+    -->
+    
+    
+    
+    
+	
+</div>

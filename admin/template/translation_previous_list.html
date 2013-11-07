@@ -1,0 +1,32 @@
+<div id="content">
+	<h1>{l s=$pageName}</h1>
+	
+    {if $smarty.get.added}
+    	<div class="return_ok">
+        	{l s='Saved !'}
+        </div>        
+    {/if}
+
+	<a href="/admin/index.php?p=translation" class="button">&laquo; {l s='Back to the current translation'}</a>
+    <table id="translation" class="std padding">
+    	<thead>
+		    <tr>
+		    	<th colspan="3">Last active date</th>
+		    	<th>Language</th>
+		    	<th>Actions</th>
+		    </tr>
+    	</thead>
+    	<tbody>
+		    {foreach $previousTranslations as $t}
+		    	<tr>
+			    	<td>{$t.day}/{$t.month}/{$t.year}</td>
+			    	<td>{l s='until'}</td>
+			    	<td>{$t.hour}:{$t.min}:{$t.sec}</td>
+			    	<td>{$t.lang}</td>
+			    	<td><a href="index.php?p=translation&action=restoreTranslation&file={$t.filename}">Restore</a> - <a href="index.php?p=translation&action=deleteTranslation&file={$t.filename}" onclick="return confirm('Are you sure ?');">Delete</a></td>
+		    	</tr>
+		    {/foreach}
+	    </tbody>
+	</table>  
+
+</div>

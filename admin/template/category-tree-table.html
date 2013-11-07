@@ -1,0 +1,17 @@
+{if $node}
+<tr>
+    <td>{$node.id_entity}</td>
+    <td>{for $foo=0 to $z}-{/for} {$node.meta_title}</td>
+    <td class="center">{l s=$node.state}</td>
+    <td class="center">{$node.date_add}</td>
+    <td class="center">{$node.date_upd}</td>
+    <td><a href="index.php?p=entity&id_entity_model={$id_entity_model}&action=form&id_entity={$node.id_entity}" class="button_edit">EDIT</a>
+    <a href="index.php?p=entity&id_entity_model={$id_entity_model}&action=deleteEntity&id_entity={$node.id_entity}" class="button_delete">DELETE</a>
+    <a href="{$node.link_rewrite}" class="button_see" title="{l s='See'}" target="_blank">SEE</a></td>  
+</tr>
+	
+    {foreach $node.children as $children}
+        {include file="category-tree-table.html" node=$children z=$z+4}
+    {/foreach}
+
+{/if}

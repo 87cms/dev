@@ -1,0 +1,78 @@
+<div id="content">
+	<h1>{l s='Edit attribute'}</h1>
+	<p>
+    
+    </p>
+    <div class="form">
+    	<h2>{l s='General'}</h2>
+        <form action="index.php?p=attribute" method="post">
+        	<div class="form_line">
+                <label>{l s='Slug'} </label> <input type="text" class="text" name="slug" id="entity_slug" value="{$attribute->slug}">
+            </div>
+            <div class="multilang form_line">
+                <label>{l s='Name'}</label>
+                <div class="floatLeft">
+                {foreach $languages as $key => $value}
+                    <p><input type="text" name="name#{$value.id_lang}" class="text" value="{$attribute->lang[$value.id_lang]['name']}" /> <img src="images/flags/{$value.code}.png" class="flag" /></p>
+                {/foreach}
+                </div>
+            </div>
+            <div class="form_line">
+	            <input type="hidden" name="token" value="{$token}" />
+                <input type="hidden" name="idAttribute" value="{$attribute->id_attribute}" />
+                <input type="submit" name="submitAttribute" value="{l s='Save'}" class="button submit" />
+            </div>
+        </form>
+    </div>
+    
+    
+    <div class="form">
+    	<h2>{l s="Attribute values"}</h2>
+        <form action="index.php?p=attribute&action=form&id_attribute={$attribute->id_attribute}" method="post" id="attribute_values_form">
+        <table id="attributes_values_list">
+        	{foreach $attribute->values as $value}
+            <tr>
+	        	<td width="350">
+                {foreach $languages as $key => $variable}
+                    <p><input type="text" name="value#{$variable.id_lang}#{$value.id_attribute_value}" class="text" value="{$value.value[$variable.id_lang]['value']}" /> <img src="images/flags/{$variable.code}.png" class="flag" /></p>
+                {/foreach}
+                </td>
+                <td>
+                	<a href="#" class="attribute_value_delete button_delete" data-id="{$value.id_attribute_value}">{l s="Delete"}</a>
+                </td>
+            </tr>
+            {/foreach}
+        </table>
+        <p>
+        	<input type="hidden" name="token" value="{$token}" />
+            <input type="hidden" name="idAttribute" value="{$attribute->id_attribute}" />
+            <input type="hidden" name="submitValues" value="1" />
+            <input type="button" name="addLine" value="{l s='Add value'}" class="button" id="addLine" />
+            <!--<a href="" class="button" id="addLine" onclick="">{l s='Add value'}</a>-->
+            <input type="submit" name="submitValues" value="{l s='Save'}" class="button submit" />
+        </p>
+        </form>
+    </div>
+    
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(e) {
+    $('.attribute_value_delete').each( function(){ 
+		$(this).click( function(){
+			if( confirm('{l s="Are you sure ?"}') ){
+				location.href = 'index.php?p=attribute&action=form&deleteAttributeValue=1&id_attribute={$attribute->id_attribute}&id_attribute_value=' + $(this).attr('data-id');	
+				return false;
+			}
+		});
+	});
+	
+	$('#addLine').click( function(){
+		
+		$('#attribute_values_form').attr('action', 'index.php?p=attribute&action=form&id_attribute={$attribute->id_attribute}&addLine=1#addLine' );
+		$('#attribute_values_form').submit()
+		
+	});
+	
+});
+</script>

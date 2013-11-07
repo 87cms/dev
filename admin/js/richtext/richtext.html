@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Document sans nom</title>
+
+<script>
+	 var _MESSAGE_REMOVE_LINE_ = "Are you sure to remove this line and all it content ?";
+	 var _MESSAGE_EMPTY_COLUMN_ = "Are you sure to delete all the content ?";
+	 var LANG = 'fr';
+	 window.CKEDITOR_BASEPATH = 'elements/ckeditor/';
+</script>
+<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script src="elements/ckeditor/ckeditor.js"></script>
+
+<script src="richtext.js"></script>
+<script>
+	$(document).ready(function(e) {
+    	$(document).richText();  
+    });
+</script>
+
+<script src="elements/ckeditor/RTckeditor.js"></script>
+
+
+<style>
+	.cmd { 
+		display:none;
+		position:absolute;
+		width:100px;
+	}
+	.line { border-bottom:2px solid #e0e0e0; min-height:70px; }
+	#richtext { width:960px; margin-left:20px; }
+	.column { border:1px dashed #e0e0e0; min-height:50px; float:left; padding:10px; }
+	.selectedLine { border-left:2px solid #009 }
+	.selectedColumn { border:1px solid #009 }
+	.cke_bottom { display: none; }
+	.clear { clear:both }
+	
+</style>
+
+</head>
+
+<body>
+
+<ul id="elementsList">
+	<li data-name="RTckeditor">CKeditor</li>
+</ul>
+
+<div>
+	<h4>Commande</h4>
+    <a href="#" id="cmd_add_line">Add line</a>
+</div>
+
+<div id="cmd_line" class="cmd">
+	<a href="#" id="cmd_add_column">Add column</a>
+    <a href="#" id="cmd_delete_line">Delete line</a>
+</div>
+<div id="cmd_column" class="cmd">
+	<a href="#" id="cmd_set_column_width">Set column width</a>
+    <a href="#" id="cmd_empty_column">Empty column</a>
+    <a href="#" id="cmd_delete_column">Delete column</a>
+</div>
+
+<div id="richtext">
+	<div class="line row-fluid"> </div>
+
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,300 @@
+<div id="content">
+    <h1>
+        {if $model}
+            {l s='Update model'}
+        {else}
+            {l s='Add model'}
+        {/if}
+    </h1>
+    <p>
+    
+    </p>
+    
+    <div class="form">	
+        <form>
+            <fieldset>
+                <h2>{l s="General"}</h2>
+                <div class="form_line">
+                    <label>{l s='Slug'} </label> <input type="text" class="text" name="slug" id="entity_slug" value="{$model.slug}">
+                </div>
+                <div class="multilang form_line">
+                    <label>{l s='Name'}<!--<br /><small>{l s='This name will be used in Admin to identify the hierarchical entity (ex: Category)'}</small>--></label>
+                    <div class="floatLeft">
+                    {foreach $languages as $key => $value}
+                        <p><input type="text" name="entity_name#{$value.id_lang}" class="text" value="{if $model}{$model.name[$value.id_lang]}{/if}"  /> <img src="images/flags/{$value.code}.png" class="flag" /></p>
+                    {/foreach}
+                    </div>
+                </div>
+              <div class="form_line">
+                    <label>{l s='Is hierarchic'}</label> <input type="checkbox" class="checkbox" name="hierarchic" id="entity_hierarchic" value="1" {if $model.hierarchic > 0}checked="checked"{/if}>
+                </div>
+                {if $parents}
+                <div class="form_line parents">
+                    <label>{l s='Attached to'}</label> 
+                    <select name="id_parent" id="entity_parent">
+                    	<option></option>
+                        {foreach $parents as $parent}
+                        	<option value="{$parent.id_entity_model}" {if $model.id_parent == $parent.id_entity_model}selected="selected"{/if}>{$parent.slug}</option>
+                        {/foreach}
+                    </select>
+                </div>
+                {/if}
+                 <div class="form_line">
+                    <label>{l s='Model templates'}</label> 
+                    <input type="text" class="text" name="tempates" id="entity_templates" value="{$model.templates}" /> <small> {l s='(separated with comas. Ex: head.html, body.html, footer.html)'}</small>
+                	<br /><br />
+                    <label>{l s='Entities templates'}</label> 
+                    <input type="text" class="text" name="entities_templates" id="entities_templates" value="{$model.entities_templates}" /> <small> {l s='(separated with comas. Ex: head.html, body.html, footer.html)'}</small>
+                    <br />
+                    <label> </label><input type="checkbox" class="checkbox" name="changeforall" id="changeforall" value="1" /> {l s='Change for all entities in database'}
+                </div>  
+                <br /><br />
+                <h2>SEO</h2>
+                <div class="form_line">
+                        <label>{l s="Meta Title"}</label>
+                        <div class="floatLeft">
+                        {foreach $languages as $key => $value}
+                            <p><input type="text" name="meta_title#{$value.id_lang}" class="text" value="{$modelobject->lang[$value.id_lang]['meta_title']}" /> <img src="images/flags/{$value.code}.png" class="flag" /></p>
+                        {/foreach}
+                        </div>
+                    </div>
+                    <div class="form_line">
+                        <label>{l s="Link rewrite"}</label>
+                        <div class="floatLeft">
+                        {foreach $languages as $key => $value}
+                            <p><input type="text" name="link_rewrite#{$value.id_lang}" class="text" value="{$modelobject->lang[$value.id_lang]['link_rewrite']}" /> <img src="images/flags/{$value.code}.png" class="flag" /></p>
+                        {/foreach}
+                        </div>
+                    </div>
+                    <div class="form_line">
+                        <label>{l s="Meta Keywords"}</label>
+                        <div class="floatLeft">
+                        {foreach $languages as $key => $value}
+                            <p><input type="text" name="meta_keywords#{$value.id_lang}" class="text" value="{$modelobject->lang[$value.id_lang]['meta_keywords']}" /> <img src="images/flags/{$value.code}.png" class="flag" /></p>
+                        {/foreach}
+                        </div>
+                    </div>
+                    <div class="form_line">
+                        <label>{l s="Meta Description"}</label>
+                        <div class="floatLeft">
+                        {foreach $languages as $key => $value}
+                            <p><input type="text" name="meta_description#{$value.id_lang}" class="text" value="{$modelobject->lang[$value.id_lang]['meta_description']}" /> <img src="images/flags/{$value.code}.png" class="flag" /></p>
+                        {/foreach}
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                          
+            </fieldset>
+            <fieldset>
+                <h2>Fields</h2>
+                <p>
+                    {l s='Click to add a new field'}
+                </p>
+                <div id="fields_list" class="button_list">
+                    <ul>
+                        <li id="inputText" class="button">Input text</li>
+                        <li id="inputPassword" class="button">Input password</li>
+                        <li id="checkbox" class="button">Checkbox</li>
+                        <li id="radio" class="button">Radio</li>
+                        <li id="select" class="button">Select</li>
+                        <li id="textarea" class="button">Textarea</li>
+                        <li id="inputImage" class="button">Image</li>
+                        <li id="inputFile" class="button">File</li>
+                        <li id="linkedEntities" class="button">Linked entities</li>
+                        <li id="date" class="button">Date</li>
+                        <li id="richtext" class="button">Richtext editor</li>
+                        <li id="markdown" class="button">Markdown editor</li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+                
+                
+                <div id="entity_fields">
+                	
+                    <div id="field_model" class="hidden">
+                    	<div class="left">
+                        	<p class="title">{l s="This is a mandatory field, you can't delete it"}</p>
+                            <div class="content">
+                                <div>
+                                    <label>Slug </label> <input type="text" class="text" name="slug" value="">
+                                </div>
+                                <div class="multilang">
+                                    <label>Name</label>
+                                    <div class="floatLeft">
+                                        {foreach $languages as $key => $value}
+                                            <p><input type="text" name="field_name#{$value.id_lang}" class="text" value=""  /> <img src="images/flags/{$value.code}.png" class="flag" /></p>
+                                        {/foreach}
+                                   </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="right">
+                        	<p><label>Maxlength : </label> <input type="text" name="maxlength" class="text maxlength" value="255" disabled="disabled"></p>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                        
+                        
+                        {if $model.fields}
+                    	{assign var=z value=1}
+                    	{foreach $model.fields as $field}
+                        	
+                            <div class="field" data-type="{$field.type}" id="line1">
+                                <div class="line_command">
+                                    <a href="#" class="formcreator_delete_line button_delete">Delete line</a>
+                                    <a href="#" class="formcreator_position_up button_up">Up</a>
+                                    <a href="#" class="formcreator_position_down button_down">Down</a>
+                                </div>
+                                <div class="left">
+                                    <p class="title">&nbsp;&nbsp;&nbsp; TYPE : {$field.type}</p>
+                                    <div class="content">
+                                        <div>
+                                            <input type="hidden" name="id_field_model" value="{$field.id_field_model}" />
+                                            <label>Slug </label> <input type="text" class="text" name="slug" value="{$field.slug}">
+                                        </div>
+                                        <div class="multilang">
+                                            <label>Name</label>
+                                            <div class="floatLeft">
+                                                {foreach $languages as $key => $value}
+                                                    <p><input type="text" name="field_name#{$value.id_lang}" class="text" value="{$field.value[$value.id_lang]}"  /> <img src="images/flags/{$value.code}.png" class="flag" /></p>
+                                                {/foreach}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="right">
+                                    
+                                    {if $field.type == "inputText"}
+                                        <p><label>{l s='Maxlength'} : </label> <input type="text" name="maxlength" class="text maxlength" value="{$field.params['maxlength']}" /></p>
+                                    {elseif $field.type == "inputFile"}
+                                        <p><label>{l s='Extensions (empty = no filter)'} : </label> <input type="text" name="extensions" value="{$field.params['extensions']}" class="text" /></p>
+                                        <p><label>{l s='Number of file (0 = no limit)'} </label> <input type="text" name="number" value="{$field.params['number']}" length="5" class="text" style="width:50px;" /></p>				
+                                    {elseif $field.type == "inputImage"}
+                                        <!--<p><label>{l s='Extensions (empty = no filter)'} : </label> <input type="text" name="extensions" value="" class="text" /></p>-->
+                                        <p><label>{l s='Number of file (0 = no limit)'} </label> <input type="text" name="number" value="{$field.params['number']}" length="5" class="text" style="width:50px;" /></p>
+                                        <p><label>{l s='Thumbs size'} : </label> Width : <input type="text" name="thumb_width" value="{$field.params['thumb_width']}" length="3" class="text" style="width:50px;" />px &nbsp;&nbsp;&nbsp; Height : <input type="text" name="thumb_height" value="{$field.params['thumb_height']}" length="3" class="text" style="width:50px;" />px</p>
+                                        
+                                        <p><label>{l s='Medium size'} : </label> Width : <input type="text" name="medium_width" value="{$field.params['medium_width']}" length="3" class="text" style="width:50px;" />px &nbsp;&nbsp;&nbsp; Height : <input type="text" name="medium_height" value="{$field.params['medium_height']}" length="3" class="text" style="width:50px;" />px</p>
+                                        
+                                        <p><label>{l s='Large size'} : </label> Width : <input type="text" name="large_width" value="{$field.params['large_width']}" length="3" class="text" style="width:50px;" />px &nbsp;&nbsp;&nbsp; Height : <input type="text" name="large_height" value="{$field.params['large_height']}" length="3" class="text" style="width:50px;" />px</p>
+                                    
+                                    {elseif $field.type == "radio"}
+                                        <p><label>{l s='Attributes list'} : </label> 
+                                            <select name="attributes_list">
+                                            {foreach $attributes as $attribute}
+                                               <option value="{$attribute.id_attribute}" {if $field.params['attributes_list'] == {$attribute.id_attribute} }selected="selected"{/if} />{$attribute.slug}</option>				
+                                            {/foreach}
+                                            </select>
+                                        </p>
+                                    
+                                    {elseif $field.type == "checkbox"}
+                                        <p><label>{l s='Attributes list'} : </label> 
+                                       	 <select name="attributes_list">
+                                            {foreach $attributes as $attribute}
+                                               <option value="{$attribute.id_attribute}" {if $field.params['attributes_list'] == {$attribute.id_attribute} }selected="selected"{/if} />{$attribute.slug}</option>				
+                                            {/foreach}
+                                            </select>
+                                        </p>
+                                    
+                                    {elseif $field.type == "select"}
+                                        <p><label>{l s='Attributes list'} : </label>
+                                        	<select name="attributes_list">
+                                            {foreach $attributes as $attribute}
+                                               <option value="{$attribute.id_attribute}" {if $field.params['attributes_list'] == {$attribute.id_attribute} }selected="selected"{/if} />{$attribute.slug}</option>				
+                                            {/foreach}
+                                            </select>
+                                        
+                                        </p>
+                                    
+                                    {elseif $field.type == "linkedEntities"}
+                                        <p><label>{l s='Linked entities'} : </label>
+                                        	<select name="models_list">
+                                            {foreach $models as $model}
+                                               <option value="{$model.id_entity_model}" {if $field.params['models_list'] == {$model.id_entity_model} }selected="selected"{/if} />{$model.slug}</option>				
+                                            {/foreach}
+                                            </select>
+                                        
+                                        </p>
+                                    
+                                    
+                                    {elseif $field.type == "date"}
+                                        <p><label>{l s='Format'} : </label> <input type="text" name="format" value="{if $field.params['format']}{$field.params['format']}{else}yy-mm-dd{/if}" class="text" /></p>                                        
+                                    
+                                    {/if}
+                                    
+                                    
+                                </div>
+                                <div class="clear"></div>                         
+                            </div>
+                        	{assign var=z value=$z+1}
+                        {/foreach}
+                        <script type="text/javascript">
+							$(document).ready(function(e) {
+                                $('.formcreator_delete_line').each( function(){
+									$(this).click( function(){
+										$(this).parent().parent('.field').remove(); return false;
+									});
+								});
+								$('.formcreator_position_up').each( function(){
+									$(this).click( function(){
+										var div = $(this).parent().parent('.field');
+					 					div.insertBefore( div.prev() );
+										return false;
+									});
+								});
+								$('.formcreator_position_down').each( function(){
+									$(this).click( function(){
+										var div = $(this).parent().parent('.field');
+										div.insertAfter( div.next() );	
+										return false;									
+									});
+								});
+                            });
+						</script>
+                    {/if}            
+                
+                </div>
+            </fieldset>
+            <input type="hidden" name="id_entity_model" id="id_entity_model" value="{$id_entity_model}" />
+            <input type="button" name="submitModel" value="{l s='Save'}" id="submitModel" class="button submit" />
+        </form>
+    
+    </div>
+</div>
+
+<!--
+<div class="hidden" id="form_creator_command" style="display:none">
+    <div class="content">
+        <div>
+            <label>{l s='Slug'} </label> <input type="text" class="text" name="slug">
+        </div>
+        <div class="multilang">
+            <label>{l s='Name'}</label>
+            <div class="floatLeft">
+            {foreach $languages as $key => $value}
+                <p><input type="text" name="field_name#{$value.id_lang}" class="text" value="" /> <img src="images/flags/{$value.code}.png" class="flag" /></p>
+            {/foreach}
+            </div>
+        </div>
+    </div>
+</div>
+-->
+
+<script type="text/javascript" src="js/formcreator/formcreator.js"></script>
+<script type="text/javascript">
+$(document).ready(function(e) {
+    $(document).formCreator();
+	
+	if( $('#entity_hierarchic').attr('checked') == "checked" )
+		$('div.parents').hide();
+	else
+		$('div.parents').show();
+	
+	$('#entity_hierarchic').click( function(){
+		if( $(this).attr('checked') == "checked" )
+			$('div.parents').hide();
+		else
+			$('div.parents').show();
+	});
+});
+</script>

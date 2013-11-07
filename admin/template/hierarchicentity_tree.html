@@ -1,0 +1,11 @@
+{foreach $HierarchicEntities as $he}
+<tr>
+    <td>{$he.id_hierarchic_entity}</td>
+    <td style="padding-left:{$he.level*25}px">{$he.name}</td>
+    <td>{$he.date_add}</td>
+    <td>{$he.action}</td> 
+    {if count($he.children) > 0}
+    	{include 'hierarchicentity_tree.html' HierarchicEntities=$he.children}
+    {/if}
+</tr>
+{/foreach}

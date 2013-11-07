@@ -1,0 +1,11 @@
+<ul>
+	{foreach $entitiesList as $entity}
+		{assign var=active value=0}
+        {foreach $active_entity as $a}
+        	{if $a.id_entity == $entity.id_entity}
+            	{assign var=active value=1}
+            {/if}
+        {/foreach}
+        <li><a href="{$entity.url}" class="entity{$entity.id_entity} {if $active}entityModel{$entity.id_entity_model}{/if}">{$entity.name}</a></li>
+	{/foreach}
+</ul>

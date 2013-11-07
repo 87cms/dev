@@ -1,0 +1,38 @@
+
+{assign var=page value=($nbentities/$item_per_page)|ceil}
+{if $smarty.get.page}
+	{assign var=current_page value=$smarty.get.page}
+{else}
+	{assign var=current_page value=1}
+{/if}
+
+<div id="pagination">
+	<form>
+		<input type="hidden" name="id_entity_model" id="id_entity_model_value" value="{$id_entity_model}" />
+        <div id="sorter">
+        	<a href="#" id="reset_sorting" class="button" style="float:right">{l s='Reset'}</a>
+            {l s="Sort by"}
+            <select name="sorter">
+            	<option> </option>
+                <option value="id_entity-desc" {if $smarty.get.sort == "id_entity-desc"}selected="selected"{/if}>{l s='Latest'}</option>
+                <option value="id_entity-asc" {if $smarty.get.sort == "id_entity-asc"}selected="selected"{/if}>{l s='Oldest'}</option>
+                <option value="state-published" {if $smarty.get.sort == "state-published"}selected="selected"{/if}>{l s='Published'}</option>
+                <option value="state-draft" {if $smarty.get.sort == "state-draft"}selected="selected"{/if}>{l s='Draft'}</option>
+            </select>
+            
+        </div>
+    	
+        <div id="pagination_block">
+        	<a href="#" id="pagination_prev" class="button {if $page <= 1 || ($current_page-1 == 0)}disabled{/if}">&laquo; {l s='Previous'}</a>
+            <select name="page">
+            	{for $z=1 to $page}
+                	<option value="{$z}" {if $current_page == $z}selected="selected"{/if}>{$z}</option>
+                {/for}
+            </select>
+            <a href="#" id="pagination_next" class="button {if $page <= 1 || ($current_page+1 > $page)}disabled{/if}">{l s='Next'} &raquo;</a>
+        </div>
+        
+    </form>
+</div>
+<script type="text/javascript" src="js/pagination.js"></script>
+

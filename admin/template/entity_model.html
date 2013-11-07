@@ -1,0 +1,42 @@
+<div id="content">
+	<h1>{l s='Entity Models'}</h1>
+
+    {if $smarty.get.added}
+    	<div class="return_ok">
+        	{l s='Saved !'}
+        </div>        
+    {/if}
+    
+    <a href="index.php?p=entityModel&action=form" class="button button_add">{l s='Add model'}</a>
+    <!--<div id="hierarchicEntityBox" class="hidden">
+		
+    </div>-->
+    <br /><br />
+    <table class="std">
+    	<thead>
+        	<tr>
+            	<th>ID</th>
+                <th>{l s='Slug'}</th>
+                <th>{l s='Hierarchic'}</th>
+                <th>{l s='Template'}</th>
+                <th>{l s='Date added'}</th>
+                <th>{l s='Date updated'}</th>
+                <th>{l s='Action'}</th>
+            </tr>
+        </thead>
+        <tbody>
+        	{foreach $models as $model}
+            <tr>
+                <td>{$model.id_entity_model}</td>
+                <td>{$model.slug}</td>
+                <td>{$model.hierarchic}</td>
+                <td>{$model.templates}</td>
+                <td>{$model.date_add}</td>
+                <td>{$model.date_upd}</td>
+                <td><a href="index.php?p=entityModel&action=form&id_entity_model={$model.id_entity_model}" class="button_edit">EDIT</a>
+                <a href="index.php?p=entityModel&action=delete&id_entity_model={$model.id_entity_model}" class="button_delete">DELETE</a></td> 
+            </tr>
+            {/foreach}               
+        </tbody>
+    </table>
+</div>

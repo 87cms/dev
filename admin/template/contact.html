@@ -1,0 +1,40 @@
+<div id="content">
+	<h1>{l s='Contact form via website'}</h1>
+	
+    {if $smarty.get.added}
+    	<div class="return_ok">
+        	{l s='Saved !'}
+        </div>        
+    {/if}
+
+
+	<table id="contact" class="std">
+		<thead>
+		    <tr>
+		    	<th width="20%">{l s='From'}</th>
+		    	<th>{l s='Message'}</th>
+		    	<th width="15%">{l s='Date'}</th>
+		    	<th width="10%">{l s='Tools'}</th>
+		    </tr>
+		</thead>
+		<tbody>
+			{foreach $contacts as $c}
+			<tr {if $c.has_been_read == 0}class="unread" style="cursor:pointer;"{/if} >
+				<td>{$c.contact_from}
+                <!-- <a href="index.php?p=contact&action=show&id_contact={$c.id_contact}">{$c.title}</a> -->
+                </td>
+				<td>{$c.message|substr:0:200} ...</td>
+				<td align="center">{$c.date_add}</td>
+				<td>
+                <a href="index.php?p=contact&action=show&id_contact={$c.id_contact}" class="button_see" title="{l s='See'}">SEE</a>
+                <a href="index.php?p=contact&action=delete&id_contact={$c.id_contact}" onclick="return confirm('Are you sure ?');" class="button_delete">Delete</a>
+                
+                <!-- onclick="document.location='index.php?p=contact&action=show&id_contact={$c.id_contact}'" --></td>
+			</tr>
+			{/foreach}
+	    </tbody>
+	</table>
+
+
+    
+</div>

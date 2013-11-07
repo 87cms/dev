@@ -1,0 +1,81 @@
+
+
+<div id="mediabox">
+	<a href="#" id="close_button"> </a>
+	
+    <div id="uploading_loading">
+    	<span>{l s='Uploading'} ...</span>
+    </div>
+    
+    
+    <div id="mediabox_menu">
+    	<!--<div id="mediabox_search">
+        	<form>
+            	<input type="form" name="s" value="" placeholder="{l s='Search'}" />                
+            </form>
+        </div>-->
+    	<div id="mediabox_command">
+        	<h3>{l s='Send files'}</h3>
+            <div class="mediabox_errors"></div>
+            <form id="fileupload" method="POST" enctype="multipart/form-data" action="upload.php">
+                <input id="fileupload" type="file" name="files[]" data-url="upload.php" multiple>
+                <div class="span5 fileupload-progress fade">
+                    <!-- The global progress bar -->
+                    <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                        <div class="bar" style="width:0%;"></div>
+                    </div>
+                    <!-- The extended global progress information -->
+                    <div class="progress-extended">&nbsp;</div>
+                </div>
+            </form>
+            <div id="mediabox_dropzone">
+            	{l s='Drop your files here.'}
+            </div>
+                        
+        </div>
+    </div>
+    
+    <div id="mediabox_content">
+    	<div id="mediabox_content_command">
+        	<a href="#" id="back" title="{l s='Back'}"> </a>
+            <div class="floatRight" style="height: 40px; width: 240px;">
+            	<input type="text" id="create_directory_name" value="" placeholder="{l s='Add a new folder ...'}" class="floatLeft" /><a href="#" id="create_directory" class="floatLeft"> </a>
+            </div>
+            
+            <div id="multiple_edit">
+            	{l s='Move your file(s) to'} : 
+                <select id="moveBox" disabled="disabled">
+                	<option></option>
+                	<option value="0">{l s='Root'}</option>
+                </select>
+            </div>
+            
+        </div>
+		<div id="mediabox_content_window">
+	        <ul id="directory_content"></ul>
+        </div>
+	</div>
+    
+    <div id="mediabox_selection">
+    	<h3>{l s='Your selection'}</h3>
+        <div id="mediabox_selection_window">
+        	<ul id="selection_content"></ul>
+            <div id="confirm_selection">
+                <input type="button" class="button" name="confirm" value="{l s='Use this selection'}" id="get_selection" />
+            </div>            
+        </div>
+        
+	</div>
+	
+    <div class="clear"></div>
+    
+</div>
+
+<link href="../tools/jqupload/css/jquery.fileupload-ui.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/themes/base/jquery-ui.css" id="theme">
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/mediabox/mediabox.js"></script>
+<script src="../tools/jqupload/js/vendor/jquery.ui.widget.js"></script>
+<script src="../tools/jqupload/js/jquery.iframe-transport.js"></script>
+<script src="../tools/jqupload/js/jquery.fileupload.js"></script>
+

@@ -1,0 +1,76 @@
+<div id="content">
+	<h1>{l s='Modules'}</h1>
+	
+    {if $smarty.get.added}
+    	<div class="return_ok">
+        	{l s='Saved !'}
+        </div>        
+    {/if}
+    
+    
+    <div class="form">
+	 
+        
+        
+        <div class="column_right" style="width:28%"">
+            <h3>{l s='Hooks list'}</h3>
+            <form action="index.php?p=modules" method="post">
+            <table class="std" id="hook_table">
+                <thead>
+                    <tr>
+                        <th>{l s='Hook Name'}</th>
+                        <th>{l s='Method Name'}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    {foreach $hook_list as $hook}
+                        <tr>
+                            <td>{$hook.smarty_name}</td>
+                            <td>{$hook.method_name}</td>
+                            <td><a href="index.php?p=modules&action=deleteHook&id_hook={$hook.id_hook}" class="button_delete" title="{l s='Delete'}">DELETE</a></td>
+                        </tr>
+                    {/foreach}
+					<tr>
+                    	<td><input type="text" class="text" name="smarty_name" value="" style="width:85%;" /></td>
+                        <td><input type="text" class="text" name="method_name" value="" style="width:85%;" /></td>
+                        <td>
+                        	<input type="hidden" name="action" value="addHook" />
+                        	<input type="submit" name="add" value="add" class="button button_add" style="margin:0; float: none;" />
+                        </td>
+                </tbody>
+            </table>
+            </form> 
+        </div>
+        
+        <div class="column_left" style="width:66%">
+            {foreach $hooksfull as $hook}
+            	<div class="hook_line">
+                    <h4>{$hook.smarty_name} - {$hook.method_name}</h4>
+                    <ul>
+                    	{foreach $hook.module as $module}
+                       	<li>
+                         	<span class="module_name">{$module.module_name} ({$module.slug})</span> <a href="index.php?p=modules&manageHook=1&id_module={$module.id_module}&id_hook={$hook.id_hook}&detachModule=1">Remove</a>
+                    	</li>
+                        {/foreach}
+                    	
+                    </ul>
+					<form action="index.php?p=modules&manageHook=1" method="post">
+                    	<label>{l s='Attach a new module'}</label>
+                        <select name="id_module">
+                        	{foreach $installed_modules as $module}
+                            	<option value="{$module.id_module}">{$module.module_name}</option>
+                            {/foreach}
+                        </select>
+                        <input type="hidden" name="id_hook" value="{$hook.id_hook}" />
+                        <input type="submit" class="button button_add" name="attachModule" value="{l s='Add'}" style="float: none;" />
+                    </form>
+                </div>
+            {/foreach}
+        </div>
+        
+        
+	</div>
+        
+</div>
