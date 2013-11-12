@@ -186,6 +186,7 @@ config_textarea.toolbar = [
                                 <label>{$field.name}</label>
                                 <div class="floatLeft">
                                     <select name="{$field.id_field_model}">
+                                        <option value="0"> </option>
                                         {foreach $field.attributes as $attribute}
                                             <option value="{$attribute.id_attribute_value}" name="" {if $field.raw_value==$attribute.id_attribute_value}selected{/if}> {$attribute.value}</option>
                                         {/foreach}                              

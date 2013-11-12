@@ -21,13 +21,36 @@ class DomaineController extends EntityController {
 			
 			// Mancey
 			if( $this->entity->id_entity == 25 ){
-				$children = array();
-				$children['vin'] = Entity::getEntitiesListWithAttributeValue(
+				$vins = array();
+				$vins = Entity::getEntitiesListWithAttributeValue(
 					2, 
 					(int)Tools::getValue('catmancey'), 
 					$this->cookie->id_lang, 
-					$include_data=true
+					true,
+					false,
+					NULL,
+					25
 				);
+				
+				// Petit hack pour résoudre un problème de conception
+				// Dans la version 0.7 ci présente, certaines méthodes renvoient aussi bien une liste d'objet qu'un pur tableau
+				// Je dois donc unifier le tout dans une version suivate.
+				// Pour le moment je rectifie en créant un nouveau tableau
+				$children = array();
+				$z = 0;
+				foreach( $vins as $vin ){
+					$children['vin'][$z]['id_entity'] = $vin->id_entity;
+					$children['vin'][$z]['id_entity_model'] = $vin->id_entity_model;
+					$children['vin'][$z]['state'] = $vin->state;
+					$children['vin'][$z]['templates'] = $vin->templates;
+					$children['vin'][$z]['deleted'] = $vin->deleted;					
+					$children['vin'][$z]['date_add'] = $vin->date_add;
+					$children['vin'][$z]['date_upd'] = $vin->date_upd;
+					$children['vin'][$z]['meta_title'] = $vin->meta_title;
+					$children['vin'][$z]['fields'] = $vin->fields;
+					$z++;
+				}
+				// Et voilà c'est finis
 			}
 			else
 				$children = $this->entity->getChildren($this->cookie->id_lang);

@@ -32,7 +32,10 @@
         <table id="attributes_values_list">
         	{foreach $attribute->values as $value}
             <tr>
-	        	<td width="350">
+	        	<td>
+                	ID : {$value.id_attribute_value} &nbsp;&nbsp;&nbsp;
+                </td>
+                <td width="350">
                 {foreach $languages as $key => $variable}
                     <p><input type="text" name="value#{$variable.id_lang}#{$value.id_attribute_value}" class="text" value="{$value.value[$variable.id_lang]['value']}" /> <img src="images/flags/{$variable.code}.png" class="flag" /></p>
                 {/foreach}

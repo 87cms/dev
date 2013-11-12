@@ -77,6 +77,7 @@ class EntityCore extends Core {
 	
 	/**
 	* Get children of an entity. Warning : a hierarchic entity can have multiple model as child.
+	* @todo Add a new parameter : include_data !
 	* @param Int $id_lang
 	* @param Int $p
 	* @param Int $n
@@ -203,6 +204,7 @@ class EntityCore extends Core {
 	
 	/**
 	* Get Entities list from the id_parent
+	* @todo Add a new parameter : include_data !
 	* @param Int $id_model
 	* @param Int $id_lang
 	* @param Int $id_parent
@@ -296,6 +298,7 @@ class EntityCore extends Core {
 	
 	/**
 	* Get an entities list wich contains a specific attributes ( eg : product with color blue)
+	* @todo Method must return an array of data, not of an array of entities objects
 	* @param Int $id_entity_model Id of entity model
 	* @param Int $id_attribute_value Id of attribute value
 	* @param Int $id_lang Lang id
@@ -304,7 +307,7 @@ class EntityCore extends Core {
 	* @param String $sort Sort results : id_entity-desc, id_entity-asc, state-published, state-draft, meta_title 
 	* @return Array Entities list
 	*/
-	public static function getEntitiesListWithAttributeValue($id_entity_model, $id_attribute_value, $id_lang, $include_data=false, $with_drafts=NULL, $sort=''){
+	public static function getEntitiesListWithAttributeValue($id_entity_model, $id_attribute_value, $id_lang, $include_data=false, $with_drafts=NULL, $sort='', $id_default_parent = 0){
 		
 		if( $sort ){
 			if( $sort == 'id_entity-desc' ) $sort = 'ORDER BY E.id_entity DESC';
@@ -336,7 +339,12 @@ class EntityCore extends Core {
 			for($i=0; $i<count($entities); $i++){
 				$tmpEntity = new Entity($entities[$i]['id_entity']);
 				$tmpEntity->fields = $tmpEntity->getData($id_lang);				
-				$out[$i] = $tmpEntity;
+				
+				if( (int)$id_default_parent > 0 ) {
+					if(	$tmpEntity->id_default_parent == $id_default_parent )
+						$out[$i] = $tmpEntity;	
+				}else
+					$out[$i] = $tmpEntity;
 			}
 		}else
 			$out = $entities;
