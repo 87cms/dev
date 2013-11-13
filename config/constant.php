@@ -10,4 +10,5 @@ define("_RICHTEXT_DIR_", _ADMIN_DIR_.'/jsrichtext/elements' );
 
 /****/
 define("_DOMAIN_", "bourgogne-vigne-verre.com.misterharry.local");
+define("_COOKIE_DOMAIN_", "bourgogne-vigne-verre.com.misterharry.local");
 define("SALT", ")zMpVGmc7Zb)wKE:m)3sW9Ize$dG-ebYNXf");

@@ -87,7 +87,7 @@ class CookieCore {
 	*/
 	private function _setCookie(){
 		$this->encrypted_cookie = $this->prepareContent();
-		@setcookie($this->_name, $this->encrypted_cookie, $this->_expire, '/', '.'._DOMAIN_, 0, true);
+		@setcookie($this->_name, $this->encrypted_cookie, $this->_expire, '/', _COOKIE_DOMAIN_, 0, true);
 	}
 	
 	
