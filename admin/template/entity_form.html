@@ -121,7 +121,8 @@ config_textarea.toolbar = [
                 <input type="hidden" name="id_entity" value="{$entity->id_entity}" id="id_entity" />
                 <input type="hidden" name="action" value="submitEntity" />
                 <input type="button" name="submitModel" value="{l s='Save'}" id="submitModel" class="button submit" onclick="addEntity();" />
-                <input type="button" name="submitModel" value="{l s='Save and stay'}" id="submitModel" class="button submit" onclick="addEntity(1);" />           
+                <input type="button" name="submitModel" value="{l s='Save and stay'}" id="submitModel" class="button submit" onclick="addEntity(1);" />    
+                <a href="{$entity->link_rewrite}" class="button" title="{l s='Preview'}" target="_blank">{l s="Preview"}</a>       
                 <!--<input type="button" name="submitModel" value="{l s='Preview'}" id="submitModel" class="button submit" onclick="previewEntity();" /> --->
                 
 			</div>

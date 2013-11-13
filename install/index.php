@@ -10,27 +10,49 @@ require_once('../classes/Core.php');
 require_once('../classes/Cookie.php');
 
 date_default_timezone_set('Europe/Paris');
+ini_set('display_errors','On');
+ini_set('max_execution_time','120');
+
+class Tools extends ToolsCore { }
+
 
 if( count($_POST) > 0 ){
 	
-	$fp = fopen('../config/constant.php', 'a+');
+	$path = dirname(__FILE__);
+	$path = str_replace('\\','/',$path);
+	$path = explode('/', $path);
+	$absolute_path = '';
+	for( $i=0; $i < count($path)-1; $i++)
+		$absolute_path .= $path[$i].'/';
+	$absolute_path = rtrim($absolute_path, '/');
+	
+	$constants = file_get_contents('constant.php');
+	
+	$fp = fopen('../config/constant.php', 'w+');
+	fwrite($fp, '<?php '."\r\n");
+	fwrite($fp, 'define("_ABSOLUTE_PATH_", "'.$absolute_path.'");'."\r\n");
 	fwrite($fp, 'define("_DOMAIN_", "'.Tools::getSuperglobal('domain').'");'."\r\n");	
-	fwrite($fp, 'define("SALT", "'.generateRandomString(35).'");');
+	fwrite($fp, 'define("SALT", \''.generateRandomString(35).'\');'."\r\n");
+	fwrite($fp, $constants);
 	fclose($fp);
 	
-	$fp = fopen('../config/db_settings.php', 'a+');
-	fwrite($fp, 'define("DBHOST", "'.Tools::getSuperglobal('hostname').'");'."\r\n");
-	fwrite($fp, 'define("DBNAME", "'.Tools::getSuperglobal('database').'");'."\r\n");
-	fwrite($fp, 'define("DBUSER", "'.Tools::getSuperglobal('username').'");'."\r\n");
-	fwrite($fp, 'define("DBPASSWORD", "'.Tools::getSuperglobal('password').'");'."\r\n");
-	fwrite($fp, 'define("_DB_PREFIX_", "'.Tools::getSuperglobal('dbprefix').'");'."\r\n");
+	$fp = fopen('../config/db_settings.php', 'w+');
+	fwrite($fp, '<?php '."\r\n");	
+	fwrite($fp, 'define("DBHOST", \''.Tools::getSuperglobal('hostname').'\');'."\r\n");
+	fwrite($fp, 'define("DBNAME", \''.Tools::getSuperglobal('database').'\');'."\r\n");
+	fwrite($fp, 'define("DBUSER", \''.Tools::getSuperglobal('username').'\');'."\r\n");
+	fwrite($fp, 'define("DBPASSWORD", \''.Tools::getSuperglobal('password').'\');'."\r\n");
+	fwrite($fp, 'define("_DB_PREFIX_", \''.Tools::getSuperglobal('dbprefix').'\');'."\r\n");
 	fclose($fp);
 	
 	include '../config/constant.php';
 	include '../config/db_settings.php';
 	
 	require_once('../classes/Db.php');
+	class Db extends DbCore { }
 	require_once('../classes/Mysql.php');
+	class Mysql extends MysqlCore { }
+	
 	
 	$fullrq = file_get_contents('dump.sql');
 	Db::getInstance()->query($fullrq);
@@ -38,7 +60,7 @@ if( count($_POST) > 0 ){
 	$tables = Db::getInstance()->Select("SHOW TABLES FROM ".DBNAME);
 	
 	if( _DB_PREFIX_ ){
-		for($i=1; $i<count($tables); $i++){
+		for($i=0; $i<count($tables); $i++){
 			$table = $tables[$i];
 			Db::getInstance()->query("RENAME TABLE `".$table['Tables_in_'.DBNAME]."` TO `"._DB_PREFIX_.$table['Tables_in_'.DBNAME]."`");
 		}
@@ -177,6 +199,9 @@ function generateRandomString($length = 10) {
     return $randomString;
 }
 
+
+
+	
 
 ?>
 </body>
