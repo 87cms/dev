@@ -28,7 +28,7 @@ class ConfigCore {
 	*/
 	public static function setConfig($name, $value){
 		$inDB = Db::getInstance()->getValue('SELECT name FROM '._DB_PREFIX_.'config WHERE name="'.Tools::cleanSQL($name).'"');
-			
+		
 		if( $inDB )
 			return Db::getInstance()->UpdateDB(_DB_PREFIX_.'config', array('value'=>$value), array('name'=>$name));
 		

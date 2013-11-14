@@ -204,8 +204,6 @@ class Searchengine extends Module implements ModuleInterface {
 		}
 		
 		
-		var_dump($weight);
-		
 		if( count($weight) > 0 ) {
 			$entities = array();
 			asort($weight, SORT_NUMERIC);

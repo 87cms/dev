@@ -165,7 +165,8 @@ class AdminControllerCore extends Core {
 			'Link',
 			'UploadHandler',
 			'User',
-			'Contact'
+			'Contact',
+			'Config'
 		);
 		
 		foreach( $classes as $class ){

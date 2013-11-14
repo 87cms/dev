@@ -178,7 +178,8 @@ class ModuleCore extends Core {
 
 		$this->cookie = new Cookie();
 		$this->cookie->id_lang = $this->getLang( $this->cookie );
-		$cookie = $this->cookie;	
+		$cookie = $this->cookie;
+			
 	}
 	
 }
