@@ -33,8 +33,6 @@ abstract class Core {
 		self::$get = $_GET;
 		self::$files = $_FILES;
 		
-		$this->table = _DB_PREFIX_.$this->table;
-		
 		if( $id && is_numeric($id) && $id > 0 )
 			$this->setObject($id);
 		
@@ -64,7 +62,7 @@ abstract class Core {
 	*/
 	public function add(){
 		$this->date_add = date('Y-m-d H:i:s');
-		if($lastInsertedId = Db::getInstance()->Insert($this->table, array($this->identifier => '')))
+		if($lastInsertedId = Db::getInstance()->Insert(_DB_PREFIX_.$this->table, array($this->identifier => '')))
 		{
 			$identifier = $this->identifier;
 			$this->$identifier = $lastInsertedId;
@@ -94,13 +92,13 @@ abstract class Core {
 		
 		$where = array( $identifier => $this->$identifier  ); 
 		
-		$columns = Db::getInstance()->getColumns( $this->table );
+		$columns = Db::getInstance()->getColumns( _DB_PREFIX_.$this->table );
 		$data = array();
 
 		foreach( $columns as $column )
 			$data[ $column['Field'] ] = $this->$column['Field'];
 			
-		Db::getInstance()->UpdateDB($this->table, $data, $where);
+		Db::getInstance()->UpdateDB(_DB_PREFIX_.$this->table, $data, $where);
 	}
 
 	
@@ -110,7 +108,7 @@ abstract class Core {
 	public function delete(){
 		$identifier = $this->identifier;
 		$where = array( $identifier => $this->$identifier  ); 
-		Db::getInstance()->UpdateDB($this->table, array('deleted' => 1 ), $where);
+		Db::getInstance()->UpdateDB(_DB_PREFIX_.$this->table, array('deleted' => 1 ), $where);
 	}
 	
 
@@ -125,9 +123,9 @@ abstract class Core {
 	 */
 	public function updateLangValue($columnName, $array){
 		
-		if( Db::getInstance()->tableExists($this->table.'_lang') ){
+		if( Db::getInstance()->tableExists(_DB_PREFIX_.$this->table.'_lang') ){
 			
-			if( Db::getInstance()->columnExists($this->table.'_lang', $columnName) ){
+			if( Db::getInstance()->columnExists(_DB_PREFIX_.$this->table.'_lang', $columnName) ){
 				
 				foreach($array as $key => $value){
 					$identifier = $this->identifier;
@@ -136,12 +134,12 @@ abstract class Core {
 						'id_lang' => $key
 					);
 					
-					$line_exists = Db::getInstance()->getRow('SELECT id_lang FROM '.$this->table.'_lang WHERE '.$identifier.'="'.$this->$identifier.'" AND id_lang='.(int)$key);
+					$line_exists = Db::getInstance()->getRow('SELECT id_lang FROM '._DB_PREFIX_.$this->table.'_lang WHERE '.$identifier.'="'.$this->$identifier.'" AND id_lang='.(int)$key);
 					
 					if( $line_exists )
-						Db::getInstance()->UpdateDB($this->table.'_lang', array($columnName=>$value), $param);
+						Db::getInstance()->UpdateDB(_DB_PREFIX_.$this->table.'_lang', array($columnName=>$value), $param);
 					else
-						Db::getInstance()->Insert($this->table.'_lang', array(
+						Db::getInstance()->Insert(_DB_PREFIX_.$this->table.'_lang', array(
 							$identifier => $this->$identifier,
 							'id_lang' => $key,
 							$columnName=>$value
@@ -161,7 +159,7 @@ abstract class Core {
 	*/
 	protected function setObject($id) {
 		if( isset($this->table) && isset($this->identifier) ){
-			$result = Db::getInstance()->getRow('SELECT * FROM '.$this->table.' WHERE '.$this->identifier.'=:id', array('id' => $id));
+			$result = Db::getInstance()->getRow('SELECT * FROM '._DB_PREFIX_.$this->table.' WHERE '.$this->identifier.'=:id', array('id' => $id));
 			if(count($result)>0){
 				foreach( $result as $key => $value ){
 					$this->$key = $value;
@@ -176,10 +174,10 @@ abstract class Core {
 	* @param Integer $id Object unique ID in DB
 	*/
 	protected function setLangFields($id){
-		if( Db::getInstance()->tableExists($this->table.'_lang') ){
+		if( Db::getInstance()->tableExists(_DB_PREFIX_.$this->table.'_lang') ){
 			$langs = Lang::getLanguages();
 			foreach( $langs as $lang )
-				$this->lang[$lang['id_lang']] = Db::getInstance()->getRow('SELECT * FROM '.$this->table.'_lang WHERE '.$this->identifier.'=:id AND id_lang='.(int)$lang['id_lang'], array('id' => $id));	
+				$this->lang[$lang['id_lang']] = Db::getInstance()->getRow('SELECT * FROM '._DB_PREFIX_.$this->table.'_lang WHERE '.$this->identifier.'=:id AND id_lang='.(int)$lang['id_lang'], array('id' => $id));	
 		}
 	}
 	

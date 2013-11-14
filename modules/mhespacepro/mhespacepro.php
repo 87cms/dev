@@ -58,7 +58,7 @@ class Mhespacepro extends Module implements ModuleInterface {
 				//QR CODE
 				$postfields = array(
 					'c' => '1',
-					'url' => $url = Link::getEntityLink($id_entity, $this->cookie->id_lang),
+					'url' => $url = Link::getEntityLink($tmpE->id_default_parent, $this->cookie->id_lang),
 					'cache' => 'getCode'
 				);
 				$curl = curl_init();

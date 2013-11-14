@@ -31,12 +31,12 @@ class DomaineModelController extends EntityModelController {
 		$regions[2] = array(
 			"id_attribute_value" => 6,
 			"id_lang" => 1,
-			"value"=> "Côtes de Beaune"
+			"value"=> "Côte de Beaune"
 		);
 		$regions[3] = array(
 			"id_attribute_value" => 5,
 			"id_lang" => 1,
-			"value"=> "Côtes de Nuits"
+			"value"=> "Côte de Nuits"
 		);
 		$regions[4] = array(
 			"id_attribute_value" => 9,

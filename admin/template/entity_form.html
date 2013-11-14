@@ -364,9 +364,7 @@ config_textarea.toolbar = [
                                     <img src="images/flags/{$value.code}.png" class="flag" />
                                     <div class="wmd-panel">
                                         <div id="wmd-button-bar-markdown{$rand}{$value.id_lang}"></div>
-                                        <textarea class="wmd-input" id="wmd-input-markdown{$rand}{$value.id_lang}" style="min-height:300px" data-lang="{$value.id_lang}" data-id-model="{$field.id_field_model}">
-{$field.values[$value.id_lang].markdown}
-                                        </textarea>
+                                        <textarea class="wmd-input" id="wmd-input-markdown{$rand}{$value.id_lang}" style="min-height:300px" data-lang="{$value.id_lang}" data-id-model="{$field.id_field_model}">{$field.values[$value.id_lang].markdown}</textarea>
                                     </div>
                                     <div id="wmd-preview-markdown{$rand}{$value.id_lang}" class="wmd-panel wmd-preview" style="display:none"></div>
                                     

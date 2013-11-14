@@ -1,34 +1,41 @@
 <?php
+
+/* Dev settings */
 set_time_limit(6000);
-
 ini_set('display_errors','On');
-
-include('config/db_settings.php');
-include('config/constant.php');
-
 define("SQL_DEBUG", true);
 
-require_once('classes/Core.php');
-require_once('classes/Cookie.php');
-$cookie = new Cookie();
+/* Prod settings */
+/*ini_set('display_errors','Off');
+define("SQL_DEBUG", false);*/
 
-require_once('classes/Db.php');
-require_once('classes/Mysql.php');
 
-require_once('classes/Tools.php');
+date_default_timezone_set('Europe/Paris');
+define("_ABSOLUTE_PATH_", getcwd() );
+
+require_once('config/constant.php');
+require_once('config/db_settings.php');
 
 require_once('tools/smarty/Smarty.class.php');
 $smarty = new Smarty();
 $smarty->compile_dir = 'tools/smarty/compile';
 $smarty->cache_dir = 'tools/smarty/cache';
 $smarty->config_dir = 'tools/smarty/configs';
-//$smarty->caching = 1;
+$smarty->template_dir = 'template';
 $smarty->debugging = false;
 
-//if(is_file('lang/'.LANGUE.'.php')) { include('lang/'.LANGUE.'.php'); }
+require_once('classes/Core.php');
 
-date_default_timezone_set('Europe/Paris');
+require_once('classes/FrontController.php');
+if( file_exists('override/classes/FrontController.php') )
+	require_once('override/classes/FrontController.php');
+else
+	eval('class FrontController extends FrontControllerCore {}');	
+
+FrontController::loadClasses();
+FrontController::loadControllers();	
 
 session_start();
+
 
 ?>

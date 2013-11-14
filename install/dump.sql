@@ -207,20 +207,7 @@ CREATE TABLE IF NOT EXISTS `hook` (
   `date_add` datetime NOT NULL,
   `date_upd` datetime NOT NULL,
   PRIMARY KEY (`id_hook`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `inbound`
---
-
-CREATE TABLE IF NOT EXISTS `inbound` (
-  `id_inbound` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) NOT NULL,
-  `date_add` datetime NOT NULL,
-  PRIMARY KEY (`id_inbound`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -235,7 +222,7 @@ CREATE TABLE IF NOT EXISTS `lang` (
   `active` tinyint(4) NOT NULL DEFAULT '0',
   `defaultlang` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_lang`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -254,7 +241,7 @@ CREATE TABLE IF NOT EXISTS `media` (
   `date_add` datetime NOT NULL,
   `date_upd` datetime NOT NULL,
   PRIMARY KEY (`id_media`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=646 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -270,7 +257,7 @@ CREATE TABLE IF NOT EXISTS `media_directory` (
   `date_add` datetime NOT NULL,
   `date_upd` datetime NOT NULL,
   PRIMARY KEY (`id_directory`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=96 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -303,7 +290,7 @@ CREATE TABLE IF NOT EXISTS `model_entity` (
   `date_add` datetime NOT NULL,
   `date_upd` datetime NOT NULL,
   PRIMARY KEY (`id_entity_model`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -321,7 +308,7 @@ CREATE TABLE IF NOT EXISTS `model_entity_field` (
   `deleted` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_field_model`),
   KEY `id_model_entity` (`id_entity_model`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=47 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -367,7 +354,7 @@ CREATE TABLE IF NOT EXISTS `module` (
   `module_description` text NOT NULL,
   `active` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_module`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -412,7 +399,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `date_add` datetime NOT NULL,
   `date_upd` datetime NOT NULL,
   PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 

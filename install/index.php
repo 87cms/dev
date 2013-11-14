@@ -32,6 +32,7 @@ if( count($_POST) > 0 ){
 	fwrite($fp, '<?php '."\r\n");
 	fwrite($fp, 'define("_ABSOLUTE_PATH_", "'.$absolute_path.'");'."\r\n");
 	fwrite($fp, 'define("_DOMAIN_", "'.Tools::getSuperglobal('domain').'");'."\r\n");	
+	fwrite($fp, 'define("_COOKIE_DOMAIN_", "'.Tools::getSuperglobal('domain').'");'."\r\n");	
 	fwrite($fp, 'define("SALT", \''.generateRandomString(35).'\');'."\r\n");
 	fwrite($fp, $constants);
 	fclose($fp);
@@ -137,7 +138,7 @@ if( count($_POST) > 0 ){
                 <input type="text" name="hostname" value="" class="text" />
             </p>
              <p>
-                <label>Database</label>
+                <label>Database name</label>
                 <input type="text" name="database" value="" class="text" />
             </p>
             <p>

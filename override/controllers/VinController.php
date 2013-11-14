@@ -56,19 +56,19 @@ class VinController extends EntityController {
 		$this->getSEO();
 		
 		if( Tools::getValue('pdf') == 1 )
-			$this->generatePDF($this->entity->id_entity);
+			$this->generatePDF($this->entity->id_entity, $this->entity->id_default_parent);
 		
 		$this->display();
 			
 	}
 	
 	
-	public function generatePDF($id_entity){
+	public function generatePDF($id_entity, $id_default_parent){
 		
 		//QR CODE
 		$postfields = array(
 			'c' => '1',
-			'url' => $url = Link::getEntityLink($id_entity, $this->cookie->id_lang),
+			'url' => $url = Link::getEntityLink($id_default_parent, $this->cookie->id_lang),
 			'cache' => 'getCode'
 		);
 		$curl = curl_init();
