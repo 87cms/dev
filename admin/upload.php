@@ -34,5 +34,15 @@ else
 
 AdminController::loadElements();
 
+$cookie = new Cookie();
+
+// User is logged ?
+$user = new User();
+
+$user->authUser($cookie->emailp, $cookie->hashp);
+
+if( !$user->is_logged )
+	die();
+
 $upload_handler = new UploadHandler();
 session_write_close();

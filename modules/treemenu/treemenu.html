@@ -1,0 +1,7 @@
+{foreach $entitiesList as $entity}
+	<li><a href="{$entity.link_rewrite}">{$entity.title|escape:'htmlall':'UTF-8'}</a></li>
+    {foreach $entity.children as $children}
+       {include file="modules/treemenu/tree.html" node=$children z=1}
+    {/foreach}
+
+{/foreach}ddd

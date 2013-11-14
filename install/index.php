@@ -30,7 +30,6 @@ if( count($_POST) > 0 ){
 	
 	$fp = fopen('../config/constant.php', 'w+');
 	fwrite($fp, '<?php '."\r\n");
-	fwrite($fp, 'define("_ABSOLUTE_PATH_", "'.$absolute_path.'");'."\r\n");
 	fwrite($fp, 'define("_DOMAIN_", "'.Tools::getSuperglobal('domain').'");'."\r\n");	
 	fwrite($fp, 'define("_COOKIE_DOMAIN_", "'.Tools::getSuperglobal('domain').'");'."\r\n");	
 	fwrite($fp, 'define("SALT", \''.generateRandomString(35).'\');'."\r\n");

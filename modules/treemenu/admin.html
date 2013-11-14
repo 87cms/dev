@@ -1,0 +1,17 @@
+<div id="content">
+	<h1>Tree Menu</h1>
+    <div>
+    <form action="#" method="post">
+    	<p>
+            What entity model tree would you like to display ?
+            <select name="id_model">
+                {foreach $models as $model}
+                    <option value="{$model.id_entity_model}" {if $id_tree_model == $model.id_entity_model}selected="selected"{/if}>{$model.slug}</option>
+                {/foreach}
+            </select>
+        </p>
+        <input type="submit" name="submitConfiguration" value="Save" class="button" />
+    </form>
+    </<div>
+    
+</div>

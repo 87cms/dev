@@ -1,0 +1,12 @@
+{if $node}
+<ul>
+	<li><a href="{$node.link_rewrite}">{$node.title|escape:'htmlall':'UTF-8'}</a></li>
+	{if $node.children|@count > 0}
+		<ul>
+        {foreach $node.children as $children}
+            {include file="modules/treemenu/tree.html" node=$children parents=$parents}
+        {/foreach}
+		</ul>
+	{/if}
+</ul>
+{/if}
