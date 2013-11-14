@@ -12,9 +12,9 @@ class UsersController extends AdminController {
 			
 			if( $this->action == "form" ){
 				
-				$models = EntityModel::getModels($this->cookie->id_lang);
+				$models = EntityModel::getModels($this->cookie->id_lang_admin);
 				foreach( $models as &$model )
-					$model['entities'] = Entity::getEntitiesList($model['id_entity_model'], $this->cookie->id_lang, NULL, 'id_entity-asc', 0, 1000, true);
+					$model['entities'] = Entity::getEntitiesList($model['id_entity_model'], $this->cookie->id_lang_admin, NULL, 'id_entity-asc', 0, 1000, true);
 				
 				$user = new User( Tools::getSuperglobal('id_user') );
 				$permissions = $user->getPermissions();

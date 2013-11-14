@@ -719,18 +719,23 @@ text-align:center;
 	#hook_table.std tbody tr:hover {
 	background-color:rgba(0,0,0,0.1);
 	}
-
+#hook_table {
+	color:#333	
+}
 
 .hook_line {
 	
 	
 	border-bottom: 4px solid #CCC;
-	margin-bottom:15px;
+	margin-bottom:35px;
 }
 	.hook_line h4 {
 		color:#2c3e50;
+		background-color:#f1c40f;
 		font-size:18px;
-		margin-bottom:15px;
+		margin-bottom:0px;
+		line-height:24px;
+		font-weight:normal
 	}
 	
 	.hook_line ul li {
@@ -980,7 +985,23 @@ div[data-type="ckeditor"] {
 	padding:0;	
 }
 
+.links #lang_block {
+	float:left;	
+	margin-right:15px;
+}
 
+.links #lang_block  a {
+	background:none;
+	margin:5px;	
+	padding: 0;
+	
+}
+	#lang_block ul li {
+		display:inline;		
+	}
+	#lang_block ul li img {
+		width:20px;	
+	}
 
 
 

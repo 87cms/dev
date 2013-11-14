@@ -14,7 +14,7 @@ class AjaxController extends AdminController {
 	function __construct(){
 		
 		$this->cookie = new Cookie();
-		$this->cookie->id_lang = $this->getLang( $this->cookie );
+		$this->cookie->id_lang_admin = $this->getLang( $this->cookie );
 		
 		// User is logged ?
 		$this->user = new User();
@@ -96,7 +96,7 @@ class AjaxController extends AdminController {
 		
 		
 		elseif( Tools::getSuperglobal('action') == "getAttributesList" ){	
-			echo json_encode( Attribute::getAttributesList($this->cookie->id_lang) );		
+			echo json_encode( Attribute::getAttributesList($this->cookie->id_lang_admin) );		
 		}
 		
 		elseif( Tools::getSuperglobal('action') == "addEntityModel" ){

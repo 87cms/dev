@@ -12,7 +12,7 @@
 	 
         
         
-        <div class="column_right" style="width:28%"">
+        <div class="column_right" style="width:48%"">
             <h3>{l s='Hooks list'}</h3>
             <form action="index.php?p=modules" method="post">
             <table class="std" id="hook_table">
@@ -44,14 +44,17 @@
             </form> 
         </div>
         
-        <div class="column_left" style="width:66%">
+        <div class="column_left" style="width:48%">
             {foreach $hooksfull as $hook}
             	<div class="hook_line">
-                    <h4>{$hook.smarty_name} - {$hook.method_name}</h4>
+                    <h4>{l s="Hook name"} : {$hook.smarty_name} <br />
+                    {l s="Method name"} : {$hook.method_name}</h4>
                     <ul>
                     	{foreach $hook.module as $module}
                        	<li>
-                         	<span class="module_name">{$module.module_name} ({$module.slug})</span> <a href="index.php?p=modules&manageHook=1&id_module={$module.id_module}&id_hook={$hook.id_hook}&detachModule=1">Remove</a>
+                         	<a href="index.php?p=modules&manageHook=1&id_module={$module.id_module}&id_hook={$hook.id_hook}&detachModule=1" class="button_delete floatRight">Remove</a>
+                            <span class="module_name"><strong>{$module.module_name}</strong> ({$module.slug})<br /><br />
+                             {$module.module_description}</span> 
                     	</li>
                         {/foreach}
                     	

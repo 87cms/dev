@@ -14,7 +14,15 @@ class AdminControllerCore extends Core {
 		$this->smarty = $smarty;
 
 		$this->cookie = new Cookie();
-		$this->cookie->id_lang = $this->getLang( $this->cookie );
+		
+		if( Tools::getValue('set_id_lang_admin') ){
+			$id_lang = (int)Tools::getValue('set_id_lang_admin');
+			$lang_code = Lang::getLangCode($id_lang);	
+			if($lang_code)
+				$this->cookie->id_lang_admin = $id_lang;
+		}
+		
+		$this->cookie->id_lang_admin = $this->getLang( $this->cookie );
 		$cookie = $this->cookie;
 		
 	}
@@ -24,6 +32,7 @@ class AdminControllerCore extends Core {
 		Tools::setToken();
 		$this->smarty->assign('token', Tools::getToken());
 		$this->sendLangToSmarty();
+		$this->importLang();
 		
 		$page = Tools::getSuperglobal('p');
 		
@@ -100,8 +109,8 @@ class AdminControllerCore extends Core {
 	
 	private function sendLangToSmarty(){
 		$languages = Lang::getLanguages();
-		$this->smarty->assign('LANG', Lang::getLangCode($this->cookie->id_lang) );
-		$this->smarty->assign('ID_LANG', (int)$this->cookie->id_lang );
+		$this->smarty->assign('LANG', Lang::getLangCode($this->cookie->id_lang_admin) );
+		$this->smarty->assign('ID_LANG', (int)$this->cookie->id_lang_admin );
 		$this->smarty->assign('languages', $languages);	
 	}
 	
@@ -120,7 +129,7 @@ class AdminControllerCore extends Core {
 		$results = array();
 		$sql =	'SELECT * FROM '._DB_PREFIX_.'model_entity M
 		LEFT JOIN '._DB_PREFIX_.'model_entity_lang L ON M.id_entity_model = L.id_entity_model
-		WHERE L.id_lang ='.(int)$this->cookie->id_lang.'
+		WHERE L.id_lang ='.(int)$this->cookie->id_lang_admin.'
 		AND M.deleted=0
 		ORDER BY hierarchic DESC';
 		$elements = Db::getInstance()->Select($sql);
@@ -189,6 +198,30 @@ class AdminControllerCore extends Core {
 			}
 		}
 	
+	}
+	
+	/**
+	 * Get admin lang from Cookie
+	 * If no lang is defined, the system starts with default id_lang.
+	 * @param Cookie $cookie Cookie object
+	 * @return Integer ID lang
+	 */
+	protected function getLang(Cookie $cookie){
+		
+		if( isset($cookie) && !empty($cookie) ){
+			if( intval($cookie->id_lang_admin) > 0 )
+				return $cookie->id_lang_admin;
+			else
+				return 1;
+		}elseif( !isset($cookie->id_lang_admin) )
+			return 1;
+	}
+	
+	private function importLang(){
+		$lang_code = Lang::getLangCode($this->cookie->id_lang_admin);
+		if(is_file('lang/'.$lang_code.'.php')) 
+			include('lang/'.$lang_code.'.php');
+		
 	}
 	
 }

@@ -46,7 +46,21 @@
 	</div>
     
 	<div class="links">
-    	<a href="index.php?logout=1"><img src="images/iconic/white/x_alt_12x12.png" /> &nbsp;{l s='Log out'}</a>
+    	{if count($languages)>1}
+        <!-- lang block -->
+        <div id="lang_block">
+            <ul>
+                {foreach $languages as $lang}
+                    <li>
+                        <a href="index.php?set_id_lang_admin={$lang.id_lang}">
+                            <img src="/modules/languages/{$lang.code}" alt="{l s='Accéder au site'} {$lang.code}" />
+                        </a>
+                    </li>
+                {/foreach}
+            </ul>
+        </div>
+        {/if}
+        <a href="index.php?logout=1"><img src="images/iconic/white/x_alt_12x12.png" /> &nbsp;{l s='Log out'}</a>
         <a href="http://www.google.com/analytics/‎"><img src="images/iconic/white/chart_12x12.png" /> &nbsp;{l s='Google Analytics'}</a> 
     </div>
     <div id="search_form" style="display:none">

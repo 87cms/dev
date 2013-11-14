@@ -24,9 +24,9 @@ class EntityController extends AdminController {
 		}else{
 			
 			$model = new EntityModel(Tools::getSuperglobal('id_entity_model'));
-			$fields = array_slice($model->getFieldsList($this->cookie->id_lang), 0, 5);
+			$fields = array_slice($model->getFieldsList($this->cookie->id_lang_admin), 0, 5);
 			
-			$parents = $model->getHierarchicTree(0, $this->cookie->id_lang);
+			$parents = $model->getHierarchicTree(0, $this->cookie->id_lang_admin);
 			$parent_model = new EntityModel( $model->id_parent );
 			
 			$id_parent = ( Tools::getValue('id_parent') !== false && Tools::getValue('id_parent')>=0 ? (int)Tools::getValue('id_parent') : '' );
@@ -37,9 +37,9 @@ class EntityController extends AdminController {
 			
 			$this->smarty->assign(array(
 				'parents' => $parents,
-				'parent_name' => $parent_model->lang[$this->cookie->id_lang]['name'],
+				'parent_name' => $parent_model->lang[$this->cookie->id_lang_admin]['name'],
 				'hierarchic' => $model->hierarchic,
-				'modelname' => $model->lang[$this->cookie->id_lang]['name'],
+				'modelname' => $model->lang[$this->cookie->id_lang_admin]['name'],
 				'id_entity_model' => (int)Tools::getSuperglobal('id_entity_model')
 			));
 			
@@ -55,7 +55,7 @@ class EntityController extends AdminController {
 				
 				$entities = Entity::getHierarchicEntitiesList(
 					Tools::getSuperglobal('id_entity_model'), 
-					$this->cookie->id_lang,
+					$this->cookie->id_lang_admin,
 					$id_parent,
 					Tools::getValue('sort'), 
 					Tools::getValue('page'), 
@@ -70,7 +70,7 @@ class EntityController extends AdminController {
 				
 				$entities = Entity::getEntitiesList(
 					Tools::getSuperglobal('id_entity_model'), 
-					$this->cookie->id_lang,
+					$this->cookie->id_lang_admin,
 					$id_parent,
 					Tools::getValue('sort'), 
 					Tools::getValue('page'), 
@@ -81,7 +81,7 @@ class EntityController extends AdminController {
 				
 				$nbentities = Entity::countEntities(
 					Tools::getSuperglobal('id_entity_model'), 
-					$this->cookie->id_lang,
+					$this->cookie->id_lang_admin,
 					$id_parent,
 					Tools::getValue('sort'),
 					true,
@@ -91,7 +91,7 @@ class EntityController extends AdminController {
 				foreach( $entities as &$entity ){
 					$e = new Entity( $entity['id_entity']);
 					$id_default_parent = $e->getDefaultParent();
-					$entity['parent_name'] = Entity::getDisplayName($id_default_parent, $this->cookie->id_lang);
+					$entity['parent_name'] = Entity::getDisplayName($id_default_parent, $this->cookie->id_lang_admin);
 				}
 			}
 
@@ -117,27 +117,27 @@ class EntityController extends AdminController {
 		if( $model ){
 			
 			$this->smarty->assign(array(
-				'modelname' => $model->lang[$this->cookie->id_lang]['name'],
+				'modelname' => $model->lang[$this->cookie->id_lang_admin]['name'],
 				'model' => $model,
 				'id_entity_model' => (int)$id_entity_model
 			));
 			
 			if( !$model->hierarchic && $model->id_parent ){
-				$parents = $model->getHierarchicTree(0, $this->cookie->id_lang);
+				$parents = $model->getHierarchicTree(0, $this->cookie->id_lang_admin);
 			}elseif( $model->hierarchic && !$model->id_parent ){
-				$parents = $model->getHierarchicTree(0, $this->cookie->id_lang);
+				$parents = $model->getHierarchicTree(0, $this->cookie->id_lang_admin);
 			}
 			
-			$fields = $model->getFieldsList($this->cookie->id_lang);
+			$fields = $model->getFieldsList($this->cookie->id_lang_admin);
 			
 			foreach( $fields as &$field ){
 				
 				if( $field['type'] == 'select' ){
-					$field['attributes'] = Attribute::getValues($field['params'][0]['value'], $this->cookie->id_lang);	
+					$field['attributes'] = Attribute::getValues($field['params'][0]['value'], $this->cookie->id_lang_admin);	
 				}
 				
 				if( $field['type'] == "linkedEntities" ){
-					$field['entities'] = Entity::getEntitiesList($field['params'][0]['value'], $this->cookie->id_lang, NULL, 'meta_title', 0, 10000, true);
+					$field['entities'] = Entity::getEntitiesList($field['params'][0]['value'], $this->cookie->id_lang_admin, NULL, 'meta_title', 0, 10000, true);
 				}
 				
 			}
@@ -235,7 +235,7 @@ class EntityController extends AdminController {
 				$js = ( file_exists($dir.'/'.$filename.'/'.$filename.'.js') ? $dir.'/'.$filename.'/'.$filename.'.js' : false );
 				$icon = ( file_exists($dir.'/'.$filename.'/'.$filename.'.png') ? $dir.'/'.$filename.'/'.$filename.'.png' : false );
 				
-				$lang_file = $dir.'/'.Lang::getLangCode($this->cookie->id_lang).'.php';
+				$lang_file = $dir.'/'.Lang::getLangCode($this->cookie->id_lang_admin).'.php';
 				$lang = ( file_exists($lang_file) ? require_once($lang_file) : false );;
 				
 				if( $js ) {
@@ -249,8 +249,8 @@ class EntityController extends AdminController {
 			}
 		}
 		
-		$richtext_current_id_lang = (int)$this->cookie->id_lang;
-		$richtext_current_lang = Lang::getLangCode($this->cookie->id_lang);
+		$richtext_current_id_lang = (int)$this->cookie->id_lang_admin;
+		$richtext_current_lang = Lang::getLangCode($this->cookie->id_lang_admin);
 		
 		if( Tools::getValue('richtext_id_lang') ){
 			$lang_code = Lang::getLangCode(Tools::getValue('richtext_id_lang'));

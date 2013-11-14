@@ -38,13 +38,7 @@ else
 AdminController::loadElements();
 
 
-if(is_file('lang/fr.php')) 
-	include('lang/fr.php');
-
-
 date_default_timezone_set('Europe/Paris');
-
-
 
 if( Tools::getSuperglobal('ajax') ){
 	require_once('ajax.php');	

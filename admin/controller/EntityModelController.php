@@ -21,7 +21,7 @@ class EntityModelController extends AdminController {
 			
 		}else{
 			
-			$models = EntityModel::getModels($this->cookie->id_lang);
+			$models = EntityModel::getModels($this->cookie->id_lang_admin);
 			$this->smarty->assign('models', $models);
 			$this->smarty->display('entity_model.html');
 		}	
@@ -29,14 +29,14 @@ class EntityModelController extends AdminController {
 	}
 	
 	public function displayForm($id=0){
-		$parents = EntityModel::getModels($this->cookie->id_lang,1);
+		$parents = EntityModel::getModels($this->cookie->id_lang_admin,1);
 		
 		$modelData = '';
 		$attributes = '';
 		if( $id > 0 ){
 			$modelData = EntityModel::getModelData($id);
 			$model = new EntityModel($id);
-			$attributes = Attribute::getAttributesList($this->cookie->id_lang);
+			$attributes = Attribute::getAttributesList($this->cookie->id_lang_admin);
 		}
 		
 		$this->smarty->assign(array(

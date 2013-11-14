@@ -33,7 +33,7 @@ class SettingsController extends AdminController {
 		$this->smarty->assign( 'homepageSEO', $homepageSEO );
 		/** END **/
 		
-		$this->smarty->assign('models', EntityModel::getModels($this->cookie->id_lang) );
+		$this->smarty->assign('models', EntityModel::getModels($this->cookie->id_lang_admin) );
 		
 		$this->smarty->display('settings.html');
 		
