@@ -18,6 +18,12 @@ class SettingsController extends AdminController {
 		if( Tools::getValue('submitEmptyCache') )
 			$this->emptySmartyCache();
 			
+		if( Tools::getValue('submitLangForm') )
+			$this->threatFormLang();
+			
+		if( Tools::getValue('updatelang') )
+			$this->updateLang();
+			
 		$settings = Db::getInstance()->Select('SELECT * FROM '._DB_PREFIX_.'config');
 		$homepage_template = array();
 		foreach( $settings as $setting )
@@ -34,6 +40,9 @@ class SettingsController extends AdminController {
 		/** END **/
 		
 		$this->smarty->assign('models', EntityModel::getModels($this->cookie->id_lang_admin) );
+
+		$alllanguages = Lang::getAllLanguages();
+		$this->smarty->assign('alllanguages', $alllanguages);
 		
 		$this->smarty->display('settings.html');
 		
@@ -132,6 +141,29 @@ class SettingsController extends AdminController {
 			}
 		}
 	}
+	
+	
+	public function threatFormLang(){
+		$code = Db::getInstance()->getValue('SELECT id_lang FROM '._DB_PREFIX_.'lang WHERE code=:code', array('code'=>Tools::getValue('lang_code')));
+		if( !$code ){
+			Db::getInstance()->Insert(_DB_PREFIX_.'lang', array(
+				'name' => Tools::getValue('lang_name'),
+				'code' => Tools::getValue('lang_code') ,
+				'active' => 1,
+			));
+		}
+	}
+	
+	public function updateLang(){
+		if( Tools::getValue('column') && Tools::getValue('column') == "active" ){
+			Db::getInstance()->UpdateDB(_DB_PREFIX_.'lang', array('active' => (int)Tools::getValue('value')), array('id_lang'=> Tools::getValue('id_lang')));	
+		}
+		if( Tools::getValue('column') && Tools::getValue('column') == "deleted" ){
+			Db::getInstance()->Delete(_DB_PREFIX_.'lang', array('id_lang'=> Tools::getValue('id_lang')));	
+		}
+	}
+	
+	
 	
 	public function preprocess(){ }
 }

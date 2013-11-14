@@ -14,6 +14,10 @@ class LangCore extends Core {
 		return Db::getInstance()->Select('SELECT id_lang,name,code,defaultlang FROM '._DB_PREFIX_.'lang WHERE active=1 ORDER BY defaultlang DESC');		
 	}
 	
+	public static function getAllLanguages(){
+		return Db::getInstance()->Select('SELECT id_lang,name,code,defaultlang,active FROM '._DB_PREFIX_.'lang ORDER BY name ASC');		
+	}
+	
 	public static function getLangCode($id_lang){
 		$code = Db::getInstance()->getValue('SELECT code FROM '._DB_PREFIX_.'lang WHERE id_lang='.(int)$id_lang);
 		if( $code )
@@ -21,6 +25,7 @@ class LangCore extends Core {
 		else
 			return 'en';
 	}
+
 	
 }
 

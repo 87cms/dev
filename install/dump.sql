@@ -224,6 +224,13 @@ CREATE TABLE IF NOT EXISTS `lang` (
   PRIMARY KEY (`id_lang`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+INSERT INTO `lang` (`id_lang`, `name`, `code`, `active`, `defaultlang`) VALUES
+(1, 'English', 'en', 1, 1),
+(2, 'Francais', 'fr', 0, 0),
+(3, 'Deutsch (German)', 'de', 0, 0),
+(4, 'Español (Spanish)', 'es', 0, 0),
+(5, 'Italiano (Italian)', 'it', 0, 0);
+
 -- --------------------------------------------------------
 
 --

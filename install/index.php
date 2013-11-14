@@ -68,13 +68,21 @@ if( count($_POST) > 0 ){
 	
 	Db::getInstance()->Insert(_DB_PREFIX_.'config', array('name' => 'domain', 'value' => Tools::getSuperglobal('domain')) );
 	
-	Db::getInstance()->Insert(_DB_PREFIX_.'lang', 
+	
+	Db::getInstance()->Update(_DB_PREFIX_.'lang', 
 		array(
-			'name' => Tools::getSuperglobal('lang_name'), 
-			'code' => Tools::getSuperglobal('lang_code'), 
+			'active' => 0, 
+			'defaultlang' => 0
+		)
+	);
+	Db::getInstance()->Update(_DB_PREFIX_.'lang', 
+		array(
 			'active' => 1, 
 			'defaultlang' => 1
-		) 
+		),
+		array(
+			'code' => $_POST['default_lang']
+		)
 	);
 	
 	Db::getInstance()->Insert(_DB_PREFIX_.'user', array(
@@ -173,12 +181,14 @@ if( count($_POST) > 0 ){
                 <input type="text" name="domain"  class="text" value="<?php echo $_SERVER['HTTP_HOST']; ?>" />
             </p>
             <p>
-                <label>Default lang name (ex: English)</label>
-                <input type="text" name="lang_name" value=""  class="text" />
-            </p>
-            <p>
-                <label>Default lang code (ex: en)</label>
-                <input type="text" name="lang_code" value=""  class="text" />
+                <label>Default lang </label>
+                <select name="default_lang">
+                	<option value="en">English</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch (German)</option>
+                    <option value="es">Español (Spanish)</option>
+                    <option value="it">Italiano (Italian)</option>
+                </select>	
             </p>
         </fieldset>
         
