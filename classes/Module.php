@@ -72,18 +72,6 @@ class ModuleCore extends Core {
 	}
 	
 	
-	
-	/*public static function getModulesToDisplay($displayName){
-		$rq = '
-			SELECT M.* FROM '._DB_PREFIX.'modules_actions A
-			LEFT JOIN '._DB_PREFIX_.'modules M ON A.id_module = M.id_module
-			WHERE A.name=:actionName		
-		';
-		return Db::getInstance()->Select($rq, array('actionName'=>$actionName));	
-	}*/
-	
-	
-	
 	/*--- Admin ---*/
 	
 	public static function downloadModule(){
@@ -179,7 +167,13 @@ class ModuleCore extends Core {
 		$this->cookie = new Cookie();
 		$this->cookie->id_lang = $this->getLang( $this->cookie );
 		$cookie = $this->cookie;
-			
+		
+		$lang_code = Lang::getLangCode($this->cookie->id_lang_admin);
+		if( $lang_code ){
+			$lang_file = '../modules/'.$this->slug.'/lang/'.$lang_code.'.php';
+			if( file_exists($lang_file) )
+				require_once($lang_file);			
+		}
 	}
 	
 }
