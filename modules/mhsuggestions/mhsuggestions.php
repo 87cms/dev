@@ -38,12 +38,12 @@ class Mhsuggestions extends Module implements ModuleInterface {
 		}
 		
 		
-		$domaines = Entity::getEntitiesList(1, $this->cookie->id_lang, NULL, 'ORDER BY L.meta_title ASC');
+		$domaines = Entity::getEntitiesList(1, $this->cookie->id_lang_admin, NULL, 'ORDER BY L.meta_title ASC');
 		
 		foreach( $domaines as &$domaine ){
 			
 			$d = new Entity( $domaine['id_entity'] );
-			$domaine['vins'] = 	$d->getChildren($this->cookie->id_lang, 0, 0, 'ORDER BY L.meta_title ASC', 2);
+			$domaine['vins'] = 	$d->getChildren($this->cookie->id_lang_admin, 0, 0, 'ORDER BY L.meta_title ASC', 2);
 			
 			foreach( $domaine['vins'] as &$vin ){
 				$raw_value = EntityField::getRawValue(31, $vin['id_entity']);
@@ -53,7 +53,14 @@ class Mhsuggestions extends Module implements ModuleInterface {
 			
 		}
 		
-		$vins = Entity::getEntitiesList(2, $this->cookie->id_lang, NULL, 'meta_title');
+		$vins = Entity::getEntitiesList(2, $this->cookie->id_lang_admin, NULL, 'meta_title');
+		foreach( $vins as &$vin ){
+			$tmpE = new Entity($vin['id_entity']);
+			$vin['fields']	= $tmpE->getData($this->cookie->id_lang_admin);
+			$tmpE = new Entity($vin['id_default_parent']);
+			$tmpE->fields = $tmpE->getData($this->cookie->id_lang_admin);
+			$vin['domaine'] = $tmpE->fields['nom_domaine'];			
+		}
 		
 		$this->smarty->assign(array(
 			'vins' => $vins,

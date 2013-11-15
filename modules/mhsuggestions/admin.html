@@ -17,7 +17,7 @@
                 <td>
                     <select name="{$domaine_vin.id_entity}[]">
                         {foreach $vins as $vin}
-                        	<option value="{$vin.id_entity}" {if $domaine_vin.linkedEntities[0] == $vin.id_entity}selected="selected"{/if}>{$vin.meta_title}</option>                
+                        	<option value="{$vin.id_entity}" {if $domaine_vin.linkedEntities[0] == $vin.id_entity}selected="selected"{/if}>{$vin.meta_title} ({$vin.fields.couleur}) - {$vin.domaine}</option>                
                         {/foreach}
                     </select>
                 </td>
@@ -25,7 +25,7 @@
                 <td>
                     <select name="{$domaine_vin.id_entity}[]">
                         {foreach $vins as $vin}
-                        	<option value="{$vin.id_entity}" {if $domaine_vin.linkedEntities[1] == $vin.id_entity}selected="selected"{/if}>{$vin.meta_title}</option>
+                        	<option value="{$vin.id_entity}" {if $domaine_vin.linkedEntities[1] == $vin.id_entity}selected="selected"{/if}>{$vin.meta_title} ({$vin.fields.couleur}) - {$vin.domaine}</option>
                         {/foreach}                
                     </select>
                 </td>
@@ -33,7 +33,7 @@
                 <td>
                     <select name="{$domaine_vin.id_entity}[]">
                         {foreach $vins as $vin}
-                        	<option value="{$vin.id_entity}" {if $domaine_vin.linkedEntities[2] == $vin.id_entity}selected="selected"{/if}>{$vin.meta_title}</option>
+                        	<option value="{$vin.id_entity}" {if $domaine_vin.linkedEntities[2] == $vin.id_entity}selected="selected"{/if}>{$vin.meta_title} ({$vin.fields.couleur}) - {$vin.domaine}</option>
                         {/foreach}                
                     </select>
                 </td>
@@ -41,7 +41,7 @@
                 <td>
                     <select name="{$domaine_vin.id_entity}[]">
                         {foreach $vins as $vin}
-                        	<option value="{$vin.id_entity}" {if $domaine_vin.linkedEntities[3] == $vin.id_entity}selected="selected"{/if}>{$vin.meta_title}</option>
+                        	<option value="{$vin.id_entity}" {if $domaine_vin.linkedEntities[3] == $vin.id_entity}selected="selected"{/if}>{$vin.meta_title} ({$vin.fields.couleur}) - {$vin.domaine}</option>
                         {/foreach}                
                     </select>
                 </td>
@@ -49,7 +49,7 @@
                 <td>
                     <select name="{$domaine_vin.id_entity}[]">
                         {foreach $vins as $vin}
-                        	<option value="{$vin.id_entity}" {if $domaine_vin.linkedEntities[4] == $vin.id_entity}selected="selected"{/if}>{$vin.meta_title}</option>
+                        	<option value="{$vin.id_entity}" {if $domaine_vin.linkedEntities[4] == $vin.id_entity}selected="selected"{/if}>{$vin.meta_title} ({$vin.fields.couleur}) - {$vin.domaine}</option>
                         {/foreach}                
                     </select>
                 </td>
@@ -57,7 +57,7 @@
                 <td>
                     <select name="{$domaine_vin.id_entity}[]">
                         {foreach $vins as $vin}
-                        	<option value="{$vin.id_entity}" {if $domaine_vin.linkedEntities[5] == $vin.id_entity}selected="selected"{/if}>{$vin.meta_title}</option>
+                        	<option value="{$vin.id_entity}" {if $domaine_vin.linkedEntities[5] == $vin.id_entity}selected="selected"{/if}>{$vin.meta_title} ({$vin.fields.couleur}) - {$vin.domaine}</option>
                         {/foreach}                
                     </select>
                 </td>

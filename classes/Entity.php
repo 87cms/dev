@@ -252,7 +252,9 @@ class EntityCore extends Core {
 		
 		foreach( $entities as &$entity ){
 			$entity['link_rewrite'] = Link::getEntityLink($entity['id_entity'], $id_lang);
+			$entity['id_default_parent'] = Db::getInstance()->getValue('SELECT id_parent FROM '._DB_PREFIX_.'entity_level WHERE isdefault=1 AND id_entity='.(int)$entity['id_entity']);
 		}
+		
 		return $entities;
 		
 	}

@@ -21,27 +21,27 @@ class DomaineModelController extends EntityModelController {
 		$regions[0] = array(
 			"id_attribute_value" => 8,
 			"id_lang" => 1,
-			"value"=> "Maconnais"
+			"value"=> "La Côte Mâconnaise"
 		);
 		$regions[1] = array(
 			"id_attribute_value" => 7,
 			"id_lang" => 1,
-			"value"=> "Côte Chalonnaise"
+			"value"=> "La Côte Chalonnaise"
 		);
 		$regions[2] = array(
 			"id_attribute_value" => 6,
 			"id_lang" => 1,
-			"value"=> "Côte de Beaune"
+			"value"=> "La Côte de Beaune"
 		);
 		$regions[3] = array(
 			"id_attribute_value" => 5,
 			"id_lang" => 1,
-			"value"=> "Côte de Nuits"
+			"value"=> "La Côte de Nuits"
 		);
 		$regions[4] = array(
 			"id_attribute_value" => 9,
 			"id_lang" => 1,
-			"value"=> "Chablis"
+			"value"=> "Le Chablisien"
 		);
 		$liste_regions = $regions;
 		

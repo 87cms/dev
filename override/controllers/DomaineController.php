@@ -31,7 +31,8 @@ class DomaineController extends EntityController {
 					NULL,
 					25
 				);
-				
+				$catmancey = AttributeValue::getAttributeValue((int)Tools::getValue('catmancey'), $this->cookie->id_lang);
+				$this->smarty->assign('catmancey', $catmancey);
 				// Petit hack pour résoudre un problème de conception
 				// Dans la version 0.7 ci présente, certaines méthodes renvoient aussi bien une liste d'objet qu'un pur tableau
 				// Je dois donc unifier le tout dans une version suivate.
