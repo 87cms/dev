@@ -306,7 +306,7 @@ function addEntity(stay){
 		if( stay )
 			location.reload();	
 		else
-			location.href = 'index.php?p=entity&id_entity_model=' + entity.id_entity_model + '&added=1';		
+			location.href = 'index.php?p=entity&id_entity_model=' + entity.id_entity_model + '&added=1&sort=id_entity-asc';		
 	});
 	
 	

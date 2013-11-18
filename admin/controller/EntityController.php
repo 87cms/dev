@@ -67,14 +67,16 @@ class EntityController extends AdminController {
 				$nbentities = count($entities);
 				
 			}else{
-				
+				$n=10;
+				if( $id_parent !== '' )
+					$n = 9999;
 				$entities = Entity::getEntitiesList(
 					Tools::getSuperglobal('id_entity_model'), 
 					$this->cookie->id_lang_admin,
 					$id_parent,
 					Tools::getValue('sort'), 
 					Tools::getValue('page'), 
-					10,
+					$n,
 					true,
 					$user
 				);
