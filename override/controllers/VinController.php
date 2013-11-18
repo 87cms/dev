@@ -58,12 +58,17 @@ class VinController extends EntityController {
 		if( Tools::getValue('pdf') == 1 )
 			$this->generatePDF($this->entity->id_entity, $this->entity->id_default_parent);
 		
+				
+		// partage de la fiche vin au format
+		if( Tools::getValue('submitEmail') && Tools::getValue('courriel') )
+			$this->sendFichePDF();		
+		
 		$this->display();
 			
 	}
 	
 	
-	public function generatePDF($id_entity, $id_default_parent){
+	public function generatePDF($id_entity, $id_default_parent, $download=1){
 		
 		//QR CODE
 		$postfields = array(
@@ -93,7 +98,7 @@ class VinController extends EntityController {
 		$fp = fopen(_ABSOLUTE_PATH_.'/tmp/'.$m.'.html', 'w+');
 		fwrite($fp, $content);
 		fclose($fp);
-		$pdf = Tools::str2url($this->entity->fields['nom_vin']).'.pdf';
+		$pdf = Tools::str2url($this->entity->id_entity.'-'.$this->entity->fields['nom_vin']).'.pdf';
 		$commande = _ABSOLUTE_PATH_.'/tmp/bin/wkhtmltopdf '._ABSOLUTE_PATH_.'/tmp/'.$m.'.html '._ABSOLUTE_PATH_.'/tmp/'.$pdf;
 		
 		exec($commande);
@@ -110,11 +115,34 @@ class VinController extends EntityController {
 			}
 		}
 		closedir($dir);
-		
-		header("Content-type: application/pdf");
-		header("Content-Disposition: attachment; filename=".$pdf);
-		readfile('tmp/'.$pdf);
-		
+		if( $download ){
+			header("Content-type: application/pdf");
+			header("Content-Disposition: attachment; filename=".$pdf);
+			readfile('tmp/'.$pdf);
+		}
+		return $pdf;
+	}
+	
+	public function sendFichePDF(){
+		if( Tools::getValue('courriel')	){
+			
+			$email = Tools::getValue('courriel');
+			$pdf = $this->generatePDF($this->entity->id_entity, $this->entity->id_default_parent,0);
+			
+			require_once(_ABSOLUTE_PATH_.'/tools/swift/swift_required.php');
+			$message = Swift_Message::newInstance()
+			->setSubject($this->entity->fields['nom_vin'])
+			->setFrom(array('contact@bourgogne-vigne-verre.com' => 'BVV'))
+			->setTo(array( Tools::getValue('courriel') ))
+			->setBody('Bonjour, vous trouverez ci-joint la fiche PDF du vin '.$this->entity->fields['nom_vin'].'. Nous vous remercions, Bourgogne de Vigne en Verre - RN6 En Velnoux - 71700 TOURNUS  FRANCE - Tél : 03 85 51 00 83 - Fax : 03 85 51 71 20')
+			->addPart('Bonjour,<br />Vous trouverez ci-joint la fiche PDF du vin <strong>'.$this->entity->fields['nom_vin'].'</strong>.<br /><br />Bourgogne de Vigne en Verre<br />RN6 En Velnoux<br />71700 TOURNUS - FRANCE<br />Tél : 03 85 51 00 83<br />Fax : 03 85 51 71 20', 'text/html')
+			->attach(Swift_Attachment::fromPath(_ABSOLUTE_PATH_.'/tmp/'.$pdf));
+			
+			$transport = Swift_MailTransport::newInstance();
+			$mailer = Swift_Mailer::newInstance($transport);
+			$mailer->send($message);
+			$this->smarty->assign('mailok', 1);
+		}			
 	}
 	
 }

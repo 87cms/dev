@@ -15,6 +15,7 @@ class DomaineController extends EntityController {
 		
 		$fields = $this->entity->getData($this->cookie->id_lang);
 		$this->entity->fields = $fields;
+
 		
 		//vins
 		if( Tools::getValue('page') == "vins" ){
