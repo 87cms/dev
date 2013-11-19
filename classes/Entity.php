@@ -306,7 +306,7 @@ class EntityCore extends Core {
 	* @param Int $id_lang Lang id
 	* @param Bool $include_data If this parameter is TRUE, the method return a list of entity object
 	* @param Bool $with_drafts Include drafts in results
-	* @param String $sort Sort results : id_entity-desc, id_entity-asc, state-published, state-draft, meta_title 
+	* @param String $sort Sort results : id_entity-desc, id_entity-asc, state-published, state-draft, meta_title
 	* @return Array Entities list
 	*/
 	public static function getEntitiesListWithAttributeValue($id_entity_model, $id_attribute_value, $id_lang, $include_data=false, $with_drafts=NULL, $sort='', $id_default_parent = 0){

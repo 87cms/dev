@@ -118,6 +118,10 @@
 		
 		var entity = { };
 		
+		$('#overlay').show();
+		$('#overlay_container').html('<img src="images/loader.gif" />');
+		$('#overlay_container').show();
+		
 		if( $('#id_entity_model').val() > 0 )
 			entity.id_entity_model = $('#id_entity_model').val();
 		else
