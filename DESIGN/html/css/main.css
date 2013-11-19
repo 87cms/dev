@@ -1,0 +1,159 @@
+.center {
+	text-align:center	
+}
+.navbar .navbar-inner {
+    padding: 0;
+}
+
+.navbar .nav {
+    margin: 0;
+    display: table;
+    width: 100%;
+}
+
+.navbar .nav li {
+    display: table-cell;
+    width: 1%;
+    float: none;
+}
+
+.navbar .nav li a {
+    text-align: center;  
+	text-shadow:none;  
+	padding:15px 20px;
+}
+
+.navbar-inverse .navbar-nav>.active>a {
+	background-color: #f1c40f;
+	color:#fff;
+}
+
+.navbar .nav li:first-child a {
+    
+}
+
+.navbar .nav li:last-child a {
+    
+}
+body {
+	font-family:Arial, Helvetica, sans-serif;
+	color:#2c3e50;	
+}
+/*---*/
+
+header.navbar-inverse {
+	background:#fff;
+	box-shadow:none;
+	border:0;
+}
+
+
+
+h1, h2, h3, h4, h5, .big_mention {
+	font-family: 'Lato', sans-serif;	
+}
+h1 {
+	font-weight:300;
+	font-size:3em;	
+}
+h2, .big_mention {
+	font-weight:400;
+	font-size:2.6em;
+	margin-top:25px;
+	margin-bottom:25px
+}
+h3 {
+	font-weight:300;
+	font-size:2.2em;	
+}
+.big_mention {
+	font-weight:300;
+	line-height: 1em;	
+	font-size:2.2em;
+}
+.verystrong { 
+	font-weight:700;
+}
+.btn-primary {
+	background:#f1c40f;
+	border-radius:5px;
+	border:0;
+	border-bottom:4px solid #f39c12;
+	text-shadow:none;
+	color:#2c3e50;
+}
+
+#technologies,
+#principe,
+#frontend {
+	padding:50px 0;	
+}
+
+#presentation {
+	background:url('../img/blured_background.jpg') fixed;
+	background-size:cover;
+	color:#fff;
+	padding-bottom:120px;
+}
+	#presentation h1 {
+		color:#fff;
+		margin:120px 0 80px 0;
+	}
+		#presentation h1 span {
+			display:block;	
+		}
+		
+		#presentation .details .title {
+			font-family: 'Lato', sans-serif;
+			font-weight:300;
+			font-size:24px;			
+		}
+		#presentation .details p {
+			margin:15px 0;
+		}
+
+#technologies {
+	background:#fff url('../img/bg_principe.jpg') bottom center no-repeat;	
+}
+#technologies_details {
+	padding:20px 0;	
+}
+	#technologies_details li {
+		margin-bottom:5px;	
+	}
+
+
+#principe {
+	color:#fff;	
+	background:#1abc9c url('../img/bg_frontend.jpg') bottom center no-repeat;	;
+}
+
+#fieldstype_content {
+	margin-top:100px;
+}
+	#fieldstype li {
+		padding:15px; 
+		background-color:#f1c40f;
+		margin:10px;
+	}
+
+
+#frontend_details {
+ margin-top:50px;	
+}
+#btn_frontend {
+	margin-top:25px;	
+}
+
+
+@media (min-width: 768px) {
+	
+	body {
+		padding-top:112px;	
+	}
+	
+	header {
+		height:112px;	
+	}	
+	
+}
