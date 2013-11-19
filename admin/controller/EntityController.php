@@ -68,8 +68,9 @@ class EntityController extends AdminController {
 				
 			}else{
 				$n=10;
-				if( $id_parent !== '' )
+				if( $id_parent !== false && $id_parent !== '' )
 					$n = 9999;
+				
 				$entities = Entity::getEntitiesList(
 					Tools::getSuperglobal('id_entity_model'), 
 					$this->cookie->id_lang_admin,
