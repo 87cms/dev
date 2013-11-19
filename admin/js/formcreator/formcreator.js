@@ -17,6 +17,10 @@
 	formCreator.prototype.attachEvents = function(){
 		$('#fields_list ul li').click( function(){ self.addElement( $(this).attr('id') ) } );	
 		$('#submitModel').click( function(){ self.submitModel(); });
+		$('.field').on('click', function(){
+			$('.field').removeClass('active');
+			$(this).addClass('active');
+		});
 	}
 	
 	formCreator.prototype.addElement = function(type){
@@ -31,13 +35,18 @@
 			});
 			command.appendTo( div.children('.line_command') );
 			var command = $('<a href="#" class="formcreator_position_up button_up">Up</a>').click( function(){
-				 if( div.prev().attr('id') !== 'name' )
+				 if( div.prev().attr('id') !== 'name' ){
 					 div.insertBefore( div.prev() );
+				 	 $('.field').removeClass('active');
+					 div.addClass('active');
+				 }
 				 return false;
 			});
 			command.appendTo( div.children('.line_command') );
 			var command = $('<a href="#" class="formcreator_position_down button_down">Down</a>').click( function(){
 				div.insertAfter( div.next() );
+				$('.field').removeClass('active');
+				div.addClass('active');
 				return false;
 			});
 			command.appendTo( div.children('.line_command') );
@@ -91,8 +100,18 @@
 			}
 			
 			div.children('.right').html(params);
+			div.on('click', function(){
+				$('.field').removeClass('active');
+				$(this).addClass('active');
+			});
+			$('.field').removeClass('active');
+			div.addClass('active');
+			
 			$('#entity_fields').append( div );
-		
+			
+			var objDiv = document.getElementById("content");
+			objDiv.scrollTop = objDiv.scrollHeight;
+			
 	}
 	
 	formCreator.prototype.submitModel = function(){

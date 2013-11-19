@@ -132,7 +132,7 @@ class VinController extends EntityController {
 			require_once(_ABSOLUTE_PATH_.'/tools/swift/swift_required.php');
 			$message = Swift_Message::newInstance()
 			->setSubject($this->entity->fields['nom_vin'])
-			->setFrom(array('contact@bourgogne-vigne-verre.com' => 'BVV'))
+			->setFrom(array('contact@bourgogne-vigne-verre.com' => 'Bourgogne de Vigne en Verre'))
 			->setTo(array( Tools::getValue('courriel') ))
 			->setBody('Bonjour, vous trouverez ci-joint la fiche PDF du vin '.$this->entity->fields['nom_vin'].'. Nous vous remercions, Bourgogne de Vigne en Verre - RN6 En Velnoux - 71700 TOURNUS  FRANCE - Tél : 03 85 51 00 83 - Fax : 03 85 51 71 20')
 			->addPart('Bonjour,<br />Vous trouverez ci-joint la fiche PDF du vin <strong>'.$this->entity->fields['nom_vin'].'</strong>.<br /><br />Bourgogne de Vigne en Verre<br />RN6 En Velnoux<br />71700 TOURNUS - FRANCE<br />Tél : 03 85 51 00 83<br />Fax : 03 85 51 71 20', 'text/html')

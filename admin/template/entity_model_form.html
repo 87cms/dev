@@ -239,6 +239,8 @@
 									$(this).click( function(){
 										var div = $(this).parent().parent('.field');
 					 					div.insertBefore( div.prev() );
+										$('.field').removeClass('active');
+										div.addClass('active');
 										return false;
 									});
 								});
@@ -246,6 +248,8 @@
 									$(this).click( function(){
 										var div = $(this).parent().parent('.field');
 										div.insertAfter( div.next() );	
+										$('.field').removeClass('active');
+										div.addClass('active');
 										return false;									
 									});
 								});

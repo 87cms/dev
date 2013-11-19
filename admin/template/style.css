@@ -374,7 +374,17 @@ div.closed h2 { margin-bottom:0; }
 div.closed { margin:0; padding:15px 0; border-top:1px solid #e0e0e0; border-bottom:1px solid #e0e0e0; }*/
 
 /**** Entity form *****/
-#entity_fields .field { width:100%; clear:both; border-top:2px solid #CCC; padding:10px 0; margin:20px 0; }
+#entity_fields .field { 
+	width:100%; 
+	clear:both; 
+	border-top:2px solid #CCC; 
+	padding:10px 0; 
+	margin:20px 0; 
+}
+	#entity_fields .field.active {
+		background-color: #59c4bc;
+		color: #fff;	
+	}
 #entity_fields .field .line_command, #entity_fields .field .left, #entity_fields .field .right { float:left; } 
 #entity_fields .field .right {
 	width:	50%;
