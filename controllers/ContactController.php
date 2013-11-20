@@ -44,9 +44,28 @@ class ContactControllerCore extends FrontController {
 			';
 			
 			$contact->message = $message;
+			$contact->add();
 			
-			Tools::redirect('/'.Lang::getLangCode($this->cookie->id_lang).'/contact/ok');
+			$to = implode(',',str_replace(' ','',Contact::getContactEmails()));
 			
+			require_once(_ABSOLUTE_PATH_.'/tools/swift/swift_required.php');
+			$message = Swift_Message::newInstance()
+			->setSubject($subject)
+			->setFrom(array('noreply@'._DOMAIN_ => _DOMAIN_))
+			->setTo($to)
+			->setBody($message)
+			->addPart($message, 'text/html');
+		
+			if( $attachment )
+				$message->attach(Swift_Attachment::fromPath($attachment));
+			
+			$transport = Swift_MailTransport::newInstance();
+			$mailer = Swift_Mailer::newInstance($transport);
+			
+			if( $mailer->send($message) )
+				Tools::redirect('/'.Lang::getLangCode($this->cookie->id_lang).'/contact/ok');
+			else
+				Tools::redirect('/'.Lang::getLangCode($this->cookie->id_lang).'/contact/error');
 		}
 	}
 

@@ -14,7 +14,6 @@
         <style>
             body {
                 padding-top: 50px;
-                padding-bottom: 20px;
             }
         </style>
         <link rel="stylesheet" href="css/bootstrap-theme.min.css">
@@ -55,6 +54,9 @@
     	<div class="container">
             <div class="row">
                 <div class="col-lg-12 center">
+                     <div class="center visible-xs logo-visible-xs">
+                     	<img src="img/logo_87cms_80x80.png" /> 
+                     </div>
                      <h1>With <strong>87CMS</strong> you can <span>Build <strong class="verystrong">fast</strong> and <strong class="verystrong">open</strong> website</span></h1>
                 </div> 
             </div>
@@ -82,7 +84,7 @@
                 
                 <div class="col-md-3 center">
                     <span class="title">
-                        3. Add a template
+                        3. Add your template
                     </span>
                     <p>
                         The front controller is based on Smarty. And all SEO methods are natively provided.
@@ -110,7 +112,8 @@
             
                 <div class="col-sm-6">
                     <h2>Technologies</h2>
-                        <p>87CMS is developped with PHP5 ans a MySQL databases.<br />We respect the MVC pattern and ORM.</p>
+                        <p>87CMS is <strong>open source</strong> under GNU GPL v3</p>
+                        <p>87CMS is developped with PHP5 and a MySQL database.<br />We respect the MVC pattern and ORM.</p>
                     
                     <div class="row" id="technologies_details">
     
@@ -131,7 +134,15 @@
                     
                 </div>
                 <div class="col-sm-6">
-                
+                	<div id="87cms_panel" class="center">
+                    	<img src="img/87cms_panel.png" class="maxW" />  
+                    </div>
+                    <ul id="logo_list" class="list-inline center">
+                    	<li><img src="img/logo_php5.png" /></li>
+                        <li><img src="img/logo_mysql.png" /></li>
+                        <li><img src="img/logo_jquery.png" /></li>
+                        <li><img src="img/logo_smarty.png" /></li>
+                    </ul>
                 </div>
             </div>
     	</div>
@@ -142,10 +153,10 @@
         <div class="container">
             <div class="row">
             
-                <div class="col-lg-5 center">
-                    <img src="img/entity_description.png" />                
+                <div class="col-md-5 center">
+                    <img src="img/entity_description.png" class="maxW" />                
                 </div>
-                <div class="col-lg-7 center">
+                <div class="col-md-7 center">
                     <h2>The main principe, the Entity</h2>
                     
                     <p>
@@ -167,13 +178,14 @@
                 <div class="col-lg-12" id="fieldstype_content">
                     <h3 class="center">Some type of fields :</h3>
                     <ul id="fieldstype" class="list-inline center">
-                        <li>inputText</li>
+                        <li>input text</li>
                         <li>textarea</li>
+                        <li><strong>markdown</strong> editor</li>
                         <li>selectbox</li>
                         <li>radio</li>
                         <li>multiple select</li>
-                        <li>bootstrap richtext editor</li>
-                        <li>markdown editor</li>
+                        <li>input files</li>
+                        <!-- <li>bootstrap richtext editor</li> -->
                         <li>date</li>                    
                     </ul>
                     <p class="big_mention center">
@@ -185,61 +197,107 @@
     </section>
     
     
-    <section id="frontend" class="container">
-    	<div class="row">
-        	
-            <div class="col-lg-6">
-            	<h2>Front end integration</h2>
-                <p class="big_mention">
-                	Integrate your webdesign in HTML5/CSS3<br />
-					with Smarty !
-                </p>
-				
-                <p> We have added some new functionnalities to Smarty :</p>
-                <ul>
-                	<li>the front end is multilingual. The translation can be done directly into the back office.</li>
-                    <li>all data are dynamically outputed to front end.</li>
-                    <li>SEO friendly with meta and automatic url rewriting</li>
-                </ul>
-                <a href="#" class="btn btn-primary" id="btn_frontend">How works the back office ?</a>
-            </div>
-            
-            <div class="col-lg-6">
-            	<h3 class="center">Our objective, <strong>Freedom</strong> !</h3>
-            	
-                <div class="row" id="frontend_details">
-                	<div class="col-lg-4 center">
-                    	<img src="img/icon_modular.png" />
-                        <h3>Modular</h3>
-                        <p>
-                        	You can extend 87CMS by adiding new modules. And we did it to be simple, just follow the guide !
-                        </p>
-                    </div>
-                    <div class="col-lg-4 center">
-                    	<img src="img/icon_seo.png" />
-                        <h3>SEO</h3>
-                        <p>
-                        	All meta tags are availables for each models and entities.
-                        </p>
-                    </div>
-                    <div class="col-lg-4 center">
-                   		<img src="img/icon_multilingual.png" />
-                        <h3>Multilingual</h3>
-                        <p>
-                        	You can add new languages anytime. Static translations can be edited in back office.
-                        </p>
-                    </div>
+    <section id="frontend">
+    	<div class="container">
+            <div class="row">
+                
+                <div class="col-sm-6">
+                    <h2>Front end integration</h2>
+                    <p class="big_mention">
+                        Integrate your webdesign in HTML5/CSS3<br />
+                        with Smarty !
+                    </p>
+                    
+                    <p> We have added some new functionnalities to Smarty :</p>
+                    <ul>
+                        <li>the front end is multilingual. The translation can be done directly into the back office.</li>
+                        <li>all data are dynamically outputed to front end.</li>
+                        <li>SEO friendly with meta and automatic url rewriting</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary" id="btn_frontend">How works the back office ?</a>
                 </div>
                 
-            </div>
-            
+                <div class="col-sm-6">
+                    <h3 class="center">Our objective, <strong>Freedom</strong> !</h3>
                     
-        </div>    
+                    <div class="row" id="frontend_details">
+                        <div class="col-md-4 center">
+                            <img src="img/icon_modular.png" />
+                            <h3>Modular</h3>
+                            <p>
+                                You can extend 87CMS by adiding new modules. And we did it to be simple, just follow the guide !
+                            </p>
+                        </div>
+                        <div class="col-md-4 center">
+                            <img src="img/icon_seo.png" />
+                            <h3>SEO</h3>
+                            <p>
+                                All meta tags are availables for each models and entities.
+                            </p>
+                        </div>
+                        <div class="col-md-4 center">
+                            <img src="img/icon_multilingual.png" />
+                            <h3>Multilingual</h3>
+                            <p>
+                                You can add new languages anytime. Static translations can be edited in back office.
+                            </p>
+                        </div>
+                    </div>
+                    
+                </div>
+                        
+            </div>    
+    	</div>
     </section>
 	
+    
+    <section id="demo">
+        <div class="container">
+        	<div class="row">
+            	<div class="col-lg-12 center">
+                	<p class="big_mention">
+                    	Would you like to test or download 87CMS ?
+                    </p>
+                    <a href="#" class="btn btn-primary">Go to demo</a>
+                    &nbsp;&nbsp;or&nbsp;&nbsp;
+                    <a href="#" class="btn btn-primary">Download 87CMS</a>                    
+                </div>
+            </div>
+            
+        </div>
+    </section>
+    
 	<footer>
-        <p>&copy; Company 2013</p>
-      </footer>
+        <div class="container">
+        	<div class="row">
+            	<div class="col-sm-4">
+                	<h4>What is 87CMS ?</h4>
+                    <p>
+                    	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>                   
+                </div>
+                <div class="col-sm-4">
+                	<h4>Twitter</h4>
+                    <p>
+                    	Check our twitter
+                    </p>                   
+                </div>
+                <div class="col-sm-4">
+                	<h4>Newsletter</h4>
+                    <p>
+                    	If you want to receive news about 87CMS, you can suscribe to our newsletter.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email address</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>                  
+                </div>
+            </div>
+        </div>
+    </footer>
 	
 		<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>-->
         <script src="js/jquery.1.10.js"></script>

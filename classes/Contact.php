@@ -30,7 +30,7 @@ class ContactCore extends Core {
 		$headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
 		$headers .= 'From: '._DOMAIN_.' <no-reply@'._DOMAIN_.'>' . "\r\n";
 		
-		$raw = Db::getInstance()->getValue('SELECT value FROM '._DB_PREFIX_.'config WHERE name="contact_form_emails"');
+		$raw = self::getContactEmails();
 		
 		$this->contact_to = $raw;
 		
@@ -43,7 +43,10 @@ class ContactCore extends Core {
 		
 		return true;
 	}
-
+	
+	public static function getContactEmails(){
+		return Db::getInstance()->getValue('SELECT value FROM '._DB_PREFIX_.'config WHERE name="contact_form_emails"');
+	}
 	
 	public static function getContacts(){
 		return Db::getInstance()->Select('SELECT * FROM '._DB_PREFIX_.'contact ORDER BY id_contact DESC');
