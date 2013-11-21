@@ -71,7 +71,10 @@ class Searchengine extends Module implements ModuleInterface {
 		if( Tools::getValue('submitSearch') && Tools::getValue('search') )
 			$results = $this->search( Tools::getValue('search') );
 		
-		$this->smarty->assign('results', $results);
+		$this->smarty->assign(array(
+			'results' => $results,
+			'string' => Tools::getValue('search')
+		));
 		$this->smarty->display('modules/searchengine/searchengine.html');
 	
 	}
@@ -210,9 +213,17 @@ class Searchengine extends Module implements ModuleInterface {
 			$weight =  array_reverse( $weight, true );
 			foreach( $weight as $id => $weight ){
 				$e = new Entity($id);
-				$e->fields = $e->getData($this->cookie->id_lang);
-				$entities[] = $e;	
+				$tmp = array();
+				
+				foreach( get_object_vars($e) as $attr => $value)
+					$tmp[$attr] = $value;
+				
+				$tmp['fields'] = $e->getData($this->cookie->id_lang);
+				$tmp['id_default_parent'] = $e->getDefaultParent();
+				
+				$entities[] = $tmp;	
 			}
+			
 			return $entities;			
 		} else
 			return false;

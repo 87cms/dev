@@ -75,6 +75,10 @@ class EntityCore extends Core {
 		return Db::getInstance()->getValue('SELECT id_parent FROM '._DB_PREFIX_.'entity_level WHERE isdefault=1 AND id_entity='.(int)$this->id_entity);	
 	}
 	
+	public function getDefaultParentStatic($id_entity){
+		return Db::getInstance()->getValue('SELECT id_parent FROM '._DB_PREFIX_.'entity_level WHERE isdefault=1 AND id_entity='.(int)$id_entity);	
+	}
+	
 	/**
 	* Get children of an entity. Warning : a hierarchic entity can have multiple model as child.
 	* @todo Add a new parameter : include_data !
@@ -252,7 +256,7 @@ class EntityCore extends Core {
 		
 		foreach( $entities as &$entity ){
 			$entity['link_rewrite'] = Link::getEntityLink($entity['id_entity'], $id_lang);
-			$entity['id_default_parent'] = Db::getInstance()->getValue('SELECT id_parent FROM '._DB_PREFIX_.'entity_level WHERE isdefault=1 AND id_entity='.(int)$entity['id_entity']);
+			$entity['id_default_parent'] = self::getDefaultParentStatic($entity['id_entity']);
 		}
 		
 		return $entities;

@@ -151,6 +151,9 @@ class SettingsController extends AdminController {
 				'code' => Tools::getValue('lang_code') ,
 				'active' => 1,
 			));
+			$fp = fopen('../lang/'.Tools::getValue('lang_code').'.php', 'w+');
+			fwrite($fp, '<?php'."\r\n\r\n");
+			fclose($fp);
 		}
 	}
 	
