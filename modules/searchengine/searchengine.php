@@ -58,8 +58,7 @@ class Searchengine extends Module implements ModuleInterface {
 	public function installModule(){
 		parent::installModule();
 		if( !Db::getInstance()->getValue('SELECT name FROM '._DB_PREFIX_.'config WHERE name="searchEngine"') )
-			Db::getInstance()->Insert(_DB_PREFIX_.'config', array('name' => "searchEngine") );	
-		Db::getInstance()->query($sql);
+			Db::getInstance()->Insert(_DB_PREFIX_.'config', array('name' => "searchEngine") );			
 	}
 	
 	public function displaySearchEngine(){
