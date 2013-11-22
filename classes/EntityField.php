@@ -45,9 +45,12 @@ class EntityFieldCore extends Core {
 					
 					/* convert markdown */
 					if( $value['type'] == "markdown" ){					
-						require_once(_ABSOLUTE_PATH_.'/tools/markdown.php');
-						$markdown = new Markdown_Parser();
-						$out['html'] = $markdown->transform( $data['value'] );
+						require_once(_ABSOLUTE_PATH_.'/tools/markdown/Markdown.php');
+						require_once(_ABSOLUTE_PATH_.'/tools/markdown/MarkdownExtra.php');
+						$out['html'] = MarkdownExtra::defaultTransform($data['value']);
+						/*$markdown = new Markdown_Parser();
+						$out['html'] = $markdown->transform( $data['value'] );*/
+						
 						$out['markdown'] = $data['value'];
 					}
 					else

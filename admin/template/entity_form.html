@@ -362,6 +362,10 @@ config_textarea.toolbar = [
                                 {foreach $languages as $key => $value}
                                   
                                     <img src="images/flags/{$value.code}.png" class="flag" />
+                                    <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" class="button-help" target="_blank">
+                                    	?
+                                    </a>
+                                    <div class="clear"></div>
                                     <div class="wmd-panel">
                                         <div id="wmd-button-bar-markdown{$rand}{$value.id_lang}"></div>
                                         <textarea class="wmd-input" id="wmd-input-markdown{$rand}{$value.id_lang}" style="min-height:300px" data-lang="{$value.id_lang}" data-id-model="{$field.id_field_model}">{$field.values[$value.id_lang].markdown}</textarea>

@@ -1125,3 +1125,17 @@ div[data-type="ckeditor"] {
         font-size: 0.8em;
         font-weight: bold;
 }
+.button-help {
+	float: left;
+text-decoration: none;
+background-color: #eee;
+border-radius: 20px;
+display: block;
+width: 25px;
+text-align: center;
+height: 25px;
+border: 1px solid #AAA;
+line-height: 25px;
+font-weight: bold;
+margin: 0 10px;
+}
