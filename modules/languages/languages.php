@@ -12,6 +12,7 @@ class Languages extends Module implements ModuleInterface {
 	
 	public $name = "Languages";
 	public $description = "Display a lang selection block.";
+	public $slug = "languages";
 	
 	public $hook_name = "HOOK_SELECT_LANG";
 	public $method_name = "displaySelectLang";

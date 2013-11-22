@@ -5,6 +5,7 @@ class Mhsuggestions extends Module implements ModuleInterface {
 	public $name = "Mhsuggestions";
 	public $description = "Gestion des suggestions sur le site";
 	public $menu = "Gestion des suggestions";
+	public $slug = "hsuggestions";
 	
 	public function start(){
 			

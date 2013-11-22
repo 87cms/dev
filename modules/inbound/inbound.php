@@ -13,6 +13,7 @@ class Inbound extends Module implements ModuleInterface {
 	public $name = "Inbound";
 	public $description = "Collecte & export d'adresses emails";
 	public $menu = "Newsletter";
+	public $slug = "inbound";
 	
 	public $hook_name = "HOOK_INBOUND_COLLECTOR";
 	public $method_name = "displayInboundCollector";
