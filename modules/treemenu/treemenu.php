@@ -4,6 +4,7 @@ class Treemenu extends Module implements ModuleInterface {
 	
 	public $name = "Tree menu";
 	public $description = "Display the tree of a hierarchic entity.";
+	public $slug = "treemenu";
 	
 	public $hook_name = "HOOK_TREE_MENU";
 	public $method_name = "displayTreeMenu";

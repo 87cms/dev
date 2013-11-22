@@ -12,6 +12,7 @@ class Searchengine extends Module implements ModuleInterface {
 	
 	public $name = "Search Engine";
 	public $description = "Add a search engine to your website";
+	public $slug = "searchengine";
 	
 	public $hook_name = "HOOK_SEARCH_ENGINE";
 	public $method_name = "displaySearchEngine";
