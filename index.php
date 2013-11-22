@@ -12,7 +12,7 @@ global $cookie, $smarty, $__l;
 
 require_once('config/settings.php');
 
-if( $_REQUEST['ajax'] ){
+if( isset($_REQUEST['ajax']) && $_REQUEST['ajax'] ){
 	require_once('override/controllers/ajax.php');	
 	$ajaxController = new AjaxController();
 	$ajaxController->start();
