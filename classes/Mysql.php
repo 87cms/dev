@@ -39,7 +39,7 @@ class MySQLCore extends Db
 	public function Insert($table, $array){
 		unset($array['submit']);
 		unset($array['token']);
-		$q = '';
+		$q = $q2 = '';
 		foreach( $array as $key => $value ){
 			$q  .= "$key,";			
 			$q2 .= ":$key,";

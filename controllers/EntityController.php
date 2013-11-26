@@ -28,13 +28,11 @@ class EntityControllerCore extends FrontController {
 		
 		$this->entity->link_rewrite = Link::getEntityLink($this->entity->id_entity, $this->cookie->id_lang);
 		
-		if( $this->entity->id_entity && $this->entity->state !== 'draft' ){
+		if( $this->entity->id_entity && ( $this->entity->state !== 'draft' || $this->user->is_logged ) ){
 			
 			$this->id_current_entity = $this->entity->id_entity;
 			
-			// get entity slug
 			$this->entity_model = new EntityModel( $this->entity->id_entity_model );
-			$slug = $this->entity_model->slug;
 			
 			$this->process();
 			
@@ -57,8 +55,7 @@ class EntityControllerCore extends FrontController {
 							
 		}
 		
-		$fields = $this->entity->getData($this->cookie->id_lang);
-		$this->entity->fields = $fields;
+		$this->entity->getData($this->cookie->id_lang);
 		
 		if( $this->entity_model->hierarchic == 0 ){
 			foreach( $this->entity->fields as &$field ){
@@ -70,7 +67,7 @@ class EntityControllerCore extends FrontController {
 					foreach( $id_entities as $id_entity ){
 						if( $id_entity ){
 							$entity = new Entity( $id_entity );
-							$entity->fields = $entity->getData($this->cookie->id_lang);
+							$entity->getData($this->cookie->id_lang);
 							array_push($entities, $entity);
 						}
 					}
@@ -82,7 +79,7 @@ class EntityControllerCore extends FrontController {
 		
 		
 		
-		$b = $this->entity->getBreadcrumb('',$this->cookie->id_lang); 
+		$b = $this->entity->getBreadcrumb($this->cookie->id_lang); 
 		$this->entity->breadcrumb = array_reverse($this->entity->breadcrumb);
 		
 		// Add in view the active state for link

@@ -1,7 +1,7 @@
 {if $node|@count > 0}
 {if $id_entity !== $node.id_entity}
 <li>
-	<input type="radio" name="id_parent[]" value="{$node.id_entity}"  class="parents" {if in_array($node.id_entity, $parents) || $id_parent==$node.id_entity}checked="checked"{/if}/><span>{$node.name|escape:'htmlall':'UTF-8'}</span>
+	<input type="radio" name="id_parent[]" value="{$node.id_entity}"  class="parents" {if $parents && in_array($node.id_entity, $parents) || $id_parent==$node.id_entity}checked="checked"{/if}/><span>{$node.name|escape:'htmlall':'UTF-8'}</span>
 	{if $node.children|@count > 0}
 		<ul>
         {foreach $node.children as $children}

@@ -51,8 +51,7 @@ class EntityModelControllerCore extends FrontController {
 			
 			if( $this->entity_model->children ){
 				foreach( $this->entity_model->children as &$children ){
-					$entity = new Entity( $children['id_entity'] );
-					$children['fields'] = $entity->getData($this->cookie->id_lang);
+					$children['fields'] = Entity::getDataStatic($children['id_entity'], $this->cookie->id_lang);
 					$children['link_rewrite'] = Link::getEntityLink($children['id_entity'], $this->cookie->id_lang);
 				}
 			}
@@ -68,8 +67,7 @@ class EntityModelControllerCore extends FrontController {
 			
 			if( $this->entity_model->children ){
 				foreach( $this->entity_model->children as &$children ){
-					$entity = new Entity( $children['id_entity'] );
-					$children['fields'] = $entity->getData($this->cookie->id_lang);
+					$children['fields'] = Entity::getDataStatic($children['id_entity'], $this->cookie->id_lang);
 					$children['link_rewrite'] = Link::getEntityLink($children['id_entity'], $this->cookie->id_lang);
 				}
 			}	

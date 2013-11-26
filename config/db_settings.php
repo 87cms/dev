@@ -1,7 +1,6 @@
-<?php
-
-define("DBHOST", "localhost");
-define("DBNAME", "bvv");
-define("DBUSER", "bvv");
-define("DBPASSWORD", "dveNc3PRcdi6pN1I2OAp");
-define("_DB_PREFIX_", "");
+<?php 
+define("DBHOST", 'localhost');
+define("DBNAME", 'site');
+define("DBUSER", 'root');
+define("DBPASSWORD", '');
+define("_DB_PREFIX_", 'site_');

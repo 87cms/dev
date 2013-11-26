@@ -28,19 +28,6 @@ class EntityCore extends Core {
 	
 	
 	/**
-	* @deprecated
-	*/	
-	public function getLinkRewrite($id_lang = 0){
-		$sql = "SELECT link_rewrite FROM "._DB_PREFIX_."entity_lang WHERE id_entity=:id_entity";
-		if( $id_lang )
-			$sql .= " AND id_lang=".(int)$id_lang;
-		$link = Db::getInstance()->getValue($sql, array('id_entity' => $this->id_entity));
-		if( $link )
-			return (int)$this->id_entity.'-'.$link;
-	}
-	
-	
-	/**
 	* Get all entity fields
 	* @param Int $id_lang
 	* @return $array
@@ -52,6 +39,16 @@ class EntityCore extends Core {
 			$data[ $field['slug'] ] = EntityField::getFieldValues($field['id_field_model'], $this->id_entity, $id_lang);
 		}
 		$this->link_rewrite = Link::getEntityLink($this->id_entity, $id_lang);
+		$this->fields = $data;
+	}
+	
+	public static function getDataStatic($id_entity, $id_lang){
+		$entity_fields = Db::getInstance()->Select('SELECT F.*, M.slug FROM '._DB_PREFIX_.'entity_field F, '._DB_PREFIX_.'model_entity_field M WHERE M.id_field_model=F.id_field_model AND F.id_entity=:id_entity',array('id_entity'=>$id_entity));
+		$data = array();
+		foreach( $entity_fields as $field ){
+			$data[ $field['slug'] ] = EntityField::getFieldValues($field['id_field_model'], $id_entity, $id_lang);
+		}
+		$this->link_rewrite = Link::getEntityLink($id_entity, $id_lang);
 		return $data;
 	}
 	
@@ -81,13 +78,11 @@ class EntityCore extends Core {
 	
 	/**
 	* Get children of an entity. Warning : a hierarchic entity can have multiple model as child.
-	* @todo Add a new parameter : include_data !
 	* @param Int $id_lang
 	* @param Int $p
 	* @param Int $n
 	* @param String $sort Sort results : id_entity-desc, id_entity-asc, state-published, state-draft, meta_title. Default : position in parent
 	* @return $array
-	* @todo Change $orderby with sort system (as Entity::getEntitiesList);
 	*/
 	public function getChildren($id_lang, $p=0, $n=0, $sort=NULL, $id_entity_model=0){
 		
@@ -208,7 +203,6 @@ class EntityCore extends Core {
 	
 	/**
 	* Get Entities list from the id_parent
-	* @todo Add a new parameter : include_data !
 	* @param Int $id_model
 	* @param Int $id_lang
 	* @param Int $id_parent
@@ -217,9 +211,10 @@ class EntityCore extends Core {
 	* @param Int $n
 	* @param Bool $with_drafts
 	* @param User $user Mandatory to check permission
+	* @param Bool $include_date Get entity data if true
 	* @return Array
 	*/	
-	public static function getEntitiesList($id_model, $id_lang, $id_parent=NULL, $sort=NULL, $p=0, $n=0, $with_drafts=NULL, User $user = NULL){
+	public static function getEntitiesList($id_model, $id_lang, $id_parent=NULL, $sort=NULL, $p=0, $n=0, $with_drafts=NULL, User $user = NULL, $include_data = false){
 		
 		$p = ($p-1)*$n;
 		if( $p < 0 ) $p = 0;
@@ -257,6 +252,8 @@ class EntityCore extends Core {
 		foreach( $entities as &$entity ){
 			$entity['link_rewrite'] = Link::getEntityLink($entity['id_entity'], $id_lang);
 			$entity['id_default_parent'] = self::getDefaultParentStatic($entity['id_entity']);
+			if( $include_data )
+				$entity['fields'] = Entity::getDataStatic($entities[$i]['id_entity'], $id_lang);
 		}
 		
 		return $entities;
@@ -304,7 +301,6 @@ class EntityCore extends Core {
 	
 	/**
 	* Get an entities list wich contains a specific attributes ( eg : product with color blue)
-	* @todo Method must return an array of data, not of an array of entities objects
 	* @param Int $id_entity_model Id of entity model
 	* @param Int $id_attribute_value Id of attribute value
 	* @param Int $id_lang Lang id
@@ -340,17 +336,18 @@ class EntityCore extends Core {
 
 		$entities = Db::getInstance()->Select($sql);
 		
+		$out = array();
+		
 		if( $include_data ){
-			$out = array();
 			for($i=0; $i<count($entities); $i++){
-				$tmpEntity = new Entity($entities[$i]['id_entity']);
-				$tmpEntity->fields = $tmpEntity->getData($id_lang);				
+				
+				$entities[$i]['fields'] = Entity::getDataStatic($entities[$i]['id_entity'], $id_lang);	 
 				
 				if( (int)$id_default_parent > 0 ) {
 					if(	$tmpEntity->id_default_parent == $id_default_parent )
-						$out[$i] = $tmpEntity;	
+						$out[$i] = $entities[$i];	
 				}else
-					$out[$i] = $tmpEntity;
+					$out[$i] = $entities[$i];
 			}
 		}else
 			$out = $entities;
@@ -369,7 +366,7 @@ class EntityCore extends Core {
 	* @param Int $p
 	* @param Int $n
 	* @param Bool $with_drafts
-	* @param User $user To check permission
+	* @param User $user To check permission,
 	* @return Array
 	*/
 	public static function getHierarchicEntitiesList($id_model, $id_lang, $id_parent=NULL, $sort='', $p=0, $n=0, $with_drafts=NULL, User $user = NULL){
@@ -606,20 +603,16 @@ class EntityCore extends Core {
 	
 	/**
 	* Get breadcrumb and set a new "breadcrumb" attribute
-	* @param Int $id_entity
 	* @param Int $id_lang
-	* @todo Remove $id_entity param
 	*/
-	public function getBreadcrumb($id_entity='', $id_lang){
+	public function getBreadcrumb($id_lang){
 		
 		if( !is_array($this->breadcrumb) )
 			$this->breadcrumb = array();
-		if( !$id_entity )
-			$id_entity = $this->id_entity;
 		
 		$id_parent = Db::getInstance()->getValue('
 			SELECT id_parent FROM '._DB_PREFIX_.'entity_level
-			WHERE id_entity=:id_entity', array('id_entity'=>$id_entity));
+			WHERE id_entity=:id_entity', array('id_entity'=>$this->id_entity));
 		
 		if( $id_parent && $id_parent > 0 ){
 			$a = array(
@@ -640,7 +633,7 @@ class EntityCore extends Core {
 				LEFT JOIN '._DB_PREFIX_.'model_entity_lang L ON M.id_entity_model = L.id_entity_model
 				WHERE E.id_entity=:id_entity
 					AND L.id_lang=:id_lang
-			', array('id_entity'=>$id_entity, 'id_lang'=>$id_lang) );
+			', array('id_entity'=>$this->id_entity, 'id_lang'=>$id_lang) );
 			
 			$a = array(
 				'id_entity' => '',
@@ -667,7 +660,24 @@ class EntityCore extends Core {
 				array('id_parent' => (int)$id_parent, 'id_entity' => (int)$id_entity)
 			);
 		}
+		
 	}
+	
+	
+	/**
+	* @deprecated
+	*/	
+	public function getLinkRewrite($id_lang = 0){
+		$sql = "SELECT link_rewrite FROM "._DB_PREFIX_."entity_lang WHERE id_entity=:id_entity";
+		if( $id_lang )
+			$sql .= " AND id_lang=".(int)$id_lang;
+		$link = Db::getInstance()->getValue($sql, array('id_entity' => $this->id_entity));
+		if( $link )
+			return (int)$this->id_entity.'-'.$link;
+	}
+	
+	
+	
 	
 }
 

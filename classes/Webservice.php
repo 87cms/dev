@@ -131,10 +131,11 @@ class WebserviceCore {
 	* @param Int $n
 	* @param Bool $with_drafts
 	* @param User $user Mandatory to check permission
+	* @param Bool $include_data Get entity data if true
 	* @return Array
 	*/	
-	public function getEntitiesList($id_model, $id_lang, $id_parent=NULL, $sort=NULL, $p=0, $n=0, $with_drafts=NULL, User $user = NULL){ 
-		return Entity::getEntitiesList($id_model, $id_lang, $id_parent, $sort, $p, $n, $with_drafts, $user);
+	public function getEntitiesList($id_model, $id_lang, $id_parent=NULL, $sort=NULL, $p=0, $n=0, $with_drafts=NULL, User $user = NULL, $include_data = false){ 
+		return Entity::getEntitiesList($id_model, $id_lang, $id_parent, $sort, $p, $n, $with_drafts, $user, include_data);
 	}
 	
 	/**
@@ -159,10 +160,11 @@ class WebserviceCore {
 	* @param Bool $include_data If this parameter is TRUE, the method return a list of entity object
 	* @param Bool $with_drafts Include drafts in results
 	* @param String $sort Sort results : id_entity-desc, id_entity-asc, state-published, state-draft, meta_title
+	* @param Int $id_default_parent ID of the default parent. If 0, return all entities
 	* @return Array Entities list
 	*/
-	public function getEntitiesListWithAttributeValue($id_entity_model, $id_attribute_value, $id_lang, $include_data=false, $with_drafts=NULL, $sort=''){
-		return getEntitiesListWithAttributeValue($id_entity_model, $id_attribute_value, $id_lang, $include_data, $with_drafts, $sort);
+	public function getEntitiesListWithAttributeValue($id_entity_model, $id_attribute_value, $id_lang, $include_data=false, $with_drafts=NULL, $sort='', $id_default_parent = 0){
+		return getEntitiesListWithAttributeValue($id_entity_model, $id_attribute_value, $id_lang, $include_data, $with_drafts, $sort, $id_default_parent);
 	}
 	
 	
@@ -202,8 +204,7 @@ class WebserviceCore {
 							
 		}
 		
-		$fields = $entity->getData($entity->cookie->id_lang);
-		$entity->fields = $fields;
+		$entity->getData($entity->cookie->id_lang);
 		
 		if( $entity->entity_model->hierarchic == 0 ){
 			foreach( $entity->fields as &$field ){
@@ -215,7 +216,7 @@ class WebserviceCore {
 					foreach( $id_entities as $id_entity ){
 						if( $id_entity ){
 							$entity = new Entity( $id_entity );
-							$entity->fields = $entity->getData($entity->cookie->id_lang);
+							$entity->getData($entity->cookie->id_lang);
 							array_push($entities, $entity);
 						}
 					}

@@ -1,6 +1,6 @@
 {if $node|@count > 0}
 <li>
-	<input type="checkbox" name="id_parent[]" value="{$node.id_entity}" class="parents" {if in_array($node.id_entity, $parents)}checked="checked"{/if}/><span>{$node.name|escape:'htmlall':'UTF-8'}</span>
+	<input type="checkbox" name="id_parent[]" value="{$node.id_entity}" class="parents" {if $parents && in_array($node.id_entity, $parents)}checked="checked"{/if}/><span>{$node.name|escape:'htmlall':'UTF-8'}</span>
 	
     {if $node.children|@count > 0}
 		<ul>

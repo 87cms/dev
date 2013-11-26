@@ -45,6 +45,7 @@ if( count($_POST) > 0 ){
 	fwrite($fp, 'define("_DB_PREFIX_", \''.Tools::getSuperglobal('dbprefix').'\');'."\r\n");
 	fclose($fp);
 	
+	define('_ABSOLUTE_PATH_', getcwd().'/..');
 	include '../config/constant.php';
 	include '../config/db_settings.php';
 	
@@ -65,17 +66,18 @@ if( count($_POST) > 0 ){
 			Db::getInstance()->query("RENAME TABLE `".$table['Tables_in_'.DBNAME]."` TO `"._DB_PREFIX_.$table['Tables_in_'.DBNAME]."`");
 		}
 	}
-	
+
 	Db::getInstance()->Insert(_DB_PREFIX_.'config', array('name' => 'domain', 'value' => Tools::getSuperglobal('domain')) );
 	
 	
-	Db::getInstance()->Update(_DB_PREFIX_.'lang', 
+	Db::getInstance()->UpdateDB(_DB_PREFIX_.'lang', 
 		array(
 			'active' => 0, 
 			'defaultlang' => 0
-		)
+		),
+		array( 1 => 1 )
 	);
-	Db::getInstance()->Update(_DB_PREFIX_.'lang', 
+	Db::getInstance()->UpdateDB(_DB_PREFIX_.'lang', 
 		array(
 			'active' => 1, 
 			'defaultlang' => 1
