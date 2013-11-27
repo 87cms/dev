@@ -86,7 +86,9 @@ class MySQLCore extends Db
 			}
 			
 			$rslt->execute();
-			return $rslt->fetchAll(PDO::FETCH_ASSOC);
+			$data = $rslt->fetchAll(PDO::FETCH_ASSOC);
+			$rslt->closeCursor();
+			return $data;
 			
 		} catch(PDOException $e) {
 			
@@ -116,6 +118,7 @@ class MySQLCore extends Db
 		try {
 			$rslt->execute();
 			$out = $rslt->fetch(PDO::FETCH_BOTH);
+			$rslt->closeCursor();
 			return $out[0];
 			
 		} catch(PDOException $e) {
@@ -307,7 +310,8 @@ class MySQLCore extends Db
 	*/
 	public function query($query){
 		try {
-			return $this->linktoDB->exec($query);		
+			return $this->linktoDB->query($query);		
+			//$this->linktoDB->closeCursor();			
 		}catch(PDOException $e) {
 			return false;	
 		}
@@ -343,7 +347,9 @@ class MySQLCore extends Db
 	public function getColumns($tableName){
 		$rslt = $this->linktoDB->prepare("SHOW COLUMNS FROM ".Tools::cleanSQL($tableName)." ");
 		$rslt->execute();
-		return $rslt->fetchAll(PDO::FETCH_ASSOC);
+		$data = $rslt->fetchAll(PDO::FETCH_ASSOC);
+		$rlst->closeCursor();
+		return $data;
 	}
 	
 	
