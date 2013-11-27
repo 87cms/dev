@@ -316,7 +316,7 @@ class MySQLCore extends Db
 	* @return Bool If true table exists
 	*/
 	public function tableExists($tableName){
-		return $this->linktoDB->query("SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_name = '".Tools::cleanSQL($tableName)."'")->fetch();	
+		return $this->linktoDB->query("SELECT 1 FROM ".Tools::cleanSQL($tableName))->fetch();	
 	}
 	
 	
