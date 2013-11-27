@@ -39,7 +39,7 @@ class MySQLCore extends Db
 	public function Insert($table, $array){
 		unset($array['submit']);
 		unset($array['token']);
-		$q = $q2 = '';
+		$q = '';
 		foreach( $array as $key => $value ){
 			$q  .= "$key,";			
 			$q2 .= ":$key,";
@@ -306,7 +306,11 @@ class MySQLCore extends Db
 	* @return Object Depends on query
 	*/
 	public function query($query){
-		return $this->linktoDB->exec($query);
+		try {
+			return $this->linktoDB->exec($query);		
+		}catch(PDOException $e) {
+			return false;	
+		}
 	}	
 	
 	
@@ -316,7 +320,7 @@ class MySQLCore extends Db
 	* @return Bool If true table exists
 	*/
 	public function tableExists($tableName){
-		return $this->linktoDB->query("SELECT 1 FROM ".Tools::cleanSQL($tableName))->fetch();	
+		return $this->query("SELECT 1 FROM ".Tools::cleanSQL($tableName));		
 	}
 	
 	
