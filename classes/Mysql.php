@@ -348,7 +348,7 @@ class MySQLCore extends Db
 		$rslt = $this->linktoDB->prepare("SHOW COLUMNS FROM ".Tools::cleanSQL($tableName)." ");
 		$rslt->execute();
 		$data = $rslt->fetchAll(PDO::FETCH_ASSOC);
-		$rlst->closeCursor();
+		$rslt->closeCursor();
 		return $data;
 	}
 	

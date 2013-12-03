@@ -224,9 +224,9 @@
 			data: { ajax:1, action : 'addEntityModel', data : JSON.stringify(entity) },
 			dataType: "json"
 		})
-		.complete(function() {
+		/*.complete(function() {
 			location.href = 'index.php?p=entityModel&added=1';
-		});
+		});*/
 		
 	}
 	

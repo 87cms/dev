@@ -1,6 +1,6 @@
 <?php 
 define("DBHOST", 'localhost');
-define("DBNAME", 'site');
+define("DBNAME", 'hotelspider');
 define("DBUSER", 'root');
 define("DBPASSWORD", '');
-define("_DB_PREFIX_", 'site_');
+define("_DB_PREFIX_", '');

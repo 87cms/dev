@@ -1,7 +1,7 @@
 <?php 
 define("_DOMAIN_", "127.0.0.1");
 define("_COOKIE_DOMAIN_", "127.0.0.1");
-define("SALT", 'tPYHUDmpYi)S)mU4ZLA:0VdOfNr!VUf2K6j');
+define("SALT", '-0g^:XB|zixnP82IqQN)K:tVlcKsBcsj2m8');
 define("TMP", "tmp/"); // Deprecated
 define("_TMP_DIR_", "tmp/");
 define("_THEME_DIR_", _ABSOLUTE_PATH_.'/theme' );
