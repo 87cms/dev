@@ -41,8 +41,8 @@ class UploadHandlerCore extends Mediabox
 		
 		$this->options = array(
             'script_url' => $this->get_full_url().'/',
-            'upload_dir' => getcwd().'../../medias/'.date('Y').'/'.date('m').'/',
-            'upload_url' => $this->get_full_url().'../../medias/'.date('Y').'/'.date('m').'/',
+            'upload_dir' => getcwd().'/../medias/'.date('Y').'/'.date('m').'/',
+            'upload_url' => $this->get_full_url().'/../medias/'.date('Y').'/'.date('m').'/',
             'user_dirs' => false,
             'mkdir_mode' => 0755,
             'param_name' => 'files',

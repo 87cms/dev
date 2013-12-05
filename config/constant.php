@@ -1,6 +1,6 @@
 <?php 
-define("_DOMAIN_", "127.0.0.1");
-define("_COOKIE_DOMAIN_", "127.0.0.1");
+define("_DOMAIN_", "192.168.1.127");
+define("_COOKIE_DOMAIN_", "192.168.1.127");
 define("SALT", '-0g^:XB|zixnP82IqQN)K:tVlcKsBcsj2m8');
 define("TMP", "tmp/"); // Deprecated
 define("_TMP_DIR_", "tmp/");

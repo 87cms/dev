@@ -81,7 +81,7 @@ class EntityCore extends Core {
 	* @param Int $id_lang
 	* @param Int $p
 	* @param Int $n
-	* @param String $sort Sort results : id_entity-desc, id_entity-asc, state-published, state-draft, meta_title. Default : position in parent
+	* @param String $sort Sort results : id_entity-desc, id_entity-asc, state-published, state-draft, meta_title, random. Default : position in parent
 	* @return $array
 	*/
 	public function getChildren($id_lang, $p=0, $n=0, $sort=NULL, $id_entity_model=0){
@@ -102,6 +102,7 @@ class EntityCore extends Core {
 				elseif( $sort == 'state-published' ) $sort = 'AND E.state="published" ORDER BY E.id_entity DESC';
 				elseif( $sort == 'state-draft' ) $sort = 'AND E.state="draft" ORDER BY E.id_entity DESC';
 				elseif( $sort == 'meta_title' ) $sort = 'ORDER BY L.meta_title ASC';
+				elseif( $sort == 'random' ) $sort = 'ORDER BY RAND()';
 			}else
 				$sort = ' ORDER BY LV.position ASC ';
 			
@@ -206,7 +207,7 @@ class EntityCore extends Core {
 	* @param Int $id_model
 	* @param Int $id_lang
 	* @param Int $id_parent
-	* @param String $sort Sort results : id_entity-desc, id_entity-asc, state-published, state-draft, meta_title. Default : position in parent 
+	* @param String $sort Sort results : id_entity-desc, id_entity-asc, state-published, state-draft, meta_title, random. Default : position in parent 
 	* @param Int $p
 	* @param Int $n
 	* @param Bool $with_drafts
@@ -225,6 +226,7 @@ class EntityCore extends Core {
 			elseif( $sort == 'state-published' ) $sort = 'AND E.state="published" ORDER BY E.id_entity DESC';
 			elseif( $sort == 'state-draft' ) $sort = 'AND E.state="draft" ORDER BY E.id_entity DESC';
 			elseif( $sort == 'meta_title' ) $sort = 'ORDER BY L.meta_title ASC';
+			elseif( $sort == 'random' ) $sort = 'ORDER BY RAND()';
 		}else
 			$sort = ' ORDER BY LV.position ASC ';
 		
@@ -306,7 +308,7 @@ class EntityCore extends Core {
 	* @param Int $id_lang Lang id
 	* @param Bool $include_data If this parameter is TRUE, the method return a list of entity object
 	* @param Bool $with_drafts Include drafts in results
-	* @param String $sort Sort results : id_entity-desc, id_entity-asc, state-published, state-draft, meta_title
+	* @param String $sort Sort results : id_entity-desc, id_entity-asc, state-published, state-draft, meta_title, random
 	* @return Array Entities list
 	*/
 	public static function getEntitiesListWithAttributeValue($id_entity_model, $id_attribute_value, $id_lang, $include_data=false, $with_drafts=NULL, $sort='', $id_default_parent = 0){
@@ -317,6 +319,7 @@ class EntityCore extends Core {
 			elseif( $sort == 'state-published' ) $sort = 'AND E.state="published" ORDER BY E.id_entity DESC';
 			elseif( $sort == 'state-draft' ) $sort = 'AND E.state="draft" ORDER BY E.id_entity DESC';
 			elseif( $sort == 'meta_title' ) $sort = 'ORDER BY L.meta_title ASC';
+			elseif( $sort == 'random' ) $sort = 'ORDER BY RAND()';
 		}
 		
 		$sql = 'SELECT DISTINCT E.*, L.meta_title FROM '._DB_PREFIX_.'entity E
@@ -362,7 +365,7 @@ class EntityCore extends Core {
 	* @param Int $id_model
 	* @param Int $id_lang
 	* @param Int $id_parent
-	* @param String $sort Sort results : id_entity-desc, id_entity-asc, state-published, state-draft, meta_title. Default : position in parent 
+	* @param String $sort Sort results : id_entity-desc, id_entity-asc, state-published, state-draft, meta_title, random. Default : position in parent 
 	* @param Int $p
 	* @param Int $n
 	* @param Bool $with_drafts
@@ -377,6 +380,7 @@ class EntityCore extends Core {
 			elseif( $sort == 'state-published' ) $sort = 'AND E.state="published" ORDER BY E.id_entity DESC';
 			elseif( $sort == 'state-draft' ) $sort = 'AND E.state="draft" ORDER BY E.id_entity DESC';
 			elseif( $sort == 'meta_title' ) $sort = 'ORDER BY L.meta_title ASC';
+			elseif( $sort == 'random' ) $sort = 'ORDER BY RAND()';
 		}else
 			$sort = ' ORDER BY LV.position ASC ';
 		

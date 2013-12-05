@@ -60,7 +60,7 @@ class EntityControllerCore extends FrontController {
 		if( $this->entity_model->hierarchic == 0 ){
 			foreach( $this->entity->fields as &$field ){
 				
-				if( $field['type'] == "linkedEntities" ){
+				if( is_array($field) && $field['type'] == "linkedEntities" ){
 					
 					$id_entities = explode(',' , $field['raw_value']);
 					$entities = array();

@@ -20,7 +20,30 @@ class AjaxController extends Core {
 	}
 	
 	public function start(){
-	
+		
+		if( Tools::getValue('getTestimonials') ){
+			
+			$curl = curl_init('http://freegeoip.net/json/46.14.143.136');
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+			$return = curl_exec($curl);
+			$json = json_decode($return, true);;
+
+			$max_testimonials = 8;
+			$entities = array();
+			$id_attribute_value = Db::getInstance()->Select('SELECT id_attribute_value FROM '._DB_PREFIX_.'attribute_value_lang WHERE id_lang=1 AND value=:value', array('value' => strtoupper($json['country_name'])) );
+			
+			if( $id_attribute_value )
+				$entities = Entity::getEntitiesListWithAttributeValue(2, $id_attribute_value, $$this->cookie->id_lang, true, NULL, 'random');
+			
+			if( !$entities || count($entities) < $max_testimonials ){
+				$allentities = Entity::getEntitiesList(2, $this->cookie->id_lang, NULL, 'random', 0, count($entities)-$max_testimonials, NULL, $user, true);
+				$entities = array_merge($entities, $allentities);
+			}
+			
+			echo json_encode($entities);
+			
+		}
+		
 	}
 	
 }
