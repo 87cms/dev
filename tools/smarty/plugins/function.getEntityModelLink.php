@@ -23,7 +23,12 @@ function smarty_function_getEntityModelLink($params, &$smarty)
 {
     
 	$id_entity_model = $params['id_entity_model'];
-	$id_lang = $params['id_lang'];
+	if( array_key_exists('id_lang', $params) ){
+		$id_lang = $params['id_lang'];
+	}else{
+		global $cookie;
+		$id_lang = $cookie->id_lang;	
+	}
 	
 	return Link::getEntityModelLink($id_entity_model, $id_lang);
 	

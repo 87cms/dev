@@ -293,8 +293,8 @@ function addEntity(stay){
 			
 	});
 	
-	/*console.log(entity);
-	return false;*/
+	console.log(entity);
+	/*return false;*/
 	
 	$.ajax({
 		url: "index.php",

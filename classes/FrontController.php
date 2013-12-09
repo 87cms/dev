@@ -45,8 +45,12 @@ class FrontControllerCore extends Core {
 		
 		$this->importLang();
 		
-		$this->smarty->assign('id_lang', $this->cookie->id_lang);
-		$this->smarty->assign('lang_code', Lang::getLangCode($this->cookie->id_lang));
+		$this->smarty->assign(array(
+			'id_lang' => $this->cookie->id_lang,
+			'lang_code' => Lang::getLangCode($this->cookie->id_lang),
+			'_DOMAIN_' => _DOMAIN_
+		));
+		
 
 		if( (int)Tools::getSuperglobal('id_entity') ){
 			

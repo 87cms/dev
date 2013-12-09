@@ -7,17 +7,10 @@ class EntityModelController extends AdminController {
 	
 	public function run(){
 		
-		$this->action = Tools::getSuperglobal('action');
 		if( isset($this->action) && !empty($this->action) ){
 			
 			if( $this->action == "form" )
 				$this->displayForm( (int)Tools::getSuperglobal('id_entity_model') );
-			
-			if( $this->action == "delete" ){
-				$entity_model = new EntityModel( (int)Tools::getSuperglobal('id_entity_model') );
-				$entity_model->delete();
-				Tools::redirect('/admin/index.php?p=entityModel');
-			}
 			
 		}else{
 			
@@ -52,6 +45,17 @@ class EntityModelController extends AdminController {
 	}
 
 	
-	public function preprocess(){ }
+	public function preprocess(){ 
+		$this->action = Tools::getSuperglobal('action');
+		if( isset($this->action) && !empty($this->action) ){
+			
+			if( $this->action == "delete" ){
+				$entity_model = new EntityModel( (int)Tools::getSuperglobal('id_entity_model') );
+				$entity_model->delete();
+				Tools::redirect('/admin/index.php?p=entityModel');
+			}
+			
+		}
+	}
 	
 }

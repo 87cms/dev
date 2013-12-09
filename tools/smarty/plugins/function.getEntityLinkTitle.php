@@ -23,7 +23,12 @@ function smarty_function_getEntityLinkTitle($params, &$smarty)
 {
     
 	$id_entity = $params['id_entity'];
-	$id_lang = $params['id_lang'];
+	if( array_key_exists('id_lang', $params) ){
+		$id_lang = $params['id_lang'];
+	}else{
+		global $cookie;
+		$id_lang = $cookie->id_lang;	
+	}
 	
 	return Link::getEntityLinkTitle($id_entity, $id_lang);
 	

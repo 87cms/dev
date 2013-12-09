@@ -48,7 +48,7 @@ class EntityCore extends Core {
 		foreach( $entity_fields as $field ){
 			$data[ $field['slug'] ] = EntityField::getFieldValues($field['id_field_model'], $id_entity, $id_lang);
 		}
-		$this->link_rewrite = Link::getEntityLink($id_entity, $id_lang);
+		$data['link_rewrite'] = Link::getEntityLink($id_entity, $id_lang);
 		return $data;
 	}
 	
@@ -102,7 +102,7 @@ class EntityCore extends Core {
 				elseif( $sort == 'state-published' ) $sort = 'AND E.state="published" ORDER BY E.id_entity DESC';
 				elseif( $sort == 'state-draft' ) $sort = 'AND E.state="draft" ORDER BY E.id_entity DESC';
 				elseif( $sort == 'meta_title' ) $sort = 'ORDER BY L.meta_title ASC';
-				elseif( $sort == 'random' ) $sort = 'ORDER BY RAND()';
+				elseif( $sort == 'random' ) $sort = ' ORDER BY RAND() ';
 			}else
 				$sort = ' ORDER BY LV.position ASC ';
 			
@@ -226,7 +226,7 @@ class EntityCore extends Core {
 			elseif( $sort == 'state-published' ) $sort = 'AND E.state="published" ORDER BY E.id_entity DESC';
 			elseif( $sort == 'state-draft' ) $sort = 'AND E.state="draft" ORDER BY E.id_entity DESC';
 			elseif( $sort == 'meta_title' ) $sort = 'ORDER BY L.meta_title ASC';
-			elseif( $sort == 'random' ) $sort = 'ORDER BY RAND()';
+			elseif( $sort == 'random' ) $sort = ' ORDER BY RAND() ';
 		}else
 			$sort = ' ORDER BY LV.position ASC ';
 		
@@ -255,7 +255,7 @@ class EntityCore extends Core {
 			$entity['link_rewrite'] = Link::getEntityLink($entity['id_entity'], $id_lang);
 			$entity['id_default_parent'] = self::getDefaultParentStatic($entity['id_entity']);
 			if( $include_data )
-				$entity['fields'] = Entity::getDataStatic($entities[$i]['id_entity'], $id_lang);
+				$entity['fields'] = Entity::getDataStatic($entity['id_entity'], $id_lang);
 		}
 		
 		return $entities;
@@ -319,7 +319,7 @@ class EntityCore extends Core {
 			elseif( $sort == 'state-published' ) $sort = 'AND E.state="published" ORDER BY E.id_entity DESC';
 			elseif( $sort == 'state-draft' ) $sort = 'AND E.state="draft" ORDER BY E.id_entity DESC';
 			elseif( $sort == 'meta_title' ) $sort = 'ORDER BY L.meta_title ASC';
-			elseif( $sort == 'random' ) $sort = 'ORDER BY RAND()';
+			elseif( $sort == 'random' ) $sort = ' ORDER BY RAND() ';
 		}
 		
 		$sql = 'SELECT DISTINCT E.*, L.meta_title FROM '._DB_PREFIX_.'entity E
@@ -380,7 +380,7 @@ class EntityCore extends Core {
 			elseif( $sort == 'state-published' ) $sort = 'AND E.state="published" ORDER BY E.id_entity DESC';
 			elseif( $sort == 'state-draft' ) $sort = 'AND E.state="draft" ORDER BY E.id_entity DESC';
 			elseif( $sort == 'meta_title' ) $sort = 'ORDER BY L.meta_title ASC';
-			elseif( $sort == 'random' ) $sort = 'ORDER BY RAND()';
+			elseif( $sort == 'random' ) $sort = ' ORDER BY RAND() ';
 		}else
 			$sort = ' ORDER BY LV.position ASC ';
 		

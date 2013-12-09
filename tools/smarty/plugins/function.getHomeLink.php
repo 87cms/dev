@@ -21,7 +21,12 @@
 function smarty_function_getHomeLink($params, &$smarty)
 {
     
-	$id_lang = $params['id_lang'];
+	if( array_key_exists('id_lang', $params) ){
+		$id_lang = $params['id_lang'];
+	}else{
+		global $cookie;
+		$id_lang = $cookie->id_lang;	
+	}
 	
 	return Link::getHomeLink($id_lang);
 	
