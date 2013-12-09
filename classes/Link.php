@@ -83,4 +83,8 @@ class LinkCore extends Core {
 		return Db::getInstance()->getValue('SELECT meta_title FROM '._DB_PREFIX_.'model_entity_lang WHERE id_entity_model=:id_entity_model AND id_lang=:id_lang', array('id_entity_model'=>$id_entity_model, 'id_lang'=>$id_lang));
 	}
 	
+	public static function getHomeLinkTitle($id_lang=''){
+		return Db::getInstance()->getValue('SELECT value FROM '._DB_PREFIX_.'config_lang WHERE name="meta_title" AND id_lang=:id_lang', array('id_lang'=>$id_lang));
+	}
+	
 }
