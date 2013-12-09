@@ -40,6 +40,7 @@ class MySQLCore extends Db
 		unset($array['submit']);
 		unset($array['token']);
 		$q = '';
+		$q2 = '';
 		foreach( $array as $key => $value ){
 			$q  .= "$key,";			
 			$q2 .= ":$key,";

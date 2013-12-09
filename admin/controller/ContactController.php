@@ -5,14 +5,10 @@ class ContactController extends AdminController {
 
 	public function run(){
 		
-		$this->action = Tools::getSuperglobal('action');
 		if( isset($this->action) && !empty($this->action) ){
 			
 			if( $this->action == "show")
 				$this->showMessage();
-
-			elseif( $this->action == "delete")
-				$this->deleteMessage();
 
 		}else{
 			$this->smarty->assign('contacts', Contact::getContacts());
@@ -47,6 +43,15 @@ class ContactController extends AdminController {
 		}
 	}
 	
-	public function preprocess(){ }
+	public function preprocess(){ 
+		$this->action = Tools::getSuperglobal('action');
+		if( isset($this->action) && !empty($this->action) ){
+			
+			if( $this->action == "delete")
+				$this->deleteMessage();
+
+		}
+	
+	}
 
 }

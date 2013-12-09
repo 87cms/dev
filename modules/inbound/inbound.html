@@ -1,9 +1,15 @@
 <div id="newsletter_block">
     <div id="newsletter_block_content">
         <!--<h4>{l s='Newsletter'}</h4>-->
-        <form action="#" method="post">
+        <form action="#footer" method="post">
             <label for="courriel">{l s='Votre email'} : </label><input type="text" id="courriel" name="courriel" />
             <input type="submit" class="btn" name="submitInbound" value="{l s='Register'}">
         </form>
     </div>
 </div>
+
+{if isset($inboundadded) && $inboundadded}
+	<script type="text/javascript">
+		alert("{l s='You have been to our newsletter suscribers list. Thank you !'}");
+	</script>
+{/if}

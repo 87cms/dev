@@ -69,6 +69,8 @@ class Inbound extends Module implements ModuleInterface {
 				));
 			}
 			
+			$this->smarty->assign('inboundadded', 1);
+			
 		}
 		
 		elseif( Tools::getValue('deleteInbound') && Tools::getValue('iid') ){
