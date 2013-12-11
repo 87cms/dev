@@ -1,21 +1,10 @@
 Options +FollowSymlinks
 RewriteEngine on
 
-#RewriteRule ^(.*)$  index.php?param=$1 [L]
-
-### Specific
-RewriteRule ^([a-z]{2,3})\/25\-([_a-zA-Z0-9-]*)\/vins_([0-9]+)$ index.php?id_entity=25&iso_lang=$1&page=vins&catmancey=$3 [L]
-RewriteRule ^([a-z]{2,3})\/([0-9]+)\-([_a-zA-Z0-9-]*)\/vins$ index.php?id_entity=$2&iso_lang=$1&page=vins [L]
-RewriteRule ^([a-z]{2,3})\/([0-9]+)\-([_a-zA-Z0-9-]*)\/photos$ index.php?id_entity=$2&iso_lang=$1&page=photos [L]
-RewriteRule ^([a-z]{2,3})\/([0-9]+)\-([_a-zA-Z0-9-]*)\/actualites$ index.php?id_entity=$2&iso_lang=$1&page=actualites [L]
-RewriteRule ^([a-z]{2,3})\/([0-9]+)\-([_a-zA-Z0-9-]*)\?pdf$ index.php?id_entity=$2&iso_lang=$1&pdf=1 [L]
-####
-
 RewriteRule ^([a-z]{2,3})\/$ index.php?iso_lang=$1 [L]
 RewriteRule ^([a-z]{2,3})\/([0-9]+)\-([_a-zA-Z0-9-]*)$ index.php?id_entity=$2&iso_lang=$1 [L]
 RewriteRule ^([a-z]{2,3})\/([_a-zA-Z0-9-]*)\/([0-9]+)\-([_a-zA-Z0-9-]*)$ index.php?id_entity=$3&iso_lang=$1 [L]
 RewriteRule ^([a-z]{2,3})\/([_a-zA-Z0-9-]*)$ index.php?entity_link_rewrite=$2&iso_lang=$1 [L]
 
-#RewriteRule ^contact(\/([_a-zA-Z0-9-]*))?$ index.php?page=contact&action=$2 [L]
 RewriteRule ^([a-z]{2,3})\/contact\/([_a-zA-Z0-9-]*)$ index.php?page=contact&action=$2&iso_lang=$1 [L]
 

@@ -48,7 +48,10 @@ class FrontControllerCore extends Core {
 		$this->smarty->assign(array(
 			'id_lang' => $this->cookie->id_lang,
 			'lang_code' => Lang::getLangCode($this->cookie->id_lang),
-			'_DOMAIN_' => _DOMAIN_
+			'_DOMAIN_' => _DOMAIN_,
+			'ishome' => 0,
+			'iscontact' => 0,
+			'langs' => Lang::getLanguages()
 		));
 		
 		$this->smarty->assign('ishome', 0);
@@ -103,7 +106,8 @@ class FrontControllerCore extends Core {
 			
 			if(Tools::getSuperglobal('page') == "contact"){
 				$contact = new ContactController();
-				$contact->run();
+				$this->smarty->assign('iscontact', 1);
+				$contact->run();				
 			}else{
 				$this->error404();
 				$this->getHomepage();
