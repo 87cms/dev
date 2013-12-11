@@ -51,7 +51,8 @@ class FrontControllerCore extends Core {
 			'_DOMAIN_' => _DOMAIN_
 		));
 		
-
+		$this->smarty->assign('ishome', 0);
+		
 		if( (int)Tools::getSuperglobal('id_entity') ){
 			
 			$slug = Entity::getSlug(Tools::getSuperglobal('id_entity'));

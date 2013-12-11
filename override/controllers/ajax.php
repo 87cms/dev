@@ -38,8 +38,15 @@ class AjaxController extends Core {
 				$entities = Entity::getEntitiesListWithAttributeValue(2, $id_attribute_value, $this->cookie->id_lang, true, NULL, 'random');
 
 			if( !$entities || count($entities) < $max_testimonials ){
+				
+				if( $entities ){
+					$notin = array();
+					foreach( $entities as $entity )
+						$notin[] = $entity['id_entity'];
+				}
+				
 				$c = $max_testimonials-count($entities);
-				$allentities = Entity::getEntitiesList(2, $this->cookie->id_lang, NULL, 'random', 0, $c, NULL, NULL, true);
+				$allentities = Entity::getEntitiesList(2, $this->cookie->id_lang, NULL, 'random', 0, $c, NULL, NULL, true, $notin);
 				$entities = array_merge($entities, $allentities);
 			}
 			
