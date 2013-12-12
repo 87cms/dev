@@ -36,7 +36,7 @@ class CookieCore {
 	* @return Bool True of false
 	*/
 	public function isCookieSet(){
-		if( !isset($_COOKIE[$this->_name]) ) setcookie($this->_name, '', $this->_expire, '/', '.'._DOMAIN_, 0, true);
+		if( !isset($_COOKIE[$this->_name]) ) setcookie($this->_name, '', $this->_expire, '/', _COOKIE_DOMAIN_, 0, true);
 		$this->encrypted_cookie = $_COOKIE[$this->_name];
 	}
 	

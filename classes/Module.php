@@ -163,10 +163,8 @@ class ModuleCore extends Core {
 	public function initController(){
 		global $smarty, $cookie;
 		$this->smarty = $smarty;
-
-		$this->cookie = new Cookie();
-		$this->cookie->id_lang = $this->getLang( $this->cookie );
-		$cookie = $this->cookie;
+		$this->cookie = $cookie;
+		$cookie = &$this->cookie;
 		
 		$lang_code = Lang::getLangCode($this->cookie->id_lang_admin);
 		if( $lang_code ){

@@ -16,7 +16,6 @@ class HomeControllerCore extends FrontController {
 		$this->getSEO();
 		$templates = $this->getTemplates($this->cookie->id_lang);
 		$this->sendTemplatesToSmarty( $templates );
-	
 	}
 	
 	

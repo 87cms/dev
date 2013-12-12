@@ -9,7 +9,6 @@ define("SQL_DEBUG", true);
 /*ini_set('display_errors','Off');
 define("SQL_DEBUG", false);*/
 
-
 date_default_timezone_set('Europe/Paris');
 define("_ABSOLUTE_PATH_", getcwd() );
 
@@ -35,6 +34,8 @@ else
 FrontController::loadClasses();
 FrontController::loadControllers();	
 
+$cookie = new Cookie();
+ 
 session_start();
 
 

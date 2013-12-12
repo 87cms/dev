@@ -22,29 +22,27 @@ class FrontControllerCore extends Core {
 	
 	private $cache;
 	
+	public $cookie;
+	
 	function __construct(){
 		
 		global $smarty, $cookie;
 		$this->smarty = $smarty;
-		
-		$this->cookie = new Cookie();
-		$this->autoRedirect();
-		$this->cookie->id_lang = $this->getLang( $this->cookie );
-		$cookie = $this->cookie;
-		
+		$this->cookie = $cookie;
+		$cookie = &$this->cookie;
 	}	
 	
 	public function	run(){
+		$this->autoRedirect();
 		$this->processController();
 		$this->router();
-		$this->postProcessController();
+		$this->postProcessController();		
 	}
 
 	
 	public function router(){
 		
 		$this->importLang();
-		
 		$this->smarty->assign(array(
 			'id_lang' => $this->cookie->id_lang,
 			'lang_code' => Lang::getLangCode($this->cookie->id_lang),
@@ -328,50 +326,35 @@ class FrontControllerCore extends Core {
 	
 	private function autoRedirect(){
 		
-		$default_lang = Db::getInstance()->getRow('SELECT id_lang, code FROM '._DB_PREFIX_.'lang WHERE defaultlang=1');
-		$redirect = false;
-		
 		if( empty($_GET) && empty($_POST) ){
 			if( !isset($this->cookie->id_lang) ){
 				
+				$default_lang = Db::getInstance()->getRow('SELECT id_lang, code FROM '._DB_PREFIX_.'lang WHERE defaultlang=1');
 				$lang_code = $default_lang['code'];	
 				$this->cookie->id_lang = $default_lang['id_lang'];
-				$redirect = true;
+				$this->cookie->lang_code = $default_lang['code'];
 				
-			}
-			else{
-				$lang = Db::getInstance()->getRow('SELECT id_lang, code FROM '._DB_PREFIX_.'lang WHERE id_lang='.(int)$this->cookie->id_lang);
+				header("HTTP/1.1 301 Moved Permanently");
+				header('Location: http://'._DOMAIN_.'/'.$lang_code.'/');
 				
+			}			
+		}
+		
+		if( Tools::getSuperglobal('iso_lang') ){
+			
+			if( !$this->cookie->lang_code || $this->cookie->lang_code !== Tools::getSuperglobal('iso_lang') ){
+				$lang = Db::getInstance()->getRow('SELECT id_lang, code FROM '._DB_PREFIX_.'lang WHERE code="'.Tools::cleanSQL(Tools::getSuperglobal('iso_lang')).'"');
 				if( !$lang ){
+					$default_lang = Db::getInstance()->getRow('SELECT id_lang, code FROM '._DB_PREFIX_.'lang WHERE defaultlang=1');
 					$lang_code = $default_lang['code'];	
 					$this->cookie->id_lang = $default_lang['id_lang'];
-					$redirect = true;	
+					$this->cookie->lang_code = $default_lang['code'];				
+				}else {
+					$this->cookie->id_lang = $lang['id_lang'];
+					$this->cookie->lang_code = $lang['code'];
 				}
-				else{
-					$lang_code = $lang['code'];	
-					$this->cookie->id_lang = $lang['id_lang'];	
-					$redirect = true;
-				}
-				
 			}
-		}
-		elseif( Tools::getSuperglobal('iso_lang') ){
-			$lang = Db::getInstance()->getRow('SELECT id_lang, code FROM '._DB_PREFIX_.'lang WHERE code="'.Tools::cleanSQL(Tools::getSuperglobal('iso_lang')).'"');
-			
-			if( !$lang ){
-				$lang_code = $default_lang['code'];	
-				$this->cookie->id_lang = $default_lang['id_lang'];
-				$redirect = true;	
-			}else
-				$this->cookie->id_lang = $lang['id_lang'];
-		
-		}
-		
-		if( $redirect ){
-			header("HTTP/1.1 301 Moved Permanently");
-			header('Location: http://'._DOMAIN_.'/'.$lang_code.'/');
-		}
-		
+		}		
 	}
 	
 	private function importLang(){
@@ -399,6 +382,11 @@ class FrontControllerCore extends Core {
 			
 		}
 		
+	}
+	
+	public static function getCurrentIdLang(){
+		$cookie = new Cookie();	
+		return $cookie->id_lang;
 	}
 	
 }
