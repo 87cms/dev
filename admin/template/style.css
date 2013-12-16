@@ -815,8 +815,9 @@ text-align:center;
 		padding: 5px;
 		vertical-align: middle;
 		padding-left:10px;
+		line-height:16px;
 	}
-		#translation tbody tr td input {
+		#translation tbody tr td textarea {
 			min-width: 200px;
 			width: 94%;
 			display: block;
@@ -844,7 +845,11 @@ text-align:center;
 	}
 
 .slideToggle { cursor:pointer;  margin-bottom: 5px; }
-
+#translation textarea {
+	font-size:11px;
+	font-family:arial, sans-serif;
+	width:100%;
+}
 /*** CONTACT ***/
 #contact tr.unread {
 	background-color:#FAFCE0

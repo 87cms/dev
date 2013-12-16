@@ -10,27 +10,32 @@
     <a href="/admin/index.php?p=translation&action=displayPreviousTranslations" class="button floatRight">{l s='See previous translations'}</a>
 	<form action="#" method="post">
 	    <table id="translation" class="std">
-	    	<thead>
-			    <tr>
-			    	<th>Original</th>
-			    	{foreach $langs as $lang}
-			    		<th>{$lang}</th>
-			    	{/foreach}
-			    </tr>
-	    	</thead>
+
 	    	<tbody>
 			    {foreach $translations as $filename => $data}
 			   		<tr >
 			   			<td colspan="{count($langs)+1}" class="page">Page {$filename}</td>
 			   		</tr>
-			   		{foreach $data as $sentence}
+			   		<tr>
+                        <td></td>
+                        {foreach $langs as $lang}
+                            <td class="center" style="background:#CFE4EB">{$lang}</td>
+                        {/foreach}
+                    </tr>
+                    {foreach $data as $sentence}
 						<tr>
 							<td class="tab" id="{$translation[ $filename ][$i]['translation'][ $lang_code ]}">{$sentence.original|escape:'htmlall'}</td>
 							{foreach $langs as $lang}
-								<td><input type="text" name="{$lang}-{$sentence.md5}" id="{$lang}-{$sentence.md5}" value="{$sentence.translation.$lang|escape:'htmlall'}" placeholder="{$sentence.original|escape:'htmlall'}" class="text" /></td>
+								<td>
+<textarea name="{$lang}-{$sentence.md5}" id="{$lang}-{$sentence.md5}">{if $sentence.translation.$lang}{$sentence.translation.$lang|escape:'htmlall'}{/if}</textarea></td>
 					    	{/foreach}
 						</tr>
 					{/foreach}
+                    <tr>
+                    	<td colspan="{count($langs)+1}" class="center">
+                        	<input type="submit" value="{l s='Save'}" class="button submit" style="float:right">                              
+                        </td>
+                    </tr>
 					{if count($duplicate.$filename)>0}
 
 						<tr>
@@ -48,5 +53,15 @@
         <input type="submit" value="{l s='Save'}" class="button submit">    
 	</form>
 
-    
+<script type="text/javascript">
+	$(document).ready( function(){
+		$('#translation tr').each( function(){
+			if( $(this).height() > 49 ){
+				var h = $(this).height();
+				$(this).find('textarea').height( h + 15 ); 
+			}
+		});
+	});
+</script>
+
 </div>
