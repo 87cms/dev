@@ -9,101 +9,90 @@ class TranslationController extends AdminController {
 
 	public function run(){
 		
-		$this->action = Tools::getSuperglobal('action');
-		if( isset($this->action) && !empty($this->action) ){
-			
-			if( $this->action == "updateTranslation")
-				$this->updateTranslation();
-			if( $this->action == "displayPreviousTranslations")
-				$this->getPreviousTranslations();
-			if( $this->action == "restoreTranslation")
-				$this->restoreTranslation();
-			if( $this->action == "deleteTranslation")
-				$this->deleteTranslation();
+		$langs = array();
 
-		}else{
-
-			$langs = array();
-
-			foreach (LangCore::getLanguages() as $key => $lang) {
-				if($lang["defaultlang"] == 0){
-					$langs[] = $lang["code"];
+		foreach (LangCore::getLanguages() as $key => $lang) {
+			if($lang["defaultlang"] == 0){
+				$langs[] = $lang["code"];
+				$__l = array();
+				if( file_exists($this->lang_dir.'/'.$lang["code"].'.php') ){
+					require_once($this->lang_dir.'/'.$lang["code"].'.php');
+				}else{
+					$fp = fopen($this->lang_dir.'/'.$lang["code"].'.php', 'w+');
+					fwrite($fp, '<?php'."\r\n".'global $__l;'."\r\n".'$__l = array();'."\r\n");	
+				}
+				$languages[ $lang["code"] ] = $__l;
+				
+			}
+		}
+		
+		$iter = new DirectoryIterator( $this->directory );
+		$translation = array();
+		
+		$doublon = array();
+		$duplicate = array();
+		$translated = array();
+		$files = array();
+		foreach($iter as $file){
+			if(!$file->isDot()){
+				$ext = pathinfo($file->getPathname(), PATHINFO_EXTENSION);
+				if( $ext == "html" OR $ext == "tpl" ){
+					$files[] = $file->getFilename();
 				}
 			}
-
-			//Contains each "sentence" which is already in the array
-			$collection = array();
-
-			$iter = new DirectoryIterator( $this->directory );
-			$t = array();
-			$t['languages'] = $langs;
-			$__l = array();
-			$inArray = array();
-			foreach($iter as $nPage => $file){
-
-				if(!$file->isDot()){
-
-			       
-					$file_content = file_get_contents($this->directory.'/'.$file->getFilename());
-					$file_content = str_replace("\'","'",$file_content);
-
-					preg_match_all('/\{l s=(\'|")([^}]+)(\'|")\}/', $file_content, $translations );
-					//var_dump($translations);
-					//duplicate elimination
-					$allSentences = array();
-					foreach ($translations[2] as $key => $value) {
-						if(!in_array($value, $allSentences) && !in_array($value, $inArray)){
-							$allSentences[] = $value;
-							$inArray[] = $value;
-						}else{
-							$t["pages"][$nPage]["duplicates"][$key]["value"] = $value;
-							$t["pages"][$nPage]["duplicates"][$key]["md5"] = md5($value);
-						}
+		}
+		sort($files);
+		
+		foreach($files as $filename){
+			
+			$translation[ $filename ] = array();
+			
+			// matching && Extract string from {l s=""}
+			$file_content = file_get_contents($this->directory.'/'.$filename);
+			$file_content = str_replace("\'","'",$file_content);
+			preg_match_all('/\{l s=(\'|")([^}]+)(\'|")\}/', $file_content, $translations );
+			
+			
+			$sentences = $translations[2];
+			// $translation[ PageName ][ $i ]['original'] = mention
+			// $translation[ PageName ][ $i ]['md5'] = md5;
+			// $translation[ PageName ][ $i ]['translation'][ $lang_code ] = translation
+			$i = 0;
+			foreach( $sentences as $string ){
+				
+				if( !in_array(md5($string), $doublon) ){
+					
+					array_push($doublon, md5($string));
+					
+					$translation[ $filename ][$i]['original'] = $string;
+					$translation[ $filename ][$i]['md5'] = md5($string);
+				
+					foreach ($langs as $lang_code ){
+		
+						$translation[ $filename ][$i]['translation'][ $lang_code ] = '';
+						if( array_key_exists(md5($string), $languages[ $lang_code ]) )
+							$translation[ $filename ][$i]['translation'][ $lang_code ] = $languages[ $lang_code ][md5($string)];
+							
 					}
-
-					if(!empty($allSentences)){
-						
-						foreach( $langs as $idString => $lang ){
-							if(count($allSentences)>0){
-								$t["pages"][$nPage]["filename"] = $file->getFilename();
-								$t["pages"][$nPage]['original'] = $allSentences;
-							}
-
-							if( file_exists($this->lang_dir.'/'.$lang.'.php') ){
-								require_once($this->lang_dir.'/'.$lang.'.php');
-								$fp = fopen($this->lang_dir.'/'.$lang.'.php', 'a+');
-							}else{
-								$fp = fopen($this->lang_dir.'/'.$lang.'.php', 'w+');
-								fwrite($fp, '<?php'."\r\n".'global $__l;'."\r\n".'$__l = array();'."\r\n");	
-							}
-
-							foreach($allSentences as $key => $match ){
-								$i = array_keys($t["pages"][$nPage]['original'], $match);
-								if(count($i)>1){
-									print_r($i);
-								}
-								$md5 = md5($match);
-								$t["pages"][$nPage]['md5'][$i[0]] = $md5;
-								foreach($i as $k => $value){
-									if(isset($__l[$md5])){
-										$t["pages"][$nPage][$lang][$i[$k]] = $__l[$md5];
-									}
-								}								
-							}
-
-							fclose($fp);
-						}
-					}
-			    }
+					$i++;
+				}
+				else {
+					$duplicate[ $filename ][ ] = $string;	
+				}
+				
 			}
+			
+		}
+		//var_dump($duplicate);
+		$this->smarty->assign(array(
+			'translations' => $translation,
+			'pageName' => "Translation",
+			'langs' => $langs,
+			'duplicate' => $duplicate
+		));
 
-			$this->smarty->assign(array(
-				'translations' => $t,
-				'pageName' => "Translation"
-			));
-
-			$this->smarty->display('translation.html');
-		}	
+		$this->smarty->display('translation.html');
+	
 	}
 
 
@@ -126,14 +115,9 @@ class TranslationController extends AdminController {
 		$pattern = '/['.$langPattern.']-'.$md5Pattern.'/';
 
 		foreach ($_POST as $key => $post) {
+			
 			if(preg_match($pattern, $key)){
 				if($post != ""){
-					/*if(preg_match('%Secteur%', $post)){
-						$post = str_replace('\'', '&apos;', $post);
-					}*/
-					
-
-					//$post = htmlspecialchars($post);
 					preg_match('/('.$langPattern.')-'.$md5Pattern.'/', $key, $key);
 					$l = $key[1];
 					$key = $key[2];
@@ -142,9 +126,9 @@ class TranslationController extends AdminController {
 				}
 			}
 		}
-
+		
 		foreach ($output as $lang => $string) {
-			if($string != ""){
+			if($string != "" && $lang){
 
 				if( file_exists($this->lang_dir.'/'.$lang.'.php') ){
 					require_once($this->lang_dir.'/'.$lang.'.php');
@@ -292,7 +276,22 @@ class TranslationController extends AdminController {
 	} 
 
 
-	public function preprocess(){ }
+	public function preprocess(){ 
+		$this->action = Tools::getSuperglobal('action');
+		
+		if( isset($this->action) && !empty($this->action) ){
+			
+			if( $this->action == "displayPreviousTranslations")
+				$this->getPreviousTranslations();
+			if( $this->action == "restoreTranslation")
+				$this->restoreTranslation();
+			if( $this->action == "deleteTranslation")
+				$this->deleteTranslation();
+			if( $this->action == "updateTranslation")
+				$this->updateTranslation();
+		
+		}
+	}
 
 
 

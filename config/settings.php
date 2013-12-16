@@ -1,13 +1,13 @@
 <?php
 
 /* Dev settings */
-set_time_limit(6000);
+/*set_time_limit(6000);
 ini_set('display_errors','On');
-define("SQL_DEBUG", true);
+define("SQL_DEBUG", true);*/
 
 /* Prod settings */
-/*ini_set('display_errors','Off');
-define("SQL_DEBUG", false);*/
+ini_set('display_errors','Off');
+define("SQL_DEBUG", false);
 
 date_default_timezone_set('Europe/Paris');
 define("_ABSOLUTE_PATH_", getcwd() );

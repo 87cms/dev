@@ -6,7 +6,7 @@ class UsersController extends AdminController {
 	
 	public function run(){
 		
-		$this->action = Tools::getSuperglobal('action');
+		
 		
 		if( isset($this->action) && !empty($this->action) ){
 			
@@ -27,11 +27,7 @@ class UsersController extends AdminController {
 				$this->smarty->display('user_form.html');
 			}
 			
-			if( $this->action == "deleteUser" ){
-				$user = new User( Tools::getSuperglobal('id_user') );
-				$user->delete();
-				Tools::redirect('/admin/index.php?p=users&added=1');
-			}
+			
 			
 		}
 		else{
@@ -89,7 +85,14 @@ class UsersController extends AdminController {
 	}
 	
 	
-	public function preprocess(){ }
+	public function preprocess(){ 
+		$this->action = Tools::getSuperglobal('action');
+		if( isset($this->action) && !empty($this->action) && $this->action == "deleteUser" ){
+			$user = new User( Tools::getSuperglobal('id_user') );
+			$user->delete();
+			Tools::redirect('/admin/index.php?p=users&added=1');
+		}	
+	}
 	
 	
 }

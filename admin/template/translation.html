@@ -8,37 +8,35 @@
     {/if}
 
     <a href="/admin/index.php?p=translation&action=displayPreviousTranslations" class="button floatRight">{l s='See previous translations'}</a>
-	<form action="" method="post">
+	<form action="#" method="post">
 	    <table id="translation" class="std">
 	    	<thead>
 			    <tr>
 			    	<th>Original</th>
-			    	{foreach $translations.languages as $lang}
-			    	<th>{$lang}</th>
+			    	{foreach $langs as $lang}
+			    		<th>{$lang}</th>
 			    	{/foreach}
 			    </tr>
 	    	</thead>
 	    	<tbody>
-			    {foreach $translations.pages as $page}
+			    {foreach $translations as $filename => $data}
 			   		<tr >
-			   			<td colspan="{count($translations.languages)+1}" class="page">Page {$page.filename}</td>
+			   			<td colspan="{count($langs)+1}" class="page">Page {$filename}</td>
 			   		</tr>
-			   		{foreach $page.original as $key => $original}
+			   		{foreach $data as $sentence}
 						<tr>
-							<td class="tab" id="{$page.md5.$key}">{$original|escape:'htmlall'}</td>
-							{foreach $translations.languages as $lang}
-								<td><input type="text" name="{$lang}-{$page.md5.$key}" id="{$lang}-{$page.md5.$key}" value="{$page.$lang.$key|escape:'htmlall'}" placeholder="{$original|escape:'htmlall'}" class="text"></td>
+							<td class="tab" id="{$translation[ $filename ][$i]['translation'][ $lang_code ]}">{$sentence.original|escape:'htmlall'}</td>
+							{foreach $langs as $lang}
+								<td><input type="text" name="{$lang}-{$sentence.md5}" id="{$lang}-{$sentence.md5}" value="{$sentence.translation.$lang|escape:'htmlall'}" placeholder="{$sentence.original|escape:'htmlall'}" class="text" /></td>
 					    	{/foreach}
 						</tr>
 					{/foreach}
-					{if count($page.duplicates)>0}
+					{if count($duplicate.$filename)>0}
 
 						<tr>
 							<td class="tab" colspan="3"><span class="italic">{l s='Duplicate(s)'} : 
-							{$i = 0}
-							{foreach $page.duplicates as $key => $duplicate}
-								<a href="#{$duplicate.md5}">{$duplicate.value}</a>{if $i < count($page.duplicates)-1}, {else}.{/if}
-								{$i = $i+1}
+							{foreach $duplicate.$filename as $mention}
+								<a href="#">{$mention}</a>, 
 							{/foreach}
 							</span></td>
 						</tr>
